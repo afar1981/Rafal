@@ -64,6 +64,55 @@ export default function Admin() {
     )
   }
 
+ const uploadImage = async (p, file) => {
+  if (!file) return
+
+  setSaving(p.id)
+  setMsg('')
+
+  const ext = file.name.split('.').pop() || 'jpg'
+  const path = `${p.id}-${Date.now()}.${ext}`
+
+  const { error: uploadError } = await s.storage
+    .from('product-images')
+    .upload(path, file, {
+      cacheControl: '3600',
+      upsert: false,
+      contentType: file.type || 'image/jpeg'
+    })
+
+  if (uploadError) {
+    setMsg(`BŁĄD UPLOADU: ${uploadError.message}`)
+    setSaving(null)
+    return
+  }
+
+  const { data: publicData } = s.storage
+    .from('product-images')
+    .getPublicUrl(path)
+
+  const image_url = publicData.publicUrl
+
+  const { data, error } = await s
+    .from('products')
+    .update({ image_url })
+    .eq('id', p.id)
+    .select('*')
+    .single()
+
+  if (error) {
+    setMsg(`BŁĄD ZAPISU ZDJĘCIA: ${error.message}`)
+    setSaving(null)
+    return
+  }
+
+  setProducts(ps =>
+    ps.map(x => x.id === p.id ? { ...x, ...data } : x)
+  )
+
+  setMsg(`Zdjęcie zapisane: ${p.name_pl}`)
+  setSaving(null)
+}
   const save = async (p) => {
     setSaving(p.id)
     setMsg('')
@@ -305,7 +354,19 @@ export default function Admin() {
                     placeholder="/images/01.jpg"
                   />
                 </label>
+</label>
 
+<label>
+  Zmień zdjęcie produktu
+  <input
+    type="file"
+    accept="image/*"
+    onChange={e => uploadImage(p, e.target.files?.[0])}
+    disabled={saving === p.id}
+  />
+</label>
+
+<label>
                 <label>
                   <input
                     type="checkbox"
