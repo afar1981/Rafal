@@ -354,7 +354,7 @@ export default function Admin() {
                     placeholder="/images/01.jpg"
                   />
                 </label>
-</label>
+
 
 <label>
   Zmień zdjęcie produktu
