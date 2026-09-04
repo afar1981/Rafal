@@ -364,7 +364,7 @@ export default function Admin() {
     onChange={e => uploadImage(p, e.target.files?.[0])}
     disabled={saving === p.id}
   />
-</label>
+
 
 <label>
                 <label>
