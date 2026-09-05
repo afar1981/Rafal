@@ -149,25 +149,26 @@ export default function Home(){
           </button>
 
           {user ? <>
-            <a className="btn" href="/konto">Konto</a>
-            <a className="btn" href="/zamowienia">Zamówienia</a>
+          <a className="btn" href="/konto">{lang==='pl'?'Konto':'Account'}</a>
+         <a className="btn" href="/zamowienia">{lang==='pl'?'Zamówienia':'Orders'}</a>
 
             {user.email&&
               <button onClick={async()=>{
                 await supabase.auth.signOut()
                 location.reload()
               }}>
-                Wyloguj
+         {lang==='pl'?'Wyloguj':'Log out'}
               </button>
             }
           </> : <>
-            <a className="btn" href="/login">Zaloguj</a>
-            <a className="primary btn" href="/rejestracja">Rejestracja</a>
+            <a className="btn" href="/login">{lang==='pl'?'Zaloguj':'Log in'}</a>
+            <a className="primary btn" href="/rejestracja">{lang==='pl'?'Rejestracja':'Register'}</a>
           </>}
 
-          <a className="primary btn" href="/zamowienia#koszyk">
-            Koszyk ({Math.round(count*100)/100})
-          </a>
+        <a className="primary btn" href="/zamowienia#koszyk">
+  {lang==='pl'?'Koszyk':'Cart'} ({Math.round(count*100)/100})
+</a>
+        
         </nav>
       </div>
     </header>
