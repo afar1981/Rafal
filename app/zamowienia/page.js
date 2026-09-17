@@ -9,8 +9,12 @@ export default function Orders(){
   const [profile,setProfile]=useState({});
   const [msg,setMsg]=useState('');
   const [sending,setSending]=useState(false);
+  const [lang,setLang]=useState('pl');
 
   useEffect(()=>{
+    const savedLang=localStorage.getItem('pt-lang');
+if(savedLang==='en'||savedLang==='pl')setLang(savedLang);
+    
     const raw=localStorage.getItem('pt-cart');
     if(raw)try{setCart(JSON.parse(raw))}catch{}
     ;(async()=>{
@@ -31,7 +35,10 @@ export default function Orders(){
 
   const submit=async e=>{
     e.preventDefault();
-    if(!cart.length){setMsg('Koszyk jest pusty.');return}
+    if(!cart.length){
+  setMsg(lang==='pl'?'Koszyk jest pusty.':'Cart is empty.');
+  return
+}
     setSending(true);
     setMsg('');
 
@@ -75,7 +82,7 @@ export default function Orders(){
 
   return <main className="auth wide">
     <a href="/"><img src="/images/logo.png" className="authlogo"/></a>
-    <h1>Podsumowanie zamówienia</h1>
+<h1>{lang==='pl'?'Podsumowanie zamówienia':'Order summary'}</h1>
 
     <div className="panel">
       {cart.map((x,i)=>
@@ -86,26 +93,28 @@ export default function Orders(){
           </div>
           <div>
             <b>{((Number(x.price)||0)*x.qty).toFixed(2)} £</b>
-            <button onClick={()=>remove(i)}>Usuń</button>
+            <button onClick={()=>remove(i)}>{lang==='pl'?'Usuń':'Remove'}</button>
           </div>
         </div>
       )}
 
-      <div className="grand">Razem: {total.toFixed(2)} £</div>
+     <div className="grand">{lang==='pl'?'Razem:':'Total:'} {total.toFixed(2)} £</div>
 
       <form onSubmit={submit}>
         <label>
-          Uwagi do zamówienia
-          <textarea name="notes" placeholder="Np. termin dostawy, dodatkowe informacje…"/>
+    {lang==='pl'?'Uwagi do zamówienia':'Order notes'}
+          <textarea name="notes" placeholder={lang==='pl'?'Np. termin dostawy, dodatkowe informacje…':'E.g. delivery date, additional information…'}
         </label>
 
         <button disabled={sending||!cart.length} className="primary btnfull">
-          {sending?'Wysyłanie…':'Złóż zamówienie'}
+{sending
+  ?(lang==='pl'?'Wysyłanie…':'Sending…')
+  :(lang==='pl'?'Złóż zamówienie':'Place order')}
         </button>
       </form>
 
       {msg&&<p className="notice">{msg}</p>}
-      <a href="/">← Wróć do oferty</a>
+    <a href="/">{lang==='pl'?'← Wróć do oferty':'← Back to products'}</a>
     </div>
   </main>
 }
