@@ -103,7 +103,7 @@ if(savedLang==='en'||savedLang==='pl')setLang(savedLang);
       <form onSubmit={submit}>
         <label>
     {lang==='pl'?'Uwagi do zamówienia':'Order notes'}
-          <textarea name="notes" placeholder={lang==='pl'?'Np. termin dostawy, dodatkowe informacje…':'E.g. delivery date, additional information…'}
+          <textarea name="notes" placeholder={lang==='pl'?'Np. termin dostawy, dodatkowe informacje…':'E.g. delivery date, additional information…'} />
         </label>
 
         <button disabled={sending||!cart.length} className="primary btnfull">
