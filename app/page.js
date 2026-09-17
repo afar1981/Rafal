@@ -68,7 +68,12 @@ export default function Home(){
   const [cart,setCart]=useState([])
   const [user,setUser]=useState(null)
   const [loading,setLoading]=useState(true)
-
+useEffect(()=>{
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('/sw.js')
+      .catch(()=>{})
+  }
+},[])
   useEffect(()=>{
     (async()=>{
       const {data:{user}}=await supabase.auth.getUser()
