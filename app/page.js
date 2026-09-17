@@ -144,9 +144,13 @@ export default function Home(){
         </a>
 
         <nav>
-          <button onClick={()=>setLang(lang==='pl'?'en':'pl')}>
-            PL / EN
-          </button>
+<button onClick={()=>{
+  const newLang=lang==='pl'?'en':'pl';
+  setLang(newLang);
+  localStorage.setItem('pt-lang',newLang);
+}}>
+  PL / EN
+</button>
 
           {user ? <>
           <a className="btn" href="/konto">{lang==='pl'?'Konto':'Account'}</a>
