@@ -1,0 +1,10 @@
+{
+  "name": "POLSKA TRADYCJA – ZAMÓWIENIA",
+  "short_name": "POLSKA TRADYCJA",
+  "description": "Internetowe zamówienia POLSKA TRADYCJA",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "lang": "pl"
+}
