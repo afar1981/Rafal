@@ -71,13 +71,13 @@ if(savedLang==='en'||savedLang==='pl')setLang(savedLang);
     const data=await r.json();
     setSending(false);
 
-    if(!r.ok){
-      setMsg(data.error||'Nie udało się złożyć zamówienia.');
-      return
-    }
+if(!r.ok){
+  setMsg(data.error||'Nie udało się złożyć zamówienia.');
+  return
+}
 
-    setCart([]);
-    setMsg(`Zamówienie ${data.order_id} zostało wysłane.`)
+setCart([]);
+setMsg(lang==='pl'?'Zamówienie zostało złożone.':'Your order has been placed.')
   };
 
   return <main className="auth wide">
