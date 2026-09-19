@@ -336,12 +336,12 @@ promotion_price: p.promotion_price || null
     step="0.01"
     value={p.promotion_price ?? ''}
     onChange={e =>
-      change(
-        p.id,
-        'promotion_price',
-        e.target.value
-      )
-    }
+  change(
+    p.id,
+    'promotion_price',
+    e.target.value === '' ? null : Number(e.target.value)
+  )
+}
     placeholder="np. 6.99"
   />
 </label>
