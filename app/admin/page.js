@@ -373,8 +373,25 @@ export default function Admin() {
   <input
     type="checkbox"
     checked={!!p.is_promotion}
-    onChange={e => {
-      const checked = e.target.checked
+onChange={e => {
+  const checked = e.target.checked
+
+  if (!checked) {
+    change(p.id, 'is_promotion', false)
+    return
+  }
+
+  if (
+    products.filter(
+      x => x.id !== p.id && x.is_promotion
+    ).length >= 4
+  ) {
+    setMsg('Możesz mieć maksymalnie 4 produkty w promocji.')
+    return
+  }
+
+  change(p.id, 'is_promotion', true)
+}}
 
       if (
         checked &&
