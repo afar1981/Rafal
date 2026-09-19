@@ -118,9 +118,29 @@ useEffect(()=>{
     localStorage.setItem('pt-cart',JSON.stringify(cart))
   },[cart])
 
-  const filtered=products.filter(
-    p=>(p.name_pl+' '+p.name_en).toLowerCase().includes(q.toLowerCase())
-  )
+ const today=new Date().toISOString().slice(0,10)
+
+const filtered=products.filter(
+  p=>(p.name_pl+' '+p.name_en).toLowerCase().includes(q.toLowerCase())
+)
+
+const ordered=[...filtered].sort((a,b)=>{
+  const ap=a.is_promotion &&
+    (!a.promotion_from || a.promotion_from<=today) &&
+    (!a.promotion_to || a.promotion_to>=today)
+
+  const bp=b.is_promotion &&
+    (!b.promotion_from || b.promotion_from<=today) &&
+    (!b.promotion_to || b.promotion_to>=today)
+
+  return Number(bp)-Number(ap)
+})
+
+const promotionCount=ordered.filter(p=>
+  p.is_promotion &&
+  (!p.promotion_from || p.promotion_from<=today) &&
+  (!p.promotion_to || p.promotion_to>=today)
+).length
 
   const add=(p,qty,unit)=>{
     qty=Math.max(1,Math.round(Number(qty)||1))
