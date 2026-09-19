@@ -305,7 +305,18 @@ function Product({p,lang,add}){
           :(p.description_en||'Traditional POLSKA TRADYCJA product.')}
       </p>
 
-      {weightPriced &&
+{p.is_promotion && (
+  <div className="promotion-info">
+    <strong>🔥 PROMOCJA</strong>
+    {p.promotion_from && p.promotion_to && (
+      <div>
+        Promocja: {p.promotion_from} – {p.promotion_to}
+      </div>
+    )}
+  </div>
+)}
+
+{weightPriced &&
         <div className="weight-note">
           {lang==='pl'
             ?'Cena za 1 kg. Produkt jest ważony przed wysyłką. Cena końcowa zależy od rzeczywistej wagi.'
