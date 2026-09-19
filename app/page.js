@@ -238,7 +238,7 @@ const promotionCount=ordered.filter(p=>
       {loading
         ? <div className="empty">Ładowanie oferty…</div>
         : <section className="products">
-            {filtered.map(p=>
+            {ordered.map(p=>
               <Product
                 key={p.id}
                 p={p}
