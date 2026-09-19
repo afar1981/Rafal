@@ -350,12 +350,26 @@ function Product({p,lang,add}){
       <div className="row">
 
         <div className="price">
-          {p.price!=null
-            ?`£${Number(p.price).toFixed(2)}`
-            :'Cena ustalana indywidualnie'}
-          {' / '}
-          {weightPriced?'kg':unit}
-        </div>
+  {p.promotion_price != null ? (
+    <>
+      <span style={{textDecoration:'line-through', fontSize:'0.9em', opacity:0.6}}>
+        {p.price != null
+          ? `£${Number(p.price).toFixed(2)}`
+          : 'Cena ustalana indywidualnie'}
+      </span>
+      <br />
+      <span style={{color:'red', fontSize:'1.35em', fontWeight:'700'}}>
+        £{Number(p.promotion_price).toFixed(2)}
+      </span>
+    </>
+  ) : (
+    p.price != null
+      ? `£${Number(p.price).toFixed(2)}`
+      : 'Cena ustalana indywidualnie'
+  )}
+  {' / '}
+  {weightPriced ? 'kg' : unit}
+</div>
 
         {!weightPriced &&
           <div>
