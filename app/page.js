@@ -304,28 +304,33 @@ function Product({p,lang,add}){
           ?(p.description_pl||'Tradycyjny produkt POLSKA TRADYCJA.')
           :(p.description_en||'Traditional POLSKA TRADYCJA product.')}
       </p>
-
 {p.is_promotion && (
   <div style={{
-    marginTop:'12px',
-    marginBottom:'10px',
-    padding:'10px 12px',
-    border:'2px solid #b06b3c',
-    borderRadius:'10px',
-    background:'#fff3e8',
-    fontWeight:'700'
+    marginTop:'14px',
+    marginBottom:'12px',
+    padding:'12px 14px',
+    border:'2px solid #e53935',
+    borderRadius:'12px',
+    background:'#fff1f1',
+    textAlign:'center'
   }}>
-    <div style={{fontSize:'18px'}}>
+    <div style={{
+      fontSize:'20px',
+      fontWeight:'800',
+      color:'#d71920',
+      letterSpacing:'0.5px'
+    }}>
       🔥🔥 {lang === 'pl' ? 'PROMOCJA' : 'PROMOTION'} 🔥🔥
     </div>
 
     {p.promotion_from && p.promotion_to && (
       <div style={{
-        marginTop:'4px',
+        marginTop:'6px',
         fontSize:'14px',
-        fontWeight:'600'
+        fontWeight:'700',
+        color:'#b71c1c'
       }}>
-        {lang === 'pl' ? 'Od' : 'From'}{' '}
+        📅 {lang === 'pl' ? 'Od' : 'From'}{' '}
         {p.promotion_from.split('-').reverse().join('.')}
         {' '}
         {lang === 'pl' ? 'do' : 'to'}{' '}
