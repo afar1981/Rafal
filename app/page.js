@@ -306,16 +306,34 @@ function Product({p,lang,add}){
       </p>
 
 {p.is_promotion && (
-  <div className="promotion-info">
-    <strong>🔥🔥🔉 PROMOCJA🔉🔥🔥</strong>
+  <div style={{
+    marginTop:'12px',
+    marginBottom:'10px',
+    padding:'10px 12px',
+    border:'2px solid #b06b3c',
+    borderRadius:'10px',
+    background:'#fff3e8',
+    fontWeight:'700'
+  }}>
+    <div style={{fontSize:'18px'}}>
+      🔥🔥 {lang === 'pl' ? 'PROMOCJA' : 'PROMOTION'} 🔥🔥
+    </div>
+
     {p.promotion_from && p.promotion_to && (
-      <div>
-        Promocja: {p.promotion_from} – {p.promotion_to}
+      <div style={{
+        marginTop:'4px',
+        fontSize:'14px',
+        fontWeight:'600'
+      }}>
+        {lang === 'pl' ? 'Od' : 'From'}{' '}
+        {p.promotion_from.split('-').reverse().join('.')}
+        {' '}
+        {lang === 'pl' ? 'do' : 'to'}{' '}
+        {p.promotion_to.split('-').reverse().join('.')}
       </div>
     )}
   </div>
 )}
-
 {weightPriced &&
         <div className="weight-note">
           {lang==='pl'
