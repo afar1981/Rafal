@@ -393,22 +393,7 @@ onChange={e => {
   change(p.id, 'is_promotion', true)
 }}
 
-      if (
-        checked &&
-        products.filter(
-          x => x.id !== p.id && x.is_promotion
-        ).length >= 4
-      ) {
-        setMsg('Możesz mieć maksymalnie 4 produkty w promocji.')
-        return
-      }
-
-      change(
-        p.id,
-        'is_promotion',
-        checked
-      )
-    }}
+     
   />
   {' '}PROMOCJA (maks. 4 produkty)
 </label>
