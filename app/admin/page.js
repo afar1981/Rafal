@@ -5,6 +5,7 @@ import { createClient } from '../../lib/supabase-browser'
 
 export default function Admin() {
   const s = createClient()
+  
   const [profile, setProfile] = useState(null)
   const [products, setProducts] = useState([])
   const [orders, setOrders] = useState([])
@@ -326,7 +327,23 @@ export default function Admin() {
                     placeholder="Krótki opis produktu..."
                   />
                 </label>
-
+<label>
+  Cena promocyjna £ / kg
+  <input
+    type="number"
+    min="0"
+    step="0.01"
+    value={p.promotion_price ?? ''}
+    onChange={e =>
+      change(
+        p.id,
+        'promotion_price',
+        e.target.value
+      )
+    }
+    placeholder="np. 6.99"
+  />
+</label>
                 <label>
                   Short description EN
                   <textarea
