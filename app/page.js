@@ -307,7 +307,7 @@ function Product({p,lang,add}){
 
 {p.is_promotion && (
   <div className="promotion-info">
-    <strong>🔥 PROMOCJA</strong>
+    <strong>🔥🔥🔉 PROMOCJA🔉🔥🔥</strong>
     {p.promotion_from && p.promotion_to && (
       <div>
         Promocja: {p.promotion_from} – {p.promotion_to}
