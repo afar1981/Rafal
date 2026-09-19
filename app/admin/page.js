@@ -140,7 +140,10 @@ export default function Admin() {
       name_en: p.name_en || '',
       description_pl: p.description_pl || '',
       description_en: p.description_en || '',
-      image_url: p.image_url || null
+      image_url: p.image_url || null,
+      is_promotion: !!p.is_promotion,
+      promotion_from: p.promotion_from || null,
+      promotion_to: p.promotion_to || null
     }
 
     const { data, error } = await s
