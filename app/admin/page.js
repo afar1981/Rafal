@@ -122,7 +122,10 @@ export default function Admin() {
       p.price === '' || p.price == null
         ? null
         : Number(p.price)
-
+    const promotionPrice =
+      p.promotion_price === '' || p.promotion_price == null
+        ? null
+        : Number(p.promotion_price)
     if (
       price !== null &&
       (!Number.isFinite(price) || price < 0)
@@ -131,7 +134,14 @@ export default function Admin() {
       setSaving(null)
       return
     }
-
+    if (
+      promotionPrice !== null &&
+      (!Number.isFinite(promotionPrice) || promotionPrice < 0)
+    ) {
+      setMsg(`Błędna cena promocyjna: ${p.name_pl}`)
+      setSaving(null)
+      return
+    }
     const payload = {
       price,
       currency: 'GBP',
@@ -145,7 +155,7 @@ export default function Admin() {
     is_promotion: !!p.is_promotion,
 promotion_from: p.promotion_from || null,
 promotion_to: p.promotion_to || null,
-promotion_price: p.promotion_price || null
+promotion_price: promotionPrice
     }
 
     const { data, error } = await s
