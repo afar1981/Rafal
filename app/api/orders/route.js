@@ -94,32 +94,82 @@ export async function POST(req){
         html
       });
 
-      await resend.emails.send({
-        from:process.env.ORDER_EMAIL_FROM,
-        to:body.email,
-        subject:`Potwierdzenie zamówienia #${order.id} – POLSKA TRADYCJA`,
-        html:`
-          <h2>Dziękujemy za złożenie zamówienia</h2>
+     await resend.emails.send({
+  from:process.env.ORDER_EMAIL_FROM,
+  to:body.email,
+  subject:body.language==='pl'
+    ? `Potwierdzenie zamówienia #${order.id} – POLSKA TRADYCJA`
+    : `Order confirmation #${order.id} – POLSKA TRADYCJA`,
+  html:body.language==='pl'
+    ? `
+        <h2>Dziękujemy za złożenie zamówienia!</h2>
 
-          <p>
-            Otrzymaliśmy Twoje zamówienie
-            <b>#${order.id}</b>.
-          </p>
+        <p>
+          Otrzymaliśmy Twoje zamówienie
+          <b>#${order.id}</b>.
+        </p>
 
-          <p>
-            Kwota zamówienia:
-            <b>${(body.total||0).toFixed(2)} ${body.currency}</b>
-          </p>
+        <p>
+          <b>Wartość zamówienia:</b>
+          ${(body.total||0).toFixed(2)} ${body.currency}
+        </p>
 
-          <p>
-            Będziemy przetwarzać Twoje zamówienie.
-          </p>
+        <p>
+          Wszystkie nasze produkty są sprzedawane na wagę i
+          <b>każdy produkt jest ważony przed wysyłką</b>.
+          Ostateczna cena zamówienia może się nieznacznie różnić
+          od kwoty podanej przy składaniu zamówienia i zależy od
+          rzeczywistej wagi produktów.
+        </p>
 
-          <p>
-            POLSKA TRADYCJA
-          </p>
-        `
-      });
+        <p>
+          Twoje zamówienie zostanie teraz przygotowane do realizacji.
+        </p>
+
+        <p>
+          W razie potrzeby skontaktujemy się z Tobą.
+        </p>
+
+        <p>
+          <b>POLSKA TRADYCJA</b><br>
+          Dziękujemy za zakupy!
+        </p>
+      `
+    : `
+        <h2>Thank you for placing your order!</h2>
+
+        <p>
+          We have received your order
+          <b>#${order.id}</b>.
+        </p>
+
+        <p>
+          <b>Order total:</b>
+          ${(body.total||0).toFixed(2)} ${body.currency}
+        </p>
+
+        <p>
+          All our products are sold by weight and
+          <b>each product is weighed before dispatch</b>.
+          The final order total may vary slightly from the amount
+          shown when placing the order and will depend on the
+          actual weight of the products.
+        </p>
+
+        <p>
+          Your order will now be prepared for processing.
+        </p>
+
+        <p>
+          If necessary, we will contact you.
+        </p>
+
+        <p>
+          <b>POLSKA TRADYCJA</b><br>
+          Thank you for shopping with us!
+        </p>
+      `
+});
     }
 
     return NextResponse.json({order_id:order.id});
