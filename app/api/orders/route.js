@@ -33,9 +33,9 @@ const orderWeek=orderNumberData.order_week;
         notes:body.notes,
         total:body.total,
         currency:body.currency,
-        status:'new'
+        status:'new',
         order_number:orderNumber,
-        order_week:orderWeek,
+        order_week:orderWeek
       })
       .select('id')
       .single();
