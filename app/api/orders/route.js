@@ -37,7 +37,7 @@ const orderWeek=orderNumberData.order_week;
         order_number:orderNumber,
         order_week:orderWeek
       })
-      .select('id')
+.select('id, order_number')
       .single();
 
     if(error) throw error;
