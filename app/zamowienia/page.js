@@ -43,6 +43,7 @@ if(savedLang==='en'||savedLang==='pl')setLang(savedLang);
     setMsg('');
 
     const payload={
+      language: lang,
       customer_name:profile.full_name||user.email,
       company:profile.company||'',
       email:user.email,
