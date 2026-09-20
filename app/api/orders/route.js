@@ -14,7 +14,13 @@ export async function POST(req){
 
     if(!body.items?.length)
       return NextResponse.json({error:'Koszyk jest pusty.'},{status:400});
+const {data:orderNumberData,error:numberError}=await supabase
+  .rpc('next_order_number');
 
+if(numberError) throw numberError;
+
+const orderNumber=orderNumberData.order_number;
+const orderWeek=orderNumberData.order_week;
     const {data:order,error}=await supabase
       .from('orders')
       .insert({
@@ -28,6 +34,8 @@ export async function POST(req){
         total:body.total,
         currency:body.currency,
         status:'new'
+        order_number:orderNumber,
+        order_week:orderWeek,
       })
       .select('id')
       .single();
@@ -90,7 +98,7 @@ export async function POST(req){
       await resend.emails.send({
         from:process.env.ORDER_EMAIL_FROM,
         to:process.env.ORDER_EMAIL_TO,
-        subject:`Nowe zamówienie #${order.id}`,
+       subject:`Nowe zamówienie #${order.order_number}`,
         html
       });
 
@@ -98,15 +106,15 @@ export async function POST(req){
   from:process.env.ORDER_EMAIL_FROM,
   to:body.email,
   subject:body.language==='pl'
-    ? `Potwierdzenie zamówienia #${order.id} – POLSKA TRADYCJA`
-    : `Order confirmation #${order.id} – POLSKA TRADYCJA`,
+  ? `Potwierdzenie zamówienia #${order.order_number} – POLSKA TRADYCJA`
+  : `Order confirmation #${order.order_number} – POLSKA TRADYCJA`,
   html:body.language==='pl'
     ? `
         <h2>Dziękujemy za złożenie zamówienia!</h2>
 
         <p>
           Otrzymaliśmy Twoje zamówienie
-          <b>#${order.id}</b>.
+       <b>#${order.order_number}</b>
         </p>
 
         <p>
@@ -140,7 +148,7 @@ export async function POST(req){
 
         <p>
           We have received your order
-          <b>#${order.id}</b>.
+      <b>#${order.order_number}</b>
         </p>
 
         <p>
@@ -172,7 +180,10 @@ export async function POST(req){
 });
     }
 
-    return NextResponse.json({order_id:order.id});
+   return NextResponse.json({
+  order_id:order.id,
+  order_number:order.order_number
+});
 
   }catch(e){
     return NextResponse.json(
