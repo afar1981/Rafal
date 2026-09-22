@@ -349,8 +349,8 @@ function Product({p,lang,add}){
 
       <div className="row">
 
-        <div className="price">
- p.is_promotion && p.promotion_price != null
+     <div className="price">
+  {p.is_promotion && p.promotion_price != null ? (
     <>
       <span style={{textDecoration:'line-through', fontSize:'0.9em', opacity:0.6}}>
         {p.price != null
