@@ -502,7 +502,7 @@ onChange={e => {
               key={o.id}
             >
 
-              <b>#{o.id}</b>
+              <b>#{o.order_number}</b>
               {' · '}
               {new Date(
                 o.created_at
