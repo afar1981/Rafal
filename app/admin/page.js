@@ -95,11 +95,11 @@ export default function Admin() {
   const image_url = publicData.publicUrl
 
   const { data, error } = await s
-    .from('products')
-    .update({ image_url })
-    .eq('id', p.id)
-    .select('*')
-    .single()
+  .from('products')
+  .update(payload)
+  .eq('id', p.id)
+  .select('id')
+  .single()
 
   if (error) {
     setMsg(`BŁĄD ZAPISU ZDJĘCIA: ${error.message}`)
