@@ -98,7 +98,7 @@ export default function Admin() {
   .from('products')
   .update({ image_url })
   .eq('id', p.id)
-  .select('id')
+  .select('id, image_url')
   .single()
 
   if (error) {
