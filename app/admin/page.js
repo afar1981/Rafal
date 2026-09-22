@@ -96,7 +96,7 @@ export default function Admin() {
 
   const { data, error } = await s
   .from('products')
-  .update(payload)
+  .update({ image_url })
   .eq('id', p.id)
   .select('id')
   .single()
