@@ -285,6 +285,17 @@ const activePromotions=products.filter(p=>
     </div>
   </section>
 )}
+     <div style={{
+      marginTop:'14px',
+      textAlign:'center',
+      fontSize:'15px',
+      fontWeight:'700',
+      color:'#7a1f1f'
+    }}>
+      🔥 {lang==='pl'
+        ? 'Skorzystaj z promocji! Minimalna wartość zamówienia produktów promocyjnych wynosi £50.00.'
+        : 'Take advantage of our promotions! The minimum order value for promotional products is £50.00.'}
+    </div> 
       <div className="toolbar">
         <input
           value={q}
