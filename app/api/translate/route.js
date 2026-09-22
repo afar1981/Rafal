@@ -46,7 +46,10 @@ return Response.json(
 )
     }
 
-    const text = data.output_text
+   const text = data.output
+  ?.flatMap(item => item.content || [])
+  ?.find(item => item.type === 'output_text')
+  ?.text
 
 let result
 
