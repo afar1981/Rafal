@@ -11,7 +11,49 @@ export default function Admin() {
   const [orders, setOrders] = useState([])
   const [msg, setMsg] = useState('')
   const [saving, setSaving] = useState(null)
+const [translating, setTranslating] = useState(null)
 
+const translateProduct = async (p) => {
+  setTranslating(p.id)
+  setMsg('')
+
+  try {
+    const response = await fetch('/api/translate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name_pl: p.name_pl || '',
+        description_pl: p.description_pl || ''
+      })
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Błąd tłumaczenia')
+    }
+
+    setProducts(ps =>
+      ps.map(x =>
+        x.id === p.id
+          ? {
+              ...x,
+              name_en: data.name_en || '',
+              description_en: data.description_en || ''
+            }
+          : x
+      )
+    )
+
+    setMsg(`Przetłumaczono: ${p.name_pl}`)
+  } catch (error) {
+    setMsg(`BŁĄD TŁUMACZENIA: ${error.message}`)
+  }
+
+  setTranslating(null)
+}
   useEffect(() => {
     ;(async () => {
       const { data: { user } } = await s.auth.getUser()
