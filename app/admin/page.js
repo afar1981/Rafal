@@ -397,6 +397,18 @@ promotion_price: promotionPrice
     placeholder="np. 6.99"
   />
 </label>
+      <button
+  type="button"
+  onClick={() => translateProduct(p)}
+  disabled={translating === p.id}
+  style={{
+    marginBottom:'10px'
+  }}
+>
+  {translating === p.id
+    ? 'Tłumaczenie...'
+    : '🇬🇧 Tłumacz z PL'}
+</button>
                 <label>
                   Short description EN
                   <textarea
