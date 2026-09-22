@@ -48,7 +48,21 @@ return Response.json(
 
     const text = data.output_text
 
-    const result = JSON.parse(text)
+let result
+
+try {
+  result = JSON.parse(text)
+} catch (parseError) {
+  console.error('Translation parse error:', parseError)
+  console.error('OpenAI output:', text)
+
+  return Response.json(
+    {
+      error: `Nieprawidłowa odpowiedź z OpenAI: ${text || 'brak treści'}`
+    },
+    { status: 500 }
+  )
+}
 
     return Response.json({
       name_en: result.name_en || '',
