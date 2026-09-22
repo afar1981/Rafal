@@ -38,11 +38,12 @@ export async function POST(request) {
 
     if (!response.ok) {
       console.error('OpenAI error:', data)
-
-      return Response.json(
-        { error: 'Błąd połączenia z usługą tłumaczenia.' },
-        { status: 500 }
-      )
+return Response.json(
+  {
+    error: data?.error?.message || 'Błąd połączenia z usługą tłumaczenia.'
+  },
+  { status: 500 }
+)
     }
 
     const text = data.output_text
