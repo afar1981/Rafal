@@ -141,7 +141,11 @@ const promotionCount=ordered.filter(p=>
   (!p.promotion_from || p.promotion_from<=today) &&
   (!p.promotion_to || p.promotion_to>=today)
 ).length
-
+const activePromotions=products.filter(p=>
+  p.is_promotion &&
+  (!p.promotion_from || p.promotion_from<=today) &&
+  (!p.promotion_to || p.promotion_to>=today)
+).slice(0,4)
   const add=(p,qty,unit)=>{
     qty=Math.max(1,Math.round(Number(qty)||1))
 
@@ -218,7 +222,69 @@ const promotionCount=ordered.filter(p=>
           </p>
         </div>
       </section>
+{activePromotions.length > 0 && (
+  <section style={{
+    margin:'18px 0',
+    padding:'14px',
+    border:'2px solid #d71920',
+    borderRadius:'16px',
+    background:'#fff7f7'
+  }}>
+    <div style={{
+      textAlign:'center',
+      fontSize:'22px',
+      fontWeight:'800',
+      color:'#d71920',
+      marginBottom:'12px'
+    }}>
+      🔥 {lang==='pl'?'PROMOCJE':'PROMOTIONS'} 🔥
+    </div>
 
+    <div style={{
+      display:'grid',
+      gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',
+      gap:'10px'
+    }}>
+      {activePromotions.map(p => (
+        <div key={p.id} style={{
+          display:'flex',
+          alignItems:'center',
+          gap:'10px',
+          padding:'10px',
+          background:'#fff',
+          borderRadius:'12px',
+          border:'1px solid #f0caca'
+        }}>
+          <img
+            src={p.image_url || imgFor(p.id)}
+            alt={p.name_pl}
+            style={{
+              width:'58px',
+              height:'58px',
+              objectFit:'cover',
+              borderRadius:'9px'
+            }}
+          />
+
+          <div>
+            <div style={{fontWeight:'800'}}>
+              {lang==='pl' ? p.name_pl : p.name_en}
+            </div>
+
+            {p.promotion_price != null && (
+              <div style={{
+                fontWeight:'800',
+                color:'#d71920'
+              }}>
+                £{Number(p.promotion_price).toFixed(2)} / kg
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+)}
       <div className="toolbar">
         <input
           value={q}
