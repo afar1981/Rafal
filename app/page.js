@@ -246,7 +246,7 @@ const activePromotions=products.filter(p=>
       color:'#d71920',
       marginBottom:'12px'
     }}>
-      🔥 {lang==='pl'?'PROMOCJE':'PROMOTIONS'} 🔥
+     🔥 🔥 {lang==='pl'?'PROMOCJE':'SPECIAL OFFERS'} 🔥🔥
     </div>
 
     <div style={{
@@ -407,7 +407,7 @@ function Product({p,lang,add}){
       color:'#d71920',
       letterSpacing:'0.5px'
     }}>
-      🔥🔥 {lang === 'pl' ? 'PROMOCJA' : 'PROMOTION'} 🔥🔥
+    🔥🔥 {lang === 'pl' ? 'PROMOCJA' : 'SPECIAL OFFER'} 🔥🔥
     </div>
 
     {p.promotion_from && p.promotion_to && (
