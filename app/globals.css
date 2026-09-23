@@ -18,3 +18,27 @@
   position:relative;
   z-index:1;
 }
+.promo-title-wrap{
+  width:100%;
+  overflow:hidden;
+  margin-bottom:12px;
+}
+
+.promo-title{
+  width:max-content;
+  margin-left:100%;
+  white-space:nowrap;
+  font-size:22px;
+  font-weight:800;
+  color:#d71920;
+  animation:promoMove 14s linear infinite;
+}
+
+@keyframes promoMove{
+  from{
+    transform:translateX(0);
+  }
+  to{
+    transform:translateX(-120%);
+  }
+}
