@@ -239,15 +239,11 @@ const activePromotions=products.filter(p=>
 %　　　%　　　%　　　%　　　%　　　%　　　%　　　%　　　%
 　　%　　　%　　　%　　　%　　　%　　　%　　　%　　　%
 </div>
-    <div style={{
-      textAlign:'center',
-      fontSize:'22px',
-      fontWeight:'800',
-      color:'#d71920',
-      marginBottom:'12px'
-    }}>
-     🔥 🔥 {lang==='pl'?'PROMOCJE':'SPECIAL OFFERS'} 🔥🔥
-    </div>
+    <div className="promo-title-wrap">
+  <div className="promo-title">
+    🔥 🔥 {lang==='pl'?'PROMOCJE':'SPECIAL OFFERS'} 🔥🔥
+  </div>
+</div>
 
     <div style={{
       display:'grid',
