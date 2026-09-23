@@ -242,7 +242,8 @@ const activePromotions=products.filter(p=>
 
     <div style={{
       display:'grid',
-      gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',
+     gridTemplateColumns:'repeat(auto-fit,minmax(240px,320px))',
+justifyContent:'center',
       gap:'10px'
     }}>
       {activePromotions.map(p => (
