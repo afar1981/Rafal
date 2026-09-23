@@ -277,7 +277,7 @@ promotion_price: promotionPrice
 
         <h2>Produkty</h2>
 
-        <<p>
+        <p>
   Tutaj możesz zmieniać cenę, nazwy,
   opisy, jednostkę oraz aktywność produktu.
 </p>
