@@ -300,7 +300,7 @@ justifyContent:'center',
     }}>
       🔥 {lang==='pl'
         ? 'Skorzystaj z promocji! Minimalna wartość zamówienia produktów promocyjnych wynosi £50.00.'
-        : 'Take advantage of our promotions! The minimum order value for promotional products is £50.00.'}
+        : 'Take advantage of our promotions! The minimum order value for promotional products is £50.00.'🔥}
     </div> 
       <div className="toolbar">
         <input
