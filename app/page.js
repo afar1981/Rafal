@@ -241,7 +241,7 @@ const activePromotions=products.filter(p=>
 </div>
     <div className="promo-title-wrap">
   <div className="promo-title">
-    🔥 🔥 {lang==='pl'?'PROMOCJE 🔥 🔥 PROMOCJE 🔥 🔥 PROMOCJE🔥 🔥PROMOCJE🔥 🔥 PROMOCJE🔥 🔥  PROMOCJE 🔥 🔥 PROMOCJE🔥  🔥 PROMOCJE🔥 🔥  PROMOCJE 🔥 🔥 PROMOCJE🔥 🔥 ':'SPECIAL OFFERS🔥 🔥 SPECIAL OFFERS🔥 🔥 SPECIAL OFFERS 🔥 🔥 SPECIAL OFFERS 🔥 🔥  SPECIAL OFFERS 🔥 🔥 SPECIAL OFFERS '} 🔥🔥
+   🔥 🔥 🔥 {lang==='pl'?'PROMOCJE 🔥 🔥 PROMOCJE 🔥 🔥 PROMOCJE🔥 🔥PROMOCJE🔥 🔥 PROMOCJE🔥 🔥  PROMOCJE 🔥 🔥 PROMOCJE🔥  🔥 PROMOCJE🔥 🔥  PROMOCJE 🔥 🔥 PROMOCJE🔥  ':'SPECIAL OFFERS🔥 🔥 SPECIAL OFFERS🔥 🔥 SPECIAL OFFERS 🔥 🔥 SPECIAL OFFERS 🔥 🔥  SPECIAL OFFERS 🔥 🔥 SPECIAL OFFERS '} 🔥🔥
   </div>
 </div>
 
