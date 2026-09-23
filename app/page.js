@@ -222,14 +222,22 @@ const activePromotions=products.filter(p=>
           </p>
         </div>
       </section>
+          <div className="promo-percent-bg" aria-hidden="true">
+  %　　%　　　%　　　%　　　%　　　%　　　%　　　%　　　%
+　　%　　　%　　　%　　　%　　　%　　　%　　　%　　　%
+%　　　%　　　%　　　%　　　%　　　%　　　%　　　%　　　%
+　　%　　　%　　　%　　　%　　　%　　　%　　　%　　　%
+</div> 
 {activePromotions.length > 0 && (
-  <section style={{
-    margin:'18px 0',
-    padding:'14px',
-    border:'2px solid #d71920',
-    borderRadius:'16px',
-    background:'#fff7f7'
-  }}>
+ <section style={{
+  margin:'18px 0',
+  padding:'14px',
+  border:'2px solid #d71920',
+  borderRadius:'16px',
+  background:'#fff7f7',
+  position:'relative',
+  overflow:'hidden'
+}}>
     <div style={{
       textAlign:'center',
       fontSize:'22px',
