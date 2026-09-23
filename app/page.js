@@ -212,7 +212,7 @@ const activePromotions=products.filter(p=>
           <span className="eyebrow">POLSKA TRADYCJA</span>
 
           <h1>
-            {lang==='pl'?'Oferta i zamówienia':'Products & orders'}
+            {lang==='pl'?'Oferta & Zamówienia':'Products & orders'}
           </h1>
 
           <p>
