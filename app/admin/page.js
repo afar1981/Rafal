@@ -277,12 +277,59 @@ promotion_price: promotionPrice
 
         <h2>Produkty</h2>
 
-        <p>
-          Tutaj możesz zmieniać cenę, nazwy,
-          opisy, jednostkę oraz aktywność produktu.
-        </p>
+        <<p>
+  Tutaj możesz zmieniać cenę, nazwy,
+  opisy, jednostkę oraz aktywność produktu.
+</p>
 
-        <div className="adminlist">
+<button
+  type="button"
+  onClick={async () => {
+    setMsg('Tworzenie nowego produktu...')
+
+    const nextSortOrder =
+      products.length > 0
+        ? Math.max(...products.map(x => Number(x.sort_order) || 0)) + 1
+        : 1
+
+    const { data, error } = await s
+      .from('products')
+      .insert({
+        name_pl: 'Nowy produkt',
+        name_en: 'New product',
+        description_pl: '',
+        description_en: '',
+        price: null,
+        currency: 'GBP',
+        unit: 'kg',
+        image_url: null,
+        active: false,
+        sort_order: nextSortOrder,
+        is_promotion: false,
+        promotion_from: null,
+        promotion_to: null,
+        promotion_price: null
+      })
+      .select('*')
+      .single()
+
+    if (error) {
+      setMsg(`BŁĄD DODAWANIA PRODUKTU: ${error.message}`)
+      return
+    }
+
+    setProducts(ps => [...ps, data])
+    setMsg(`Dodano nowy produkt #${data.id}`)
+  }}
+  style={{
+    marginBottom:'16px',
+    fontSize:'16px'
+  }}
+>
+  ➕ Dodaj nowy produkt
+</button>
+
+<div className="adminlist">
 
           {products.map(p => (
 
