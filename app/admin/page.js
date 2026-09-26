@@ -96,7 +96,28 @@ const translateProduct = async (p) => {
       setOrders(os || [])
     })()
   }, [])
+const getProductGroup = (p) => {
+  const name = (p.name_pl || '').trim().toUpperCase()
 
+  if (name.startsWith('KR ')) return 3
+  if (name.startsWith('M ')) return 1
+  if (name.startsWith('K ')) return 2
+  if (name.startsWith('P ')) return 4
+  if (name.startsWith('B ')) return 5
+
+  return 99
+}
+
+const orderedProducts = [...products].sort((a, b) => {
+  const groupA = getProductGroup(a)
+  const groupB = getProductGroup(b)
+
+  if (groupA !== groupB) {
+    return groupA - groupB
+  }
+
+  return Number(a.sort_order || 0) - Number(b.sort_order || 0)
+})
   const change = (id, field, value) => {
     setProducts(ps =>
       ps.map(x =>
@@ -331,7 +352,7 @@ promotion_price: promotionPrice
 
 <div className="adminlist">
 
-          {products.map(p => (
+    {orderedProducts.map(p => (
 
             <div
               className="adminrow"
