@@ -369,7 +369,7 @@ function Product({p,lang,add}){
   const weightPriced=p.unit==='kg'
 
   const [qty,setQty]=useState(1)
-
+const [added,setAdded]=useState(false)
   const [unit,setUnit]=useState(
     weightPriced
       ? 'pcs'
@@ -510,18 +510,30 @@ function Product({p,lang,add}){
             :unit}
         </span>
 
-        <button
-          className="primary add"
-          onClick={()=>add(
-            p,
-            qty,
-            weightPriced?'pcs':unit
-          )}
-        >
-          {lang==='pl'
-            ?'Dodaj do koszyka'
-            :'Add to cart'}
-        </button>
+       <button
+  className="primary add"
+  onClick={()=>{
+    add(
+      p,
+      qty,
+      weightPriced?'pcs':unit
+    )
+
+    setAdded(true)
+
+    setTimeout(()=>{
+      setAdded(false)
+    },2500)
+  }}
+  style={{
+    transition:'all 0.2s ease',
+    transform:added?'scale(1.05)':'scale(1)'
+  }}
+>
+  {added
+    ? (lang==='pl' ? '✅ Dodano do koszyka' : '✅ Added to cart')
+    : (lang==='pl' ? 'Dodaj do koszyka' : 'Add to cart')}
+</button>
 
       </div>
 
