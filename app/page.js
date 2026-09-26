@@ -124,6 +124,18 @@ const filtered=products.filter(
   p=>(p.name_pl+' '+p.name_en).toLowerCase().includes(q.toLowerCase())
 )
 
+const getProductGroup = (p) => {
+  const name = (p.name_pl || '').trim().toUpperCase()
+
+  if (name.startsWith('KR ')) return 3
+  if (name.startsWith('M ')) return 1
+  if (name.startsWith('K ')) return 2
+  if (name.startsWith('P ')) return 4
+  if (name.startsWith('B ')) return 5
+
+  return 99
+}
+
 const ordered=[...filtered].sort((a,b)=>{
   const ap=a.is_promotion &&
     (!a.promotion_from || a.promotion_from<=today) &&
@@ -133,7 +145,21 @@ const ordered=[...filtered].sort((a,b)=>{
     (!b.promotion_from || b.promotion_from<=today) &&
     (!b.promotion_to || b.promotion_to>=today)
 
-  return Number(bp)-Number(ap)
+  // Promocje zawsze pierwsze
+  if (Number(bp) !== Number(ap)) {
+    return Number(bp)-Number(ap)
+  }
+
+  // Pozostałe produkty grupujemy po skrócie
+  const groupA = getProductGroup(a)
+  const groupB = getProductGroup(b)
+
+  if (groupA !== groupB) {
+    return groupA - groupB
+  }
+
+  // W obrębie grupy zachowujemy obecne sort_order
+  return Number(a.sort_order || 0) - Number(b.sort_order || 0)
 })
 
 const promotionCount=ordered.filter(p=>
