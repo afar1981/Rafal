@@ -179,21 +179,26 @@ setMsg(lang==='pl'?'Zamówienie zostało złożone.':'Your order has been placed
 <div style={{
   marginTop:'18px',
   marginBottom:'14px',
-  padding:'12px 14px',
-  border:'1px solid #d9d0c6',
-  borderRadius:'10px',
-  background:'#faf7f2',
+  padding:'14px 16px',
+  border:'2px solid #d71920',
+  borderRadius:'12px',
+  background:'#fff1f1',
   fontSize:'13px',
   lineHeight:'1.5',
-  color:'#5f574f'
+  color:'#4f4540'
 }}>
-  <b style={{color:'#3f3832'}}>
+  <div style={{
+    color:'#d71920',
+    fontSize:'15px',
+    fontWeight:'800',
+    marginBottom:'6px'
+  }}>
     {lang==='pl'
-      ?'📌 Informacja dotycząca produktów na wagę'
-      :'📌 Information about products sold by weight'}
-  </b>
+      ?'📌 WAŻNA INFORMACJA – PRODUKTY NA WAGĘ'
+      :'📌 IMPORTANT INFORMATION – PRODUCTS SOLD BY WEIGHT'}
+  </div>
 
-  <div style={{marginTop:'5px'}}>
+  <div>
     {lang==='pl'
       ?'Produkty są ważone przed wysyłką. Podana cena jest ceną za 1 kg produktu, natomiast zamówienie składane jest w sztukach. Ostateczna cena zostanie wyliczona na podstawie rzeczywistej wagi przygotowanego produktu.'
       :'Products are weighed before dispatch. The displayed price is the price per 1 kg, while orders are placed by number of pieces. The final price will be calculated based on the actual weight of the prepared product.'}
