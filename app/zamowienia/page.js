@@ -88,10 +88,35 @@ setMsg(lang==='pl'?'Zamówienie zostało złożone.':'Your order has been placed
     <div className="panel">
       {cart.map((x,i)=>
         <div className="cartline" key={i}>
-          <div>
-            <b>{x.name_pl}</b>
-            <div className="small">{x.name_en} · {x.qty} {x.unit}</div>
-          </div>
+         <div>
+  <b>{lang==='pl' ? x.name_pl : x.name_en}</b>
+
+  {x.is_promotion &&
+    (!x.promotion_from || x.promotion_from <= new Date().toISOString().slice(0,10)) &&
+    (!x.promotion_to || x.promotion_to >= new Date().toISOString().slice(0,10)) && (
+      <div style={{
+        marginTop:'4px',
+        color:'#d71920',
+        fontWeight:'800',
+        fontSize:'13px'
+      }}>
+        🔥 {lang==='pl' ? 'PROMOCJA' : 'SPECIAL OFFER'}:
+        {' '}
+        {x.promotion_from
+          ? x.promotion_from.split('-').reverse().join('.')
+          : ''}
+        {' '}
+        – {' '}
+        {x.promotion_to
+          ? x.promotion_to.split('-').reverse().join('.')
+          : ''}
+      </div>
+    )}
+
+  <div className="small">
+    {lang==='pl' ? x.name_en : x.name_pl} · {x.qty} {x.unit}
+  </div>
+</div>
           <div>
             <b>{((Number(x.price)||0)*x.qty).toFixed(2)} £</b>
             <button onClick={()=>remove(i)}>{lang==='pl'?'Usuń':'Remove'}</button>
