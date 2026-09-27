@@ -172,21 +172,45 @@ const activePromotions=products.filter(p=>
   (!p.promotion_from || p.promotion_from<=today) &&
   (!p.promotion_to || p.promotion_to>=today)
 ).slice(0,4)
-  const add=(p,qty,unit)=>{
-    qty=Math.max(1,Math.round(Number(qty)||1))
+ const add=(p,qty,unit)=>{
+  qty=Math.max(1,Math.round(Number(qty)||1))
 
-    setCart(c=>{
-      const i=c.findIndex(x=>x.id===p.id&&x.unit===unit)
+  const today=new Date().toISOString().slice(0,10)
 
-      if(i>=0){
-        const n=[...c]
-        n[i]={...n[i],qty:n[i].qty+qty}
-        return n
+  const promotionActive =
+    p.is_promotion &&
+    (!p.promotion_from || p.promotion_from<=today) &&
+    (!p.promotion_to || p.promotion_to>=today) &&
+    p.promotion_price != null
+
+  const cartPrice = promotionActive
+    ? Number(p.promotion_price)
+    : Number(p.price)||0
+
+  setCart(c=>{
+    const i=c.findIndex(x=>x.id===p.id&&x.unit===unit)
+
+    if(i>=0){
+      const n=[...c]
+      n[i]={
+        ...n[i],
+        qty:n[i].qty+qty,
+        price:cartPrice
       }
+      return n
+    }
 
-      return [...c,{...p,qty,unit}]
-    })
-  }
+    return [
+      ...c,
+      {
+        ...p,
+        qty,
+        unit,
+        price:cartPrice
+      }
+    ]
+  })
+}
 
   const count=cart.reduce((s,x)=>s+x.qty,0)
   const total=cart.reduce((s,x)=>s+(Number(x.price)||0)*x.qty,0)
