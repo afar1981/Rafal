@@ -32,7 +32,18 @@ if(savedLang==='en'||savedLang==='pl')setLang(savedLang);
 
   const total=cart.reduce((a,x)=>a+(Number(x.price)||0)*Number(x.qty),0);
   const remove=i=>setCart(c=>c.filter((_,n)=>n!==i));
+const changeQty=(i,delta)=>{
+  setCart(c=>c.map((x,n)=>{
+    if(n!==i) return x
 
+    const newQty=Math.max(1,Number(x.qty)+delta)
+
+    return {
+      ...x,
+      qty:newQty
+    }
+  }))
+}
   const submit=async e=>{
     e.preventDefault();
     if(!cart.length){
@@ -114,8 +125,50 @@ setMsg(lang==='pl'?'Zamówienie zostało złożone.':'Your order has been placed
     )}
 
   <div className="small">
-    {lang==='pl' ? x.name_en : x.name_pl} · {x.qty} {x.unit}
-  </div>
+  {lang==='pl' ? x.name_en : x.name_pl}
+</div>
+
+<div style={{
+  display:'flex',
+  alignItems:'center',
+  gap:'8px',
+  marginTop:'7px'
+}}>
+  <button
+    type="button"
+    onClick={()=>changeQty(i,-1)}
+    style={{
+      width:'30px',
+      height:'30px',
+      padding:0,
+      fontSize:'18px',
+      fontWeight:'700'
+    }}
+  >
+    −
+  </button>
+
+  <b style={{
+    minWidth:'55px',
+    textAlign:'center'
+  }}>
+    {x.qty} {x.unit}
+  </b>
+
+  <button
+    type="button"
+    onClick={()=>changeQty(i,1)}
+    style={{
+      width:'30px',
+      height:'30px',
+      padding:0,
+      fontSize:'18px',
+      fontWeight:'700'
+    }}
+  >
+    +
+  </button>
+</div>
 </div>
           <div>
             <b>{((Number(x.price)||0)*x.qty).toFixed(2)} £</b>
