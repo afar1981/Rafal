@@ -110,7 +110,88 @@ const getProductGroup = (p) => {
 
   return 99
 }
+const generateReportPreview = () => {
+  const orderById = new Map(
+    orders.map(o => [o.id, o])
+  )
 
+  const columns = orders.map(o => ({
+    key: o.id,
+    label:
+      (o.customer_name || '') +
+      (o.email ? ` — ${o.email}` : '')
+  }))
+
+  const totals = new Map()
+
+  for (const item of orderItems) {
+    const order = orderById.get(item.order_id)
+
+    if (!order) continue
+
+    const name =
+      item.product_name_pl ||
+      item.product_name_en ||
+      'Produkt'
+
+    if (!totals.has(name)) {
+      totals.set(name, new Map())
+    }
+
+    const byOrder = totals.get(name)
+
+    byOrder.set(
+      order.id,
+      (byOrder.get(order.id) || 0) +
+      Number(item.quantity || 0)
+    )
+  }
+
+  const productOrder = new Map(
+    products.map((p, index) => [
+      p.name_pl,
+      index
+    ])
+  )
+
+  const rows = [...totals.keys()]
+    .sort((a, b) => {
+      const ai = productOrder.has(a)
+        ? productOrder.get(a)
+        : 999999
+
+      const bi = productOrder.has(b)
+        ? productOrder.get(b)
+        : 999999
+
+      if (ai !== bi) return ai - bi
+
+      return a.localeCompare(b, 'pl')
+    })
+    .map(name => {
+      const byOrder = totals.get(name)
+
+      const values = columns.map(c =>
+        Number(byOrder.get(c.key) || 0)
+      )
+
+      return {
+        name,
+        values,
+        total: values.reduce(
+          (sum, value) => sum + value,
+          0
+        )
+      }
+    })
+
+  setReportColumns(columns)
+  setReportRows(rows)
+
+  setMsg(
+    `Raport testowy przygotowany: ${rows.length} produktów, ${columns.length} zamówień.`
+  )
+}
 const orderedProducts = [...products].sort((a, b) => {
   const groupA = getProductGroup(a)
   const groupB = getProductGroup(b)
