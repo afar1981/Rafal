@@ -122,6 +122,67 @@ const getProductGroup = (p) => {
 
   return 99
 }
+const getSelectedReportOrders = () => {
+  const sortedOrders = [...orders].sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  )
+
+  const fromIndex = reportFromId
+    ? sortedOrders.findIndex(o => String(o.id) === String(reportFromId))
+    : 0
+
+  const toIndex = reportToId
+    ? sortedOrders.findIndex(o => String(o.id) === String(reportToId))
+    : sortedOrders.length - 1
+
+  const start = Math.min(
+    fromIndex >= 0 ? fromIndex : 0,
+    toIndex >= 0 ? toIndex : sortedOrders.length - 1
+  )
+
+  const end = Math.max(
+    fromIndex >= 0 ? fromIndex : 0,
+    toIndex >= 0 ? toIndex : sortedOrders.length - 1
+  )
+
+  return sortedOrders.slice(start, end + 1)
+}
+
+const sendWarehouseReport = async () => {
+  const selectedOrders = getSelectedReportOrders()
+
+  if (!selectedOrders.length) {
+    setMsg('Nie wybrano żadnych zamówień do raportu.')
+    return
+  }
+
+  setMsg('Wysyłanie raportu magazynowego...')
+
+  try {
+    const response = await fetch('/api/admin/warehouse-report', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        order_ids: selectedOrders.map(o => o.id)
+      })
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Błąd wysyłania raportu.')
+    }
+
+    setMsg(
+      `Raport wysłany: ${data.orders} zamówień, ${data.products} produktów.`
+    )
+  } catch (error) {
+    setMsg(`BŁĄD RAPORTU: ${error.message}`)
+  }
+}
+
 const generateReportPreview = () => {
   const sortedOrders = [...orders].sort(
     (a, b) => new Date(b.created_at) - new Date(a.created_at)
@@ -813,6 +874,22 @@ onChange={e => {
 >
   🧪 PRZYGOTUJ RAPORT TESTOWY
 </button>
+
+    {reportRows.length > 0 && (
+      <button
+        type="button"
+        onClick={sendWarehouseReport}
+        style={{
+          fontSize: '16px',
+          padding: '12px 18px',
+          marginLeft: '10px',
+          marginBottom: '20px'
+        }}
+      >
+        📧 WYŚLIJ RAPORT DO MAGAZYNU
+      </button>
+    )}
+
     {reportRows.length > 0 && (
   <div style={{
     overflowX: 'auto',
