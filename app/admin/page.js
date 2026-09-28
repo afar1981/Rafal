@@ -97,6 +97,16 @@ const translateProduct = async (p) => {
         .order('created_at', { ascending: false })
 
       setOrders(os || [])
+      const { data: oi, error: oie } = await s
+  .from('order_items')
+  .select('*')
+
+if (oie) {
+  setMsg(`Błąd pobierania pozycji zamówień: ${oie.message}`)
+  return
+}
+
+setOrderItems(oi || [])
     })()
   }, [])
 const getProductGroup = (p) => {
