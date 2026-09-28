@@ -721,7 +721,7 @@ onChange={e => {
 <section>
 
   <h2>Ostatnie zamówienia</h2>
-        <h2>Ostatnie zamówienia</h2>
+    
 
         <div className="orders">
 
