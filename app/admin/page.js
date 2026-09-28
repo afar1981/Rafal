@@ -130,11 +130,11 @@ const generateReportPreview = () => {
   let selectedOrders = [...sortedOrders]
 
   const fromIndex = reportFromId
-    ? sortedOrders.findIndex(o => o.id === reportFromId)
+    ? sortedOrders.findIndex(o => String(o.id) === String(reportFromId))
     : 0
 
   const toIndex = reportToId
-    ? sortedOrders.findIndex(o => o.id === reportToId)
+    ? sortedOrders.findIndex(o => String(o.id) === String(reportToId))
     : sortedOrders.length - 1
 
   if (reportFromId || reportToId) {
