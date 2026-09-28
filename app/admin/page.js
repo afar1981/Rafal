@@ -158,13 +158,18 @@ const columns = [...customerMap.values()]
       totals.set(name, new Map())
     }
 
-    const byOrder = totals.get(name)
+const byOrder = totals.get(name)
 
-    byOrder.set(
-      order.id,
-      (byOrder.get(order.id) || 0) +
-      Number(item.quantity || 0)
-    )
+const customerKey =
+  order.email ||
+  order.customer_name ||
+  order.id
+
+byOrder.set(
+  customerKey,
+  (byOrder.get(customerKey) || 0) +
+  Number(item.quantity || 0)
+)
   }
 
   const productOrder = new Map(
