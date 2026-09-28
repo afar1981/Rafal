@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createClient } from '../../lib/supabase-browser'
 
 export default function Admin() {
@@ -15,6 +15,8 @@ const [reportColumns, setReportColumns] = useState([])
 const [reportFromId, setReportFromId] = useState('')
 const [reportToId, setReportToId] = useState('')
 const [msg, setMsg] = useState('')
+const [reportMsg, setReportMsg] = useState('')
+const reportNoticeRef = useRef(null)
   const [saving, setSaving] = useState(null)
 const [translating, setTranslating] = useState(null)
 
@@ -148,15 +150,21 @@ const getSelectedReportOrders = () => {
   return sortedOrders.slice(start, end + 1)
 }
 
+useEffect(() => {
+  if (reportMsg && reportNoticeRef.current) {
+    reportNoticeRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+}, [reportMsg])
+
 const sendWarehouseReport = async () => {
   const selectedOrders = getSelectedReportOrders()
 
   if (!selectedOrders.length) {
-    setMsg('Nie wybrano żadnych zamówień do raportu.')
+    setReportMsg('Nie wybrano żadnych zamówień do raportu.')
     return
   }
 
-  setMsg('Wysyłanie raportu magazynowego...')
+  setReportMsg('Wysyłanie raportu magazynowego...')
 
   try {
     const response = await fetch('/api/admin/warehouse-report', {
@@ -175,11 +183,11 @@ const sendWarehouseReport = async () => {
       throw new Error(data.error || 'Błąd wysyłania raportu.')
     }
 
-    setMsg(
+    setReportMsg(
       `Raport wysłany: ${data.orders} zamówień, ${data.products} produktów.`
     )
   } catch (error) {
-    setMsg(`BŁĄD RAPORTU: ${error.message}`)
+    setReportMsg(`BŁĄD RAPORTU: ${error.message}`)
   }
 }
 
@@ -303,7 +311,7 @@ byOrder.set(
   setReportColumns(columns)
   setReportRows(rows)
 
-  setMsg(
+  setReportMsg(
     `Raport testowy przygotowany: ${rows.length} produktów, ${columns.length} zamówień.`
   )
 }
@@ -862,6 +870,16 @@ onChange={e => {
       </select>
     </label>
   </div>
+
+  {reportMsg && (
+    <p
+      ref={reportNoticeRef}
+      className="notice"
+      style={{ marginBottom: '16px' }}
+    >
+      {reportMsg}
+    </p>
+  )}
 
   <button
   type="button"
