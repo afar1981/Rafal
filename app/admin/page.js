@@ -8,8 +8,11 @@ export default function Admin() {
   
   const [profile, setProfile] = useState(null)
   const [products, setProducts] = useState([])
-  const [orders, setOrders] = useState([])
-  const [msg, setMsg] = useState('')
+ const [orders, setOrders] = useState([])
+const [orderItems, setOrderItems] = useState([])
+const [reportRows, setReportRows] = useState([])
+const [reportColumns, setReportColumns] = useState([])
+const [msg, setMsg] = useState('')
   const [saving, setSaving] = useState(null)
 const [translating, setTranslating] = useState(null)
 
