@@ -123,26 +123,31 @@ const getProductGroup = (p) => {
   return 99
 }
 const generateReportPreview = () => {
-  const fromOrder = orders.find(o => o.id === reportFromId)
-  const toOrder = orders.find(o => o.id === reportToId)
+  const sortedOrders = [...orders].sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  )
 
-  let selectedOrders = [...orders]
+  let selectedOrders = [...sortedOrders]
 
-  if (fromOrder || toOrder) {
-    const fromTime = fromOrder
-      ? new Date(fromOrder.created_at).getTime()
-      : -Infinity
-    const toTime = toOrder
-      ? new Date(toOrder.created_at).getTime()
-      : Infinity
+  const fromIndex = reportFromId
+    ? sortedOrders.findIndex(o => o.id === reportFromId)
+    : 0
 
-    const minTime = Math.min(fromTime, toTime)
-    const maxTime = Math.max(fromTime, toTime)
+  const toIndex = reportToId
+    ? sortedOrders.findIndex(o => o.id === reportToId)
+    : sortedOrders.length - 1
 
-    selectedOrders = orders.filter(o => {
-      const time = new Date(o.created_at).getTime()
-      return time >= minTime && time <= maxTime
-    })
+  if (reportFromId || reportToId) {
+    const start = Math.min(
+      fromIndex >= 0 ? fromIndex : 0,
+      toIndex >= 0 ? toIndex : sortedOrders.length - 1
+    )
+    const end = Math.max(
+      fromIndex >= 0 ? fromIndex : 0,
+      toIndex >= 0 ? toIndex : sortedOrders.length - 1
+    )
+
+    selectedOrders = sortedOrders.slice(start, end + 1)
   }
 
   const orderById = new Map(
