@@ -12,6 +12,8 @@ export default function Admin() {
 const [orderItems, setOrderItems] = useState([])
 const [reportRows, setReportRows] = useState([])
 const [reportColumns, setReportColumns] = useState([])
+const [reportFromId, setReportFromId] = useState('')
+const [reportToId, setReportToId] = useState('')
 const [msg, setMsg] = useState('')
   const [saving, setSaving] = useState(null)
 const [translating, setTranslating] = useState(null)
@@ -121,13 +123,35 @@ const getProductGroup = (p) => {
   return 99
 }
 const generateReportPreview = () => {
+  const fromOrder = orders.find(o => o.id === reportFromId)
+  const toOrder = orders.find(o => o.id === reportToId)
+
+  let selectedOrders = [...orders]
+
+  if (fromOrder || toOrder) {
+    const fromTime = fromOrder
+      ? new Date(fromOrder.created_at).getTime()
+      : -Infinity
+    const toTime = toOrder
+      ? new Date(toOrder.created_at).getTime()
+      : Infinity
+
+    const minTime = Math.min(fromTime, toTime)
+    const maxTime = Math.max(fromTime, toTime)
+
+    selectedOrders = orders.filter(o => {
+      const time = new Date(o.created_at).getTime()
+      return time >= minTime && time <= maxTime
+    })
+  }
+
   const orderById = new Map(
-    orders.map(o => [o.id, o])
+    selectedOrders.map(o => [o.id, o])
   )
 
   const customerMap = new Map()
 
-for (const o of orders) {
+for (const o of selectedOrders) {
   const key = o.email || o.customer_name || o.id
 
   if (!customerMap.has(key)) {
@@ -729,6 +753,49 @@ onChange={e => {
   <p>
     Zamknij bieżące zamówienia i przygotuj raport dla magazynu.
   </p>
+
+  <div style={{
+    display: 'flex',
+    gap: '12px',
+    flexWrap: 'wrap',
+    marginBottom: '16px'
+  }}>
+    <label style={{ minWidth: '280px' }}>
+      Od zamówienia
+      <select
+        value={reportFromId}
+        onChange={e => setReportFromId(e.target.value)}
+        style={{ width: '100%' }}
+      >
+        <option value="">Od początku</option>
+        {[...orders]
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+          .map(o => (
+            <option key={o.id} value={o.id}>
+              #{o.order_number ?? '—'} — {new Date(o.created_at).toLocaleDateString('pl-PL')} — {o.customer_name || o.email || 'Klient'}
+            </option>
+          ))}
+      </select>
+    </label>
+
+    <label style={{ minWidth: '280px' }}>
+      Do zamówienia
+      <select
+        value={reportToId}
+        onChange={e => setReportToId(e.target.value)}
+        style={{ width: '100%' }}
+      >
+        <option value="">Do najnowszego</option>
+        {[...orders]
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+          .map(o => (
+            <option key={o.id} value={o.id}>
+              #{o.order_number ?? '—'} — {new Date(o.created_at).toLocaleDateString('pl-PL')} — {o.customer_name || o.email || 'Klient'}
+            </option>
+          ))}
+      </select>
+    </label>
+  </div>
 
   <button
   type="button"
