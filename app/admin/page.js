@@ -125,12 +125,22 @@ const generateReportPreview = () => {
     orders.map(o => [o.id, o])
   )
 
-  const columns = orders.map(o => ({
-    key: o.id,
-    label:
-      (o.customer_name || '') +
-      (o.email ? ` — ${o.email}` : '')
-  }))
+  const customerMap = new Map()
+
+for (const o of orders) {
+  const key = o.email || o.customer_name || o.id
+
+  if (!customerMap.has(key)) {
+    customerMap.set(key, {
+      key,
+      label:
+        (o.customer_name || '') +
+        (o.email ? ` — ${o.email}` : '')
+    })
+  }
+}
+
+const columns = [...customerMap.values()]
 
   const totals = new Map()
 
