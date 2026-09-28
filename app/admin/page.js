@@ -716,6 +716,86 @@ onChange={e => {
 >
   🧪 PRZYGOTUJ RAPORT TESTOWY
 </button>
+    {reportRows.length > 0 && (
+  <div style={{
+    overflowX: 'auto',
+    marginTop: '10px',
+    marginBottom: '20px'
+  }}>
+    <table style={{
+      borderCollapse: 'collapse',
+      width: '100%',
+      fontSize: '13px'
+    }}>
+      <thead>
+        <tr>
+          <th style={{
+            border: '1px solid #ccc',
+            padding: '8px',
+            textAlign: 'left'
+          }}>
+            PRODUKT
+          </th>
+
+          {reportColumns.map(c => (
+            <th
+              key={c.key}
+              style={{
+                border: '1px solid #ccc',
+                padding: '8px'
+              }}
+            >
+              {c.label}
+            </th>
+          ))}
+
+          <th style={{
+            border: '1px solid #ccc',
+            padding: '8px'
+          }}>
+            TOTAL
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {reportRows.map(row => (
+          <tr key={row.name}>
+            <td style={{
+              border: '1px solid #ccc',
+              padding: '8px',
+              fontWeight: '600'
+            }}>
+              {row.name}
+            </td>
+
+            {row.values.map((value, index) => (
+              <td
+                key={index}
+                style={{
+                  border: '1px solid #ccc',
+                  padding: '8px',
+                  textAlign: 'center'
+                }}
+              >
+                {value}
+              </td>
+            ))}
+
+            <td style={{
+              border: '1px solid #ccc',
+              padding: '8px',
+              textAlign: 'center',
+              fontWeight: '700'
+            }}>
+              {row.total}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+)}
 </section>
 
 <section>
