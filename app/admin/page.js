@@ -612,7 +612,31 @@ onChange={e => {
       </section>
 
       <section>
+</section>
 
+<section>
+  <h2>📦 Raport magazynowy</h2>
+
+  <p>
+    Zamknij bieżące zamówienia i przygotuj raport dla magazynu.
+  </p>
+
+  <button
+    type="button"
+    onClick={() => setMsg('Raport magazynowy — funkcja zostanie uruchomiona w następnym kroku.')}
+    style={{
+      fontSize: '16px',
+      padding: '12px 18px',
+      marginBottom: '20px'
+    }}
+  >
+    🔒 ZAMKNIJ ZAMÓWIENIA I WYŚLIJ RAPORT
+  </button>
+</section>
+
+<section>
+
+  <h2>Ostatnie zamówienia</h2>
         <h2>Ostatnie zamówienia</h2>
 
         <div className="orders">
