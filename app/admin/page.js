@@ -706,16 +706,16 @@ onChange={e => {
   </p>
 
   <button
-    type="button"
-    onClick={() => setMsg('Raport magazynowy — funkcja zostanie uruchomiona w następnym kroku.')}
-    style={{
-      fontSize: '16px',
-      padding: '12px 18px',
-      marginBottom: '20px'
-    }}
-  >
-    🔒 ZAMKNIJ ZAMÓWIENIA I WYŚLIJ RAPORT
-  </button>
+  type="button"
+  onClick={generateReportPreview}
+  style={{
+    fontSize: '16px',
+    padding: '12px 18px',
+    marginBottom: '20px'
+  }}
+>
+  🧪 PRZYGOTUJ RAPORT TESTOWY
+</button>
 </section>
 
 <section>
