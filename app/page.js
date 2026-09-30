@@ -433,8 +433,6 @@ justifyContent:'center',
       }
     </main>
 
-    <LeafFall />
-
     <footer>
       © POLSKA TRADYCJA · Zamówienia online
     </footer>
