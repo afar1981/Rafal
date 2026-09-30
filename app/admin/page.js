@@ -419,6 +419,7 @@ const orderedProducts = [...products].sort((a, b) => {
       name_en: p.name_en || '',
       description_pl: p.description_pl || '',
       description_en: p.description_en || '',
+      category: p.category || null,
       image_url: p.image_url || null,
     is_promotion: !!p.is_promotion,
 promotion_from: p.promotion_from || null,
@@ -601,6 +602,32 @@ promotion_price: promotionPrice
                       )
                     }
                   />
+                </label>
+
+                <label>
+                  Kategoria
+                  <select
+                    value={p.category || ''}
+                    onChange={e =>
+                      change(p.id, 'category', e.target.value || null)
+                    }
+                  >
+                    <option value="">— wybierz kategorię —</option>
+                    <option value="KIEŁBASY">KIEŁBASY</option>
+                    <option value="SZYNKI">SZYNKI</option>
+                    <option value="BALERONY">BALERONY</option>
+                    <option value="SCHABY">SCHABY</option>
+                    <option value="POLĘDWICZKI">POLĘDWICZKI</option>
+                    <option value="ŻEBERKA">ŻEBERKA</option>
+                    <option value="WĘDZONKI">WĘDZONKI</option>
+                    <option value="BOCZKI">BOCZKI</option>
+                    <option value="KASZANKI">KASZANKI</option>
+                    <option value="SALCESONY">SALCESONY</option>
+                    <option value="PASZTETY">PASZTETY</option>
+                    <option value="PODROBY">PODROBY</option>
+                    <option value="JAJKA">JAJKA</option>
+                    <option value="OSCYPKI">OSCYPKI</option>
+                  </select>
                 </label>
 
                 <label>
