@@ -231,9 +231,7 @@ for (const o of selectedOrders) {
   if (!customerMap.has(key)) {
     customerMap.set(key, {
       key,
-      label:
-        (o.customer_name || '') +
-        (o.email ? ` — ${o.email}` : '')
+      label: o.company || o.email || o.customer_name || 'Klient'
     })
   }
 }
