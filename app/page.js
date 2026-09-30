@@ -64,6 +64,7 @@ export default function Home(){
   const supabase=useMemo(()=>createClient(),[])
   const [products,setProducts]=useState([])
   const [q,setQ]=useState('')
+  const [category,setCategory]=useState('ALL')
   const [lang,setLang]=useState(()=>typeof window!=='undefined'?(localStorage.getItem('pt-lang')||'pl'):'pl')
   const [cart,setCart]=useState([])
   const [user,setUser]=useState(null)
@@ -120,8 +121,9 @@ useEffect(()=>{
 
  const today=new Date().toISOString().slice(0,10)
 
-const filtered=products.filter(
-  p=>(p.name_pl+' '+p.name_en).toLowerCase().includes(q.toLowerCase())
+const filtered=products.filter(p=>
+  (category==='ALL' || p.category===category) &&
+  (p.name_pl+' '+p.name_en).toLowerCase().includes(q.toLowerCase())
 )
 
 const getProductGroup = (p) => {
@@ -352,6 +354,54 @@ justifyContent:'center',
         ? 'Skorzystaj z promocji! Minimalna wartość zamówienia produktów promocyjnych wynosi £50.00.'
         : 'Take advantage of our promotions! The minimum order value for promotional products is £50.00.'}🔥
     </div> 
+      <div style={{
+        margin:'18px 0 12px',
+        background:'#d71920',
+        borderRadius:'12px',
+        padding:'8px',
+        overflowX:'auto',
+        whiteSpace:'nowrap',
+        WebkitOverflowScrolling:'touch'
+      }}>
+        <div style={{display:'flex',gap:'6px',width:'max-content'}}>
+          {[
+            ['ALL','WSZYSTKIE','ALL'],
+            ['KIEŁBASY','KIEŁBASY','SAUSAGES'],
+            ['SZYNKI','SZYNKI','HAMS'],
+            ['BALERONY','BALERONY','PORK NECKS'],
+            ['SCHABY','SCHABY','PORK LOINS'],
+            ['POLĘDWICZKI','POLĘDWICZKI','TENDERLOINS'],
+            ['ŻEBERKA','ŻEBERKA','RIBS'],
+            ['WĘDZONKI','WĘDZONKI','SMOKED MEATS'],
+            ['BOCZKI','BOCZKI','BACON'],
+            ['KASZANKI','KASZANKI','BLOOD SAUSAGES'],
+            ['SALCESONY','SALCESONY','HEAD CHEESE'],
+            ['PASZTETY','PASZTETY','PÂTÉS'],
+            ['PODROBY','PODROBY','OFFAL'],
+            ['JAJKA','JAJKA','EGGS'],
+            ['OSCYPKI','OSCYPKI','OSCYPEK CHEESE']
+          ].map(([value,pl,en])=>
+            <button
+              key={value}
+              type="button"
+              onClick={()=>setCategory(value)}
+              style={{
+                border:'1px solid rgba(255,255,255,0.7)',
+                borderRadius:'9px',
+                padding:'9px 13px',
+                background:category===value?'#fff':'transparent',
+                color:category===value?'#d71920':'#fff',
+                fontWeight:'800',
+                fontSize:'13px',
+                cursor:'pointer'
+              }}
+            >
+              {lang==='pl'?pl:en}
+            </button>
+          )}
+        </div>
+      </div>
+
       <div className="toolbar">
         <input
           value={q}
