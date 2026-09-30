@@ -64,7 +64,7 @@ export default function Home(){
   const supabase=useMemo(()=>createClient(),[])
   const [products,setProducts]=useState([])
   const [q,setQ]=useState('')
-  const [lang,setLang]=useState('pl')
+  const [lang,setLang]=useState(()=>typeof window!=='undefined'?(localStorage.getItem('pt-lang')||'pl'):'pl')
   const [cart,setCart]=useState([])
   const [user,setUser]=useState(null)
   const [loading,setLoading]=useState(true)
