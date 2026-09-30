@@ -81,9 +81,7 @@ export async function POST(req) {
       if (!customerMap.has(key)) {
         customerMap.set(key, {
           key,
-          label:
-            (order.customer_name || '') +
-            (order.email ? ` — ${order.email}` : '')
+          label: order.company || order.email || order.customer_name || 'Klient'
         })
       }
     }
