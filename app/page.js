@@ -356,7 +356,7 @@ justifyContent:'center',
     </div> 
       <div style={{
         margin:'18px 0 12px',
-        background:'#d71920',
+        background:'#6b3f2a',
         borderRadius:'12px',
         padding:'8px',
         overflowX:'auto',
