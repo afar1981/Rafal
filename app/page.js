@@ -340,14 +340,16 @@ const activePromotions=products.filter(p=>
             return (
               <div style={{
                 marginTop:'18px',
-                padding:'12px 16px',
-                border:'2px solid #6b3f2a',
-                borderRadius:'12px',
-                background:'#fffaf5',
-                color:'#4f4540',
+                padding:'14px 18px',
+                border:'3px solid #d71920',
+                borderRadius:'14px',
+                background:'#6b3f2a',
+                color:'#fff',
+                boxShadow:'0 5px 14px rgba(107,63,42,0.25)',
                 fontWeight:'700',
-                fontSize:'14px',
-                lineHeight:'1.5'
+                fontSize:'15px',
+                lineHeight:'1.6',
+                textAlign:'center'
               }}>
                 🚚 {lang==='pl'
                   ? <>Najbliższa dostawa: <b>{schedule.deliveryStartText} – {schedule.deliveryEndText}</b><br/>📅 Zamów do: <b>soboty {schedule.cutoffText}, godz. 15:00</b></>
