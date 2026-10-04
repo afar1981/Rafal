@@ -2,6 +2,49 @@
 import {useEffect,useState} from 'react';
 import {createClient} from '../../lib/supabase-browser';
 
+function getDeliverySchedule(){
+  const now=new Date()
+  const day=now.getDay()
+  const afterCutoff=day===6 && (
+    now.getHours()>15 ||
+    (now.getHours()===15 && now.getMinutes()>0) ||
+    (now.getHours()===15 && now.getMinutes()===0 && now.getSeconds()>0)
+  )
+
+  let daysToCutoff=(6-day+7)%7
+  if(day===6 && afterCutoff) daysToCutoff=7
+
+  const cutoff=new Date(now)
+  cutoff.setHours(0,0,0,0)
+  cutoff.setDate(cutoff.getDate()+daysToCutoff)
+
+  const deliveryStart=new Date(cutoff)
+  deliveryStart.setDate(deliveryStart.getDate()+9)
+
+  const deliveryEnd=new Date(deliveryStart)
+  deliveryEnd.setDate(deliveryEnd.getDate()+3)
+
+  const formatDate=(date,language)=>{
+    return new Intl.DateTimeFormat(language==='pl'?'pl-PL':'en-GB',{
+      day:'2-digit',
+      month:'2-digit',
+      year:'numeric'
+    }).format(date)
+  }
+
+  return {
+    cutoff,
+    deliveryStart,
+    deliveryEnd,
+    cutoffText:formatDate(cutoff,'pl'),
+    cutoffTextEn:formatDate(cutoff,'en'),
+    deliveryStartText:formatDate(deliveryStart,'pl'),
+    deliveryStartTextEn:formatDate(deliveryStart,'en'),
+    deliveryEndText:formatDate(deliveryEnd,'pl'),
+    deliveryEndTextEn:formatDate(deliveryEnd,'en')
+  }
+}
+
 export default function Orders(){
   const s=createClient();
   const [cart,setCart]=useState([]);
@@ -95,6 +138,27 @@ setMsg(lang==='pl'?'Zamówienie zostało złożone.':'Your order has been placed
   return <main className="auth wide">
     <a href="/"><img src="/images/logo.png" className="authlogo"/></a>
 <h1>{lang==='pl'?'Podsumowanie zamówienia':'Order summary'}</h1>
+
+    {(() => {
+      const schedule=getDeliverySchedule()
+      return (
+        <div style={{
+          marginBottom:'16px',
+          padding:'14px 16px',
+          border:'2px solid #6b3f2a',
+          borderRadius:'12px',
+          background:'#fffaf5',
+          color:'#4f4540',
+          fontWeight:'700',
+          fontSize:'14px',
+          lineHeight:'1.5'
+        }}>
+          🚚 {lang==='pl'
+            ? <>Najbliższa dostawa: <b>{schedule.deliveryStartText} – {schedule.deliveryEndText}</b><br/>📅 Zamów do: <b>soboty {schedule.cutoffText}, godz. 15:00</b></>
+            : <>Next delivery: <b>{schedule.deliveryStartTextEn} – {schedule.deliveryEndTextEn}</b><br/>📅 Order by: <b>Saturday {schedule.cutoffTextEn}, 3:00 PM</b></>}
+        </div>
+      )
+    })()}
 
     <div className="panel">
       {cart.map((x,i)=>
