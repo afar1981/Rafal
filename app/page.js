@@ -470,7 +470,6 @@ justifyContent:'center',
             ['KASZANKI','KASZANKI','BLOOD SAUSAGES'],
             ['SALCESONY','SALCESONY','HEAD CHEESE'],
             ['PASZTETY','PASZTETY','PÂTÉS'],
-            ['PODROBY','PODROBY','OFFAL'],
             ['JAJKA','JAJKA','EGGS'],
             ['OSCYPKI','OSCYPKI','OSCYPEK CHEESE']
           ].map(([value,pl,en])=>
