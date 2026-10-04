@@ -60,6 +60,49 @@ function imgFor(id){
   return `/images/${String(id).padStart(2,'0')}.jpg`
 }
 
+function getDeliverySchedule(){
+  const now=new Date()
+  const day=now.getDay()
+  const afterCutoff=day===6 && (
+    now.getHours()>15 ||
+    (now.getHours()===15 && now.getMinutes()>0) ||
+    (now.getHours()===15 && now.getMinutes()===0 && now.getSeconds()>0)
+  )
+
+  let daysToCutoff=(6-day+7)%7
+  if(day===6 && afterCutoff) daysToCutoff=7
+
+  const cutoff=new Date(now)
+  cutoff.setHours(0,0,0,0)
+  cutoff.setDate(cutoff.getDate()+daysToCutoff)
+
+  const deliveryStart=new Date(cutoff)
+  deliveryStart.setDate(deliveryStart.getDate()+9)
+
+  const deliveryEnd=new Date(deliveryStart)
+  deliveryEnd.setDate(deliveryEnd.getDate()+3)
+
+  const formatDate=(date,language)=>{
+    return new Intl.DateTimeFormat(language==='pl'?'pl-PL':'en-GB',{
+      day:'2-digit',
+      month:'2-digit',
+      year:'numeric'
+    }).format(date)
+  }
+
+  return {
+    cutoff,
+    deliveryStart,
+    deliveryEnd,
+    cutoffText:formatDate(cutoff,'pl'),
+    cutoffTextEn:formatDate(cutoff,'en'),
+    deliveryStartText:formatDate(deliveryStart,'pl'),
+    deliveryStartTextEn:formatDate(deliveryStart,'en'),
+    deliveryEndText:formatDate(deliveryEnd,'pl'),
+    deliveryEndTextEn:formatDate(deliveryEnd,'en')
+  }
+}
+
 export default function Home(){
   const supabase=useMemo(()=>createClient(),[])
   const [products,setProducts]=useState([])
@@ -291,6 +334,27 @@ const activePromotions=products.filter(p=>
               ?'Wybierz produkty, ilość i dodaj do koszyka.'
               :'Choose products, quantity and add to cart.'}
           </p>
+
+          {(() => {
+            const schedule=getDeliverySchedule()
+            return (
+              <div style={{
+                marginTop:'18px',
+                padding:'12px 16px',
+                border:'2px solid #6b3f2a',
+                borderRadius:'12px',
+                background:'#fffaf5',
+                color:'#4f4540',
+                fontWeight:'700',
+                fontSize:'14px',
+                lineHeight:'1.5'
+              }}>
+                🚚 {lang==='pl'
+                  ? <>Najbliższa dostawa: <b>{schedule.deliveryStartText} – {schedule.deliveryEndText}</b><br/>📅 Zamów do: <b>soboty {schedule.cutoffText}, godz. 15:00</b></>
+                  : <>Next delivery: <b>{schedule.deliveryStartTextEn} – {schedule.deliveryEndTextEn}</b><br/>📅 Order by: <b>Saturday {schedule.cutoffTextEn}, 3:00 PM</b></>}
+              </div>
+            )
+          })()}
         </div>
       </section>
     
