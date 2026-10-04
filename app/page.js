@@ -174,6 +174,25 @@ const activePromotions=products.filter(p=>
   (!p.promotion_from || p.promotion_from<=today) &&
   (!p.promotion_to || p.promotion_to>=today)
 ).slice(0,4)
+ const goToProduct = (id) => {
+    setCategory('ALL')
+    setQ('')
+
+    setTimeout(() => {
+      const element = document.getElementById(`product-${id}`)
+      if (element) {
+        element.scrollIntoView({ behavior:'smooth', block:'center' })
+        element.style.outline='4px solid #d71920'
+        element.style.outlineOffset='6px'
+        element.style.transition='outline 0.2s ease'
+        setTimeout(() => {
+          element.style.outline=''
+          element.style.outlineOffset=''
+        }, 2200)
+      }
+    }, 80)
+  }
+
  const add=(p,qty,unit)=>{
   qty=Math.max(1,Math.round(Number(qty)||1))
 
@@ -304,15 +323,23 @@ justifyContent:'center',
       gap:'10px'
     }}>
       {activePromotions.map(p => (
-        <div key={p.id} style={{
-          display:'flex',
-          alignItems:'center',
-          gap:'10px',
-          padding:'10px',
-          background:'#fff',
-          borderRadius:'12px',
-          border:'1px solid #f0caca'
-        }}>
+        <button
+          key={p.id}
+          type="button"
+          onClick={()=>goToProduct(p.id)}
+          style={{
+            display:'flex',
+            alignItems:'center',
+            gap:'10px',
+            padding:'10px',
+            background:'#fff',
+            borderRadius:'12px',
+            border:'1px solid #f0caca',
+            cursor:'pointer',
+            textAlign:'left',
+            width:'100%'
+          }}
+        >
           <img
             src={p.image_url || imgFor(p.id)}
             alt={p.name_pl}
@@ -338,7 +365,7 @@ justifyContent:'center',
               </div>
             )}
           </div>
-        </div>
+        </button>
       ))}
     </div>
   </section>
@@ -461,7 +488,7 @@ const [added,setAdded]=useState(false)
       : (p.unit||'pcs')
   )
 
-  return <article className="card">
+  return <article id={`product-${p.id}`} className="card">
 
     <div className="photo">
       <img
