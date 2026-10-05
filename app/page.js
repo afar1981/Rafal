@@ -595,6 +595,9 @@ const [added,setAdded]=useState(false)
           e.currentTarget.src='/images/logo.png'
         }}
         alt={p.name_pl}
+        draggable={false}
+        onContextMenu={e=>e.preventDefault()}
+        style={{userSelect:'none',WebkitUserDrag:'none'}}
       />
     </div>
 
