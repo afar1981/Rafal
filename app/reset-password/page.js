@@ -7,9 +7,11 @@ export default function ResetPassword(){
   const s=createClient()
   const [lang,setLang]=useState('pl')
   const [email,setEmail]=useState('')
+  const [token,setToken]=useState('')
   const [password,setPassword]=useState('')
   const [confirm,setConfirm]=useState('')
   const [recovery,setRecovery]=useState(false)
+  const [step,setStep]=useState('request')
   const [msg,setMsg]=useState('')
   const [error,setError]=useState('')
 
@@ -47,11 +49,38 @@ export default function ResetPassword(){
       return
     }
 
+    setStep('verify')
     setMsg(
       lang==='pl'
-        ?'Jeśli konto z tym adresem istnieje, wysłaliśmy wiadomość z linkiem do ustawienia nowego hasła. Sprawdź również SPAM.'
-        :'If an account with this email exists, we sent a message with a link to set a new password. Please also check SPAM.'
+        ?'Wysłaliśmy kod na Twój e-mail. Sprawdź wiadomość i wpisz kod poniżej.'
+        :'We sent a verification code to your email. Check your message and enter the code below.'
     )
+  }
+
+  const verifyCode=async e=>{
+    e.preventDefault()
+    setMsg('')
+    setError('')
+
+    const cleanToken=token.replace(/\s/g,'')
+    if(!/^\d{6}$/.test(cleanToken)){
+      setError(lang==='pl'?'Wpisz 6-cyfrowy kod.':'Enter the 6-digit code.')
+      return
+    }
+
+    const {error}=await s.auth.verifyOtp({
+      email,
+      token:cleanToken,
+      type:'recovery'
+    })
+
+    if(error){
+      setError(error.message)
+      return
+    }
+
+    setRecovery(true)
+    setMsg(lang==='pl'?'Kod został potwierdzony. Możesz teraz ustawić nowe hasło.':'Code verified. You can now set a new password.')
   }
 
   const changePassword=async e=>{
@@ -95,12 +124,22 @@ export default function ResetPassword(){
           {error&&<p className="error">{error}</p>}
           {msg&&<p className="notice">{msg}</p>}
         </form>
+      ) : step==='verify' ? (
+        <form onSubmit={verifyCode} className="panel">
+          <label>{lang==='pl'?'Kod z e-maila':'Code from email'}
+            <input inputMode="numeric" autoComplete="one-time-code" value={token} onChange={e=>setToken(e.target.value)} placeholder="123456" maxLength="6" required/>
+          </label>
+          <button className="primary btnfull">{lang==='pl'?'Potwierdź kod':'Verify code'}</button>
+          {error&&<p className="error">{error}</p>}
+          {msg&&<p className="notice">{msg}</p>}
+          <p><a href="/reset-password">{lang==='pl'?'Wyślij kod ponownie':'Send a new code'}</a></p>
+        </form>
       ) : (
         <form onSubmit={sendReset} className="panel">
           <label>{lang==='pl'?'E-mail':'Email'}
             <input type="email" value={email} onChange={e=>setEmail(e.target.value)} required/>
           </label>
-          <button className="primary btnfull">{lang==='pl'?'Wyślij link do zmiany hasła':'Send password reset link'}</button>
+          <button className="primary btnfull">{lang==='pl'?'Wyślij kod do zmiany hasła':'Send password reset code'}</button>
           {error&&<p className="error">{error}</p>}
           {msg&&<p className="notice">{msg}</p>}
           <p><a href="/login">{lang==='pl'?'← Wróć do logowania':'← Back to login'}</a></p>
