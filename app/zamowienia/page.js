@@ -284,6 +284,27 @@ setMsg(lang==='pl'?'Zamówienie zostało złożone.':'Your order has been placed
       </form>
 
       {msg&&<p className="notice">{msg}</p>}
+
+      <div style={{
+        marginTop:'18px',
+        padding:'16px',
+        border:'2px solid #d71920',
+        borderRadius:'14px',
+        background:'#6b3f2a',
+        color:'#fff',
+        textAlign:'center',
+        lineHeight:'1.6'
+      }}>
+        <div style={{fontSize:'18px',fontWeight:'800',marginBottom:'6px'}}>
+          📞 {lang==='pl'?'KONTAKT':'CONTACT'}
+        </div>
+        <div>
+          📧 <a href="mailto:polskatradycja.orders@gmail.com" style={{color:'#fff',fontWeight:'800',textDecoration:'underline'}}>
+            polskatradycja.orders@gmail.com
+          </a>
+        </div>
+      </div>
+
     <a href="/">{lang==='pl'?'← Wróć do oferty':'← Back to products'}</a>
     </div>
   </main>
