@@ -63,8 +63,8 @@ export default function ResetPassword(){
     setError('')
 
     const cleanToken=token.replace(/\s/g,'')
-    if(!/^\d{6}$/.test(cleanToken)){
-      setError(lang==='pl'?'Wpisz 6-cyfrowy kod.':'Enter the 6-digit code.')
+    if(!/^\d{8}$/.test(cleanToken)){
+      setError(lang==='pl'?'Wpisz 8-cyfrowy kod.':'Enter the 8-digit code.')
       return
     }
 
@@ -127,7 +127,7 @@ export default function ResetPassword(){
       ) : step==='verify' ? (
         <form onSubmit={verifyCode} className="panel">
           <label>{lang==='pl'?'Kod z e-maila':'Code from email'}
-            <input inputMode="numeric" autoComplete="one-time-code" value={token} onChange={e=>setToken(e.target.value)} placeholder="123456" maxLength="6" required/>
+            <input inputMode="numeric" autoComplete="one-time-code" value={token} onChange={e=>setToken(e.target.value)} placeholder="12345678" maxLength="8" required/>
           </label>
           <button className="primary btnfull">{lang==='pl'?'Potwierdź kod':'Verify code'}</button>
           {error&&<p className="error">{error}</p>}
