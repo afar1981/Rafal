@@ -312,6 +312,10 @@ const activePromotions=products.filter(p=>
             <a className="primary btn" href="/rejestracja">{lang==='pl'?'Rejestracja':'Register'}</a>
           </>}
 
+        <a className="btn" href="#kontakt">
+  {lang==='pl'?'Kontakt':'Contact'}
+</a>
+
         <a className="primary btn" href="/zamowienia#koszyk">
   {lang==='pl'?'Koszyk':'Cart'} ({Math.round(count*100)/100})
 </a>
@@ -524,6 +528,30 @@ justifyContent:'center',
           </section>
       }
     </main>
+
+    <section id="kontakt" style={{
+      maxWidth:'1180px',
+      margin:'30px auto 0',
+      padding:'0 16px 20px'
+    }}>
+      <div style={{
+        padding:'18px',
+        border:'2px solid #d71920',
+        borderRadius:'14px',
+        background:'#6b3f2a',
+        color:'#fff',
+        textAlign:'center'
+      }}>
+        <div style={{fontSize:'20px',fontWeight:'800',marginBottom:'8px'}}>
+          📞 {lang==='pl'?'KONTAKT':'CONTACT'}
+        </div>
+        <div>
+          📧 <a href="mailto:polskatradycja.orders@gmail.com" style={{color:'#fff',fontWeight:'800',textDecoration:'underline'}}>
+            polskatradycja.orders@gmail.com
+          </a>
+        </div>
+      </div>
+    </section>
 
     <footer>
       © POLSKA TRADYCJA · Zamówienia online
