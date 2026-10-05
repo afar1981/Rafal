@@ -14,7 +14,12 @@ begin
           new.email,
           false,
           false)
-  on conflict (id) do update set email=excluded.email;
+  on conflict (id) do update set
+    full_name=excluded.full_name,
+    company=excluded.company,
+    phone=excluded.phone,
+    address=excluded.address,
+    email=excluded.email;
   return new;
 end;
 $$;
