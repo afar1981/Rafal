@@ -550,6 +550,11 @@ justifyContent:'center',
             polskatradycja.orders@gmail.com
           </a>
         </div>
+        <div style={{marginTop:'6px'}}>
+          📱 <a href="tel:+447440613008" style={{color:'#fff',fontWeight:'800',textDecoration:'underline'}}>
+            +44 7440 613008
+          </a>
+        </div>
       </div>
     </section>
 
