@@ -303,6 +303,11 @@ setMsg(lang==='pl'?'Zamówienie zostało złożone.':'Your order has been placed
             polskatradycja.orders@gmail.com
           </a>
         </div>
+        <div style={{marginTop:'6px'}}>
+          📱 <a href="tel:+447440613008" style={{color:'#fff',fontWeight:'800',textDecoration:'underline'}}>
+            +44 7440 613008
+          </a>
+        </div>
       </div>
 
     <a href="/">{lang==='pl'?'← Wróć do oferty':'← Back to products'}</a>
