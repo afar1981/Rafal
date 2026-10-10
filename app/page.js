@@ -572,16 +572,17 @@ function LeafFall(){
 
   return <>
     <style>{`.autumn-leaves{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:9999}.autumn-leaf{position:absolute;top:-45px;width:18px;height:24px;opacity:.78;animation:autumnFall linear infinite;will-change:transform;background:#8b5a2b;clip-path:polygon(50% 0%,62% 14%,78% 10%,72% 27%,92% 35%,76% 43%,88% 58%,67% 58%,72% 77%,56% 70%,50% 100%,44% 70%,28% 77%,33% 58%,12% 58%,24% 43%,8% 35%,28% 27%,22% 10%,38% 14%)}.autumn-leaf::after{content:"";position:absolute;left:48%;top:18%;width:2px;height:68%;background:rgba(255,255,255,.35);transform:rotate(8deg);border-radius:2px}.autumn-leaf:nth-child(even){background:#c49a3a}.autumn-leaf:nth-child(3n){background:#a86f2d}.autumn-leaf:nth-child(1){left:4%;animation-duration:9s;animation-delay:-2s}.autumn-leaf:nth-child(2){left:11%;animation-duration:12s;animation-delay:-7s}.autumn-leaf:nth-child(3){left:18%;animation-duration:10s;animation-delay:-4s}.autumn-leaf:nth-child(4){left:27%;animation-duration:14s;animation-delay:-9s}.autumn-leaf:nth-child(5){left:35%;animation-duration:11s;animation-delay:-1s}.autumn-leaf:nth-child(6){left:43%;animation-duration:13s;animation-delay:-6s}.autumn-leaf:nth-child(7){left:51%;animation-duration:9s;animation-delay:-5s}.autumn-leaf:nth-child(8){left:59%;animation-duration:12s;animation-delay:-8s}.autumn-leaf:nth-child(9){left:67%;animation-duration:10s;animation-delay:-3s}.autumn-leaf:nth-child(10){left:75%;animation-duration:14s;animation-delay:-10s}.autumn-leaf:nth-child(11){left:83%;animation-duration:11s;animation-delay:-7s}.autumn-leaf:nth-child(12){left:91%;animation-duration:13s;animation-delay:-2s}.autumn-leaf:nth-child(13){left:15%;animation-duration:15s;animation-delay:-11s}.autumn-leaf:nth-child(14){left:31%;animation-duration:15s;animation-delay:-12s}.autumn-leaf:nth-child(15){left:64%;animation-duration:12s;animation-delay:-9s}.autumn-leaf:nth-child(16){left:88%;animation-duration:16s;animation-delay:-13s}@keyframes autumnFall{0%{transform:translate3d(0,-45px,0) rotate(0deg)}25%{transform:translate3d(42px,25vh,0) rotate(115deg)}50%{transform:translate3d(-35px,50vh,0) rotate(230deg)}75%{transform:translate3d(45px,75vh,0) rotate(320deg)}100%{transform:translate3d(-25px,110vh,0) rotate(420deg)}}@media(max-width:600px){.autumn-leaf{width:14px;height:19px;opacity:.62}}`}</style>
-    <div className="autumn-leaves" aria-hidden="truefunction Product({p,lang,add,cart,user,setCart}){
-  const weightPriced=p.unit==='kg'
+    <div className="autumn-leaves" aria-hidden="true">
+      {leaves.map((_,i)=><span className="autumn-leaf" key={i}/>)}
+    </div>
+  </>
+}
 
+function Product({p,lang,add,cart,user,setCart}){
+  const weightPriced=p.unit==='kg'
   const [qty,setQty]=useState(1)
   const [added,setAdded]=useState(false)
-  const [unit,setUnit]=useState(
-    weightPriced
-      ? 'pcs'
-      : (p.unit||'pcs')
-  )
+  const [unit,setUnit]=useState(weightPriced?'pcs':(p.unit||'pcs'))
 
   const cartUnit=weightPriced?'pcs':unit
   const cartItem=cart.find(x=>x.id===p.id && x.unit===cartUnit)
@@ -591,259 +592,91 @@ function LeafFall(){
     setCart(current=>{
       const i=current.findIndex(x=>x.id===p.id && x.unit===cartUnit)
       if(i<0) return current
-
       const next=[...current]
       const newQty=Number(next[i].qty||0)+delta
-
-      if(newQty<=0){
-        next.splice(i,1)
-        return next
-      }
-
+      if(newQty<=0){ next.splice(i,1); return next }
       next[i]={...next[i],qty:newQty}
       return next
     })
   }
 
   return <article id={`product-${p.id}`} className="card">
-
     <div className="photo">
-      <img
-        src={p.image_url||imgFor(p.id)}
-        onError={e=>{
-          e.currentTarget.src='/images/logo.png'
-        }}
-        alt={p.name_pl}
-        draggable={false}
-        onContextMenu={e=>e.preventDefault()}
-        style={{userSelect:'none',WebkitUserDrag:'none'}}
-      />
+      <img src={p.image_url||imgFor(p.id)} onError={e=>{e.currentTarget.src='/images/logo.png'}} alt={p.name_pl} draggable={false} onContextMenu={e=>e.preventDefault()} style={{userSelect:'none',WebkitUserDrag:'none'}}/>
     </div>
-
     <div className="info">
-
       <div className="names">
         <div>
-          <div className="namepl">
-            {lang==='pl'?p.name_pl:p.name_en}
-          </div>
-
-          <div className="nameen">
-            {lang==='pl'?p.name_en:p.name_pl}
-          </div>
+          <div className="namepl">{lang==='pl'?p.name_pl:p.name_en}</div>
+          <div className="nameen">{lang==='pl'?p.name_en:p.name_pl}</div>
         </div>
-
-        <span className="badge">
-          {weightPriced
-            ? (lang==='pl'?'szt.':'pcs')
-            : unit}
-        </span>
+        <span className="badge">{weightPriced?(lang==='pl'?'szt.':'pcs'):unit}</span>
       </div>
-
       <p className="desc">
-        {lang==='pl'
-          ?(p.description_pl||'Tradycyjny produkt POLSKA TRADYCJA.')
-          :(p.description_en||'Traditional POLSKA TRADYCJA product.')}
+        {lang==='pl'?(p.description_pl||'Tradycyjny produkt POLSKA TRADYCJA.'):(p.description_en||'Traditional POLSKA TRADYCJA product.')}
       </p>
 {p.is_promotion && (
-  <div style={{
-    marginTop:'14px',
-    marginBottom:'12px',
-    padding:'12px 14px',
-    border:'2px solid #e53935',
-    borderRadius:'12px',
-    background:'#fff1f1',
-    textAlign:'center'
-  }}>
-    <div style={{
-      fontSize:'20px',
-      fontWeight:'800',
-      color:'#d71920',
-      letterSpacing:'0.5px'
-    }}>
-    🔥🔥 {lang === 'pl' ? 'PROMOCJA' : 'SPECIAL OFFER'} 🔥🔥
+  <div style={{marginTop:'14px',marginBottom:'12px',padding:'12px 14px',border:'2px solid #e53935',borderRadius:'12px',background:'#fff1f1',textAlign:'center'}}>
+    <div style={{fontSize:'20px',fontWeight:'800',color:'#d71920',letterSpacing:'0.5px'}}>
+      🔥🔥 {lang==='pl'?'PROMOCJA':'SPECIAL OFFER'} 🔥🔥
     </div>
-
     {p.promotion_from && p.promotion_to && (
-      <div style={{
-        marginTop:'6px',
-        fontSize:'14px',
-        fontWeight:'700',
-        color:'#b71c1c'
-      }}>
-        📅 {lang === 'pl' ? 'Od' : 'From'}{' '}
-        {p.promotion_from.split('-').reverse().join('.')}
-        {' '}
-        {lang === 'pl' ? 'do' : 'to'}{' '}
-        {p.promotion_to.split('-').reverse().join('.')}
+      <div style={{marginTop:'6px',fontSize:'14px',fontWeight:'700',color:'#b71c1c'}}>
+        📅 {lang==='pl'?'Od':'From'}{' '}{p.promotion_from.split('-').reverse().join('.')} {' '}{lang==='pl'?'do':'to'}{' '}{p.promotion_to.split('-').reverse().join('.')}
       </div>
     )}
   </div>
 )}
-{weightPriced &&
-        <div className="weight-note">
-          {lang==='pl'
-            ?'Cena za 1 kg. Produkt jest ważony przed wysyłką. Cena końcowa zależy od rzeczywistej wagi.'
-            :'Price per 1 kg. The product is weighed before dispatch. Final price depends on the actual weight.'}
-        </div>
-      }
-
+{weightPriced && (
+  <div className="weight-note">
+    {lang==='pl'?'Cena za 1 kg. Produkt jest ważony przed wysyłką. Cena końcowa zależy od rzeczywistej wagi.':'Price per 1 kg. The product is weighed before dispatch. Final price depends on the actual weight.'}
+  </div>
+)}
       <div className="row">
-
-     <div className="price">
-  {p.is_promotion && p.promotion_price != null ? (
-    <>
-      <span style={{textDecoration:'line-through', fontSize:'0.9em', opacity:0.6}}>
-        {p.price != null
-          ? `£${Number(p.price).toFixed(2)}`
-          : 'Cena ustalana indywidualnie'}
-      </span>
-      <br />
-      <span style={{color:'red', fontSize:'1.35em', fontWeight:'700'}}>
-        £{Number(p.promotion_price).toFixed(2)}
-      </span>
-    </>
-  ) : (
-    p.price != null
-      ? `£${Number(p.price).toFixed(2)}`
-      : 'Cena ustalana indywidualnie'
-  )}
-  {' / '}
-  {weightPriced ? 'kg' : unit}
-</div>
-
-        {!weightPriced &&
+        <div className="price">
+          {p.is_promotion && p.promotion_price!=null ? (
+            <>
+              <span style={{textDecoration:'line-through',fontSize:'0.9em',opacity:0.6}}>
+                {p.price!=null?`£${Number(p.price).toFixed(2)}`:'Cena ustalana indywidualnie'}
+              </span>
+              <br/>
+              <span style={{color:'red',fontSize:'1.35em',fontWeight:'700'}}>£{Number(p.promotion_price).toFixed(2)}</span>
+            </>
+          ) : (p.price!=null?`£${Number(p.price).toFixed(2)}`:'Cena ustalana indywidualnie')}
+          {' / '}{weightPriced?'kg':unit}
+        </div>
+        {!weightPriced && (
           <div>
-            <select
-              value={unit}
-              onChange={e=>setUnit(e.target.value)}
-            >
+            <select value={unit} onChange={e=>setUnit(e.target.value)}>
               <option value="kg">kg</option>
               <option value="pcs">pieces (pcs)</option>
             </select>
           </div>
-        }
-
+        )}
       </div>
 
       {user && cartQty>0 && (
-        <div style={{
-          marginTop:'10px',
-          marginBottom:'8px',
-          padding:'9px 10px',
-          border:'2px solid #d71920',
-          borderRadius:'10px',
-          background:'#fff5f5',
-          color:'#7a1f1f',
-          fontWeight:'800',
-          display:'flex',
-          alignItems:'center',
-          justifyContent:'space-between',
-          gap:'8px',
-          flexWrap:'wrap'
-        }}>
-          <span>
-            ⚠️ {lang==='pl'
-              ? `Masz już w koszyku: ${cartQty} ${cartUnit==='pcs' ? 'szt.' : cartUnit}`
-              : `Already in cart: ${cartQty} ${cartUnit==='pcs' ? 'pcs' : cartUnit}`}
-          </span>
-
-          <div style={{
-            display:'flex',
-            alignItems:'center',
-            gap:'6px'
-          }}>
-            <button
-              type="button"
-              onClick={()=>changeCartQty(-1)}
-              style={{
-                width:'34px',
-                height:'34px',
-                border:'1px solid #6b3f2a',
-                borderRadius:'8px',
-                background:'#fff',
-                fontSize:'20px',
-                fontWeight:'900',
-                cursor:'pointer'
-              }}
-              aria-label={lang==='pl'?'Zmniejsz ilość':'Decrease quantity'}
-            >
-              −
-            </button>
-
-            <span style={{
-              minWidth:'34px',
-              textAlign:'center',
-              fontSize:'17px'
-            }}>
-              {cartQty}
-            </span>
-
-            <button
-              type="button"
-              onClick={()=>changeCartQty(1)}
-              style={{
-                width:'34px',
-                height:'34px',
-                border:'1px solid #6b3f2a',
-                borderRadius:'8px',
-                background:'#6b3f2a',
-                color:'#fff',
-                fontSize:'20px',
-                fontWeight:'900',
-                cursor:'pointer'
-              }}
-              aria-label={lang==='pl'?'Zwiększ ilość':'Increase quantity'}
-            >
-              +
-            </button>
+        <div style={{marginTop:'10px',marginBottom:'8px',padding:'9px 10px',border:'2px solid #d71920',borderRadius:'10px',background:'#fff5f5',color:'#7a1f1f',fontWeight:'800',display:'flex',alignItems:'center',justifyContent:'space-between',gap:'8px',flexWrap:'wrap'}}>
+          <span>⚠️ {lang==='pl'?`Masz już w koszyku: ${cartQty} ${cartUnit==='pcs'?'szt.':cartUnit}`:`Already in cart: ${cartQty} ${cartUnit==='pcs'?'pcs':cartUnit}`}</span>
+          <div style={{display:'flex',alignItems:'center',gap:'6px'}}>
+            <button type="button" onClick={()=>changeCartQty(-1)} style={{width:'34px',height:'34px',border:'1px solid #6b3f2a',borderRadius:'8px',background:'#fff',fontSize:'20px',fontWeight:'900',cursor:'pointer'}} aria-label={lang==='pl'?'Zmniejsz ilość':'Decrease quantity'}>−</button>
+            <span style={{minWidth:'34px',textAlign:'center',fontSize:'17px'}}>{cartQty}</span>
+            <button type="button" onClick={()=>changeCartQty(1)} style={{width:'34px',height:'34px',border:'1px solid #6b3f2a',borderRadius:'8px',background:'#6b3f2a',color:'#fff',fontSize:'20px',fontWeight:'900',cursor:'pointer'}} aria-label={lang==='pl'?'Zwiększ ilość':'Increase quantity'}>+</button>
           </div>
         </div>
       )}
 
       <div className="qtyrow">
-
-        <input
-          type="number"
-          min="1"
-          step="1"
-          value={qty}
-          onChange={e=>setQty(e.target.value)}
-        />
-
-        <span className="unit-label">
-          {weightPriced
-            ?(lang==='pl'?'szt.':'pcs')
-            :unit}
-        </span>
-
-       <button
-  className="primary add"
-  onClick={()=>{
-    add(
-      p,
-      qty,
-      weightPriced?'pcs':unit
-    )
-
-    setAdded(true)
-
-    setTimeout(()=>{
-      setAdded(false)
-    },2500)
-  }}
-  style={{
-    transition:'all 0.2s ease',
-    transform:added?'scale(1.05)':'scale(1)'
-  }}
->
-  {added
-    ? (lang==='pl' ? '✅ Dodano do koszyka' : '✅ Added to cart')
-    : (lang==='pl' ? 'Dodaj do koszyka' : 'Add to cart')}
-</button>
-
+        <input type="number" min="1" step="1" value={qty} onChange={e=>setQty(e.target.value)}/>
+        <span className="unit-label">{weightPriced?(lang==='pl'?'szt.':'pcs'):unit}</span>
+        <button className="primary add" onClick={()=>{
+          add(p,qty,weightPriced?'pcs':unit)
+          setAdded(true)
+          setTimeout(()=>setAdded(false),2500)
+        }} style={{transition:'all 0.2s ease',transform:added?'scale(1.05)':'scale(1)'}}>
+          {added?(lang==='pl'?'✅ Dodano do koszyka':'✅ Added to cart'):(lang==='pl'?'Dodaj do koszyka':'Add to cart')}
+        </button>
       </div>
-
     </div>
   </article>
 }
