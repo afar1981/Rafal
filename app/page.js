@@ -523,6 +523,9 @@ justifyContent:'center',
                 p={p}
                 lang={lang}
                 add={add}
+                cart={cart}
+                user={user}
+                setCart={setCart}
               />
             )}
           </section>
@@ -569,22 +572,38 @@ function LeafFall(){
 
   return <>
     <style>{`.autumn-leaves{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:9999}.autumn-leaf{position:absolute;top:-45px;width:18px;height:24px;opacity:.78;animation:autumnFall linear infinite;will-change:transform;background:#8b5a2b;clip-path:polygon(50% 0%,62% 14%,78% 10%,72% 27%,92% 35%,76% 43%,88% 58%,67% 58%,72% 77%,56% 70%,50% 100%,44% 70%,28% 77%,33% 58%,12% 58%,24% 43%,8% 35%,28% 27%,22% 10%,38% 14%)}.autumn-leaf::after{content:"";position:absolute;left:48%;top:18%;width:2px;height:68%;background:rgba(255,255,255,.35);transform:rotate(8deg);border-radius:2px}.autumn-leaf:nth-child(even){background:#c49a3a}.autumn-leaf:nth-child(3n){background:#a86f2d}.autumn-leaf:nth-child(1){left:4%;animation-duration:9s;animation-delay:-2s}.autumn-leaf:nth-child(2){left:11%;animation-duration:12s;animation-delay:-7s}.autumn-leaf:nth-child(3){left:18%;animation-duration:10s;animation-delay:-4s}.autumn-leaf:nth-child(4){left:27%;animation-duration:14s;animation-delay:-9s}.autumn-leaf:nth-child(5){left:35%;animation-duration:11s;animation-delay:-1s}.autumn-leaf:nth-child(6){left:43%;animation-duration:13s;animation-delay:-6s}.autumn-leaf:nth-child(7){left:51%;animation-duration:9s;animation-delay:-5s}.autumn-leaf:nth-child(8){left:59%;animation-duration:12s;animation-delay:-8s}.autumn-leaf:nth-child(9){left:67%;animation-duration:10s;animation-delay:-3s}.autumn-leaf:nth-child(10){left:75%;animation-duration:14s;animation-delay:-10s}.autumn-leaf:nth-child(11){left:83%;animation-duration:11s;animation-delay:-7s}.autumn-leaf:nth-child(12){left:91%;animation-duration:13s;animation-delay:-2s}.autumn-leaf:nth-child(13){left:15%;animation-duration:15s;animation-delay:-11s}.autumn-leaf:nth-child(14){left:31%;animation-duration:15s;animation-delay:-12s}.autumn-leaf:nth-child(15){left:64%;animation-duration:12s;animation-delay:-9s}.autumn-leaf:nth-child(16){left:88%;animation-duration:16s;animation-delay:-13s}@keyframes autumnFall{0%{transform:translate3d(0,-45px,0) rotate(0deg)}25%{transform:translate3d(42px,25vh,0) rotate(115deg)}50%{transform:translate3d(-35px,50vh,0) rotate(230deg)}75%{transform:translate3d(45px,75vh,0) rotate(320deg)}100%{transform:translate3d(-25px,110vh,0) rotate(420deg)}}@media(max-width:600px){.autumn-leaf{width:14px;height:19px;opacity:.62}}`}</style>
-    <div className="autumn-leaves" aria-hidden="true">
-      {leaves.map((_,i)=><span className="autumn-leaf" key={i}/>)}
-    </div>
-  </>
-}
-
-function Product({p,lang,add}){
+    <div className="autumn-leaves" aria-hidden="truefunction Product({p,lang,add,cart,user,setCart}){
   const weightPriced=p.unit==='kg'
 
   const [qty,setQty]=useState(1)
-const [added,setAdded]=useState(false)
+  const [added,setAdded]=useState(false)
   const [unit,setUnit]=useState(
     weightPriced
       ? 'pcs'
       : (p.unit||'pcs')
   )
+
+  const cartUnit=weightPriced?'pcs':unit
+  const cartItem=cart.find(x=>x.id===p.id && x.unit===cartUnit)
+  const cartQty=cartItem?.qty || 0
+
+  const changeCartQty=(delta)=>{
+    setCart(current=>{
+      const i=current.findIndex(x=>x.id===p.id && x.unit===cartUnit)
+      if(i<0) return current
+
+      const next=[...current]
+      const newQty=Number(next[i].qty||0)+delta
+
+      if(newQty<=0){
+        next.splice(i,1)
+        return next
+      }
+
+      next[i]={...next[i],qty:newQty}
+      return next
+    })
+  }
 
   return <article id={`product-${p.id}`} className="card">
 
@@ -706,6 +725,81 @@ const [added,setAdded]=useState(false)
         }
 
       </div>
+
+      {user && cartQty>0 && (
+        <div style={{
+          marginTop:'10px',
+          marginBottom:'8px',
+          padding:'9px 10px',
+          border:'2px solid #d71920',
+          borderRadius:'10px',
+          background:'#fff5f5',
+          color:'#7a1f1f',
+          fontWeight:'800',
+          display:'flex',
+          alignItems:'center',
+          justifyContent:'space-between',
+          gap:'8px',
+          flexWrap:'wrap'
+        }}>
+          <span>
+            ⚠️ {lang==='pl'
+              ? `Masz już w koszyku: ${cartQty} ${cartUnit==='pcs' ? 'szt.' : cartUnit}`
+              : `Already in cart: ${cartQty} ${cartUnit==='pcs' ? 'pcs' : cartUnit}`}
+          </span>
+
+          <div style={{
+            display:'flex',
+            alignItems:'center',
+            gap:'6px'
+          }}>
+            <button
+              type="button"
+              onClick={()=>changeCartQty(-1)}
+              style={{
+                width:'34px',
+                height:'34px',
+                border:'1px solid #6b3f2a',
+                borderRadius:'8px',
+                background:'#fff',
+                fontSize:'20px',
+                fontWeight:'900',
+                cursor:'pointer'
+              }}
+              aria-label={lang==='pl'?'Zmniejsz ilość':'Decrease quantity'}
+            >
+              −
+            </button>
+
+            <span style={{
+              minWidth:'34px',
+              textAlign:'center',
+              fontSize:'17px'
+            }}>
+              {cartQty}
+            </span>
+
+            <button
+              type="button"
+              onClick={()=>changeCartQty(1)}
+              style={{
+                width:'34px',
+                height:'34px',
+                border:'1px solid #6b3f2a',
+                borderRadius:'8px',
+                background:'#6b3f2a',
+                color:'#fff',
+                fontSize:'20px',
+                fontWeight:'900',
+                cursor:'pointer'
+              }}
+              aria-label={lang==='pl'?'Zwiększ ilość':'Increase quantity'}
+            >
+              +
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="qtyrow">
 
