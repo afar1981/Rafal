@@ -63,14 +63,14 @@ function imgFor(id){
 function getDeliverySchedule(){
   const now=new Date()
   const day=now.getDay()
-  const afterCutoff=day===6 && (
+  const afterCutoff=day===0 && (
     now.getHours()>15 ||
     (now.getHours()===15 && now.getMinutes()>0) ||
     (now.getHours()===15 && now.getMinutes()===0 && now.getSeconds()>0)
   )
 
-  let daysToCutoff=(6-day+7)%7
-  if(day===6 && afterCutoff) daysToCutoff=7
+  let daysToCutoff=(7-day)%7
+  if(day===0 && afterCutoff) daysToCutoff=7
 
   const cutoff=new Date(now)
   cutoff.setHours(0,0,0,0)
@@ -356,8 +356,8 @@ const activePromotions=products.filter(p=>
                 textAlign:'center'
               }}>
                 🚚 {lang==='pl'
-                  ? <>Najbliższa dostawa: <b>{schedule.deliveryStartText} – {schedule.deliveryEndText}</b><br/>📅 Zamów do: <b>soboty {schedule.cutoffText}, godz. 15:00</b></>
-                  : <>Next delivery: <b>{schedule.deliveryStartTextEn} – {schedule.deliveryEndTextEn}</b><br/>📅 Order by: <b>Saturday {schedule.cutoffTextEn}, 3:00 PM</b></>}
+                  ? <>Najbliższa dostawa: <b>{schedule.deliveryStartText} – {schedule.deliveryEndText}</b><br/>📅 Zamów do: <b>niedzieli {schedule.cutoffText}, godz. 15:00</b></>
+                  : <>Next delivery: <b>{schedule.deliveryStartTextEn} – {schedule.deliveryEndTextEn}</b><br/>📅 Order by: <b>Sunday {schedule.cutoffTextEn}, 3:00 PM</b></>}
               </div>
             )
           })()}
