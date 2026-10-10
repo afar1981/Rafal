@@ -582,6 +582,7 @@ function Product({p,lang,add,cart,user,setCart}){
   const weightPriced=p.unit==='kg'
   const [qty,setQty]=useState(1)
   const [added,setAdded]=useState(false)
+  const [hovered,setHovered]=useState(false)
   const [unit,setUnit]=useState(weightPriced?'pcs':(p.unit||'pcs'))
 
   const cartUnit=weightPriced?'pcs':unit
@@ -601,8 +602,30 @@ function Product({p,lang,add,cart,user,setCart}){
   }
 
   return <article id={`product-${p.id}`} className="card">
-    <div className="photo">
-      <img src={p.image_url||imgFor(p.id)} onError={e=>{e.currentTarget.src='/images/logo.png'}} alt={p.name_pl} draggable={false} onContextMenu={e=>e.preventDefault()} style={{userSelect:'none',WebkitUserDrag:'none'}}/>
+    <div
+      className="photo"
+      onMouseEnter={()=>setHovered(true)}
+      onMouseLeave={()=>setHovered(false)}
+      style={{position:'relative',overflow:'visible',zIndex:hovered?20:1}}
+    >
+      <img
+        src={p.image_url||imgFor(p.id)}
+        onError={e=>{e.currentTarget.src='/images/logo.png'}}
+        alt={p.name_pl}
+        draggable={false}
+        onContextMenu={e=>e.preventDefault()}
+        style={{
+          userSelect:'none',
+          WebkitUserDrag:'none',
+          transition:'transform .2s ease, box-shadow .2s ease',
+          transform:hovered?'scale(1.35)':'scale(1)',
+          transformOrigin:'center center',
+          position:'relative',
+          zIndex:hovered?21:1,
+          boxShadow:hovered?'0 10px 25px rgba(0,0,0,.25)':'none',
+          borderRadius:'10px'
+        }}
+      />
     </div>
     <div className="info">
       <div className="names">
