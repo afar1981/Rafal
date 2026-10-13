@@ -451,7 +451,7 @@ justifyContent:'center',
         ? 'Skorzystaj z promocji! Minimalna wartość zamówienia produktów promocyjnych wynosi £50.00.'
         : 'Take advantage of our promotions! The minimum order value for promotional products is £50.00.'}🔥
     </div> 
-      <div style={{
+      <div className="category-nav" style={{
         margin:'18px 0 12px',
         background:'#6b3f2a',
         borderRadius:'12px',
