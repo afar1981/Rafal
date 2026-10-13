@@ -44,16 +44,17 @@
 }
 
 
-/* Sticky product category navigation */
+/* Keep product categories visible while scrolling the catalogue */
 .category-nav{
   position:sticky;
   top:88px;
-  z-index:19;
-  box-shadow:0 4px 10px rgba(60,45,30,.12);
+  z-index:25;
+  background:#6b3f2a;
+  box-shadow:0 4px 10px rgba(60,45,30,.18);
 }
 @media(max-width:850px){
-  .category-nav{top:104px}
+  .category-nav{top:108px}
 }
 @media(max-width:650px){
-  .category-nav{top:112px}
+  .category-nav{top:124px}
 }
