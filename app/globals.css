@@ -42,3 +42,18 @@
     transform:translateX(-120%);
   }
 }
+
+
+/* Sticky product category navigation */
+.category-nav{
+  position:sticky;
+  top:88px;
+  z-index:19;
+  box-shadow:0 4px 10px rgba(60,45,30,.12);
+}
+@media(max-width:850px){
+  .category-nav{top:104px}
+}
+@media(max-width:650px){
+  .category-nav{top:112px}
+}
