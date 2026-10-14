@@ -58,3 +58,26 @@
 @media(max-width:650px){
   .category-nav{top:124px}
 }
+
+
+/* Enlarge promotion thumbnails on hover, matching the product cards. */
+@media (hover: hover) {
+  .promo-card {
+    position: relative;
+  }
+  .promo-card:hover {
+    z-index: 30;
+  }
+  .promo-image {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    transition: transform .2s ease, box-shadow .2s ease;
+    transform-origin: center center;
+  }
+  .promo-card:hover .promo-image {
+    transform: scale(1.35);
+    z-index: 31;
+    box-shadow: 0 10px 25px rgba(0,0,0,.25);
+  }
+}
