@@ -671,14 +671,7 @@ function Product({p,lang,add,cart,user,setCart}){
           ) : (p.price!=null?`£${Number(p.price).toFixed(2)}`:'Cena ustalana indywidualnie')}
           {!isEggProduct && <> {' / '}{weightPriced?'kg':unit}</>}
         </div>
-        {!weightPriced && (
-          <div>
-            <select value={unit} onChange={e=>setUnit(e.target.value)}>
-              <option value="kg">kg</option>
-              <option value="pcs">pieces (pcs)</option>
-            </select>
-          </div>
-        )}
+
       </div>
 
       {user && cartQty>0 && (
