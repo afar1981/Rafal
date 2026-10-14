@@ -581,6 +581,7 @@ function LeafFall(){
 }
 
 function Product({p,lang,add,cart,user,setCart}){
+  const isEggProduct=/jajk|egg/i.test(`${p.name_pl||''} ${p.name_en||''}`)
   const weightPriced=p.unit==='kg'
   const [qty,setQty]=useState(1)
   const [added,setAdded]=useState(false)
@@ -652,7 +653,7 @@ function Product({p,lang,add,cart,user,setCart}){
     )}
   </div>
 )}
-{weightPriced && (
+{weightPriced && !isEggProduct && (
   <div className="weight-note">
     {lang==='pl'?'Cena za 1 kg. Produkt jest ważony przed wysyłką. Cena końcowa zależy od rzeczywistej wagi.':'Price per 1 kg. The product is weighed before dispatch. Final price depends on the actual weight.'}
   </div>
