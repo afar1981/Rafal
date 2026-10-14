@@ -3,7 +3,7 @@
   inset:0;
   z-index:0;
   overflow:hidden;
-  color:#e53935;
+  color:#16a34a;
   opacity:.14;
   font-size:42px;
   font-weight:900;
@@ -30,7 +30,7 @@
   white-space:nowrap;
   font-size:22px;
   font-weight:800;
-  color:#d71920;
+  color:#166534;
   animation:promoMove 14s linear infinite;
 }
 
