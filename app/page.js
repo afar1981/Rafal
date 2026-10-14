@@ -372,7 +372,7 @@ const activePromotions=products.filter(p=>
   borderRadius:'16px',
   background:'#fff7f7',
   position:'relative',
-  overflow:'hidden'
+  overflow:'visible'
 }}>
   <div className="promo-percent-bg" aria-hidden="true">
   %　　%　　　%　　　%　　　%　　　%　　　%　　　%　　　%
@@ -396,6 +396,7 @@ justifyContent:'center',
         <button
           key={p.id}
           type="button"
+          className="promo-card"
           onClick={()=>goToProduct(p.id)}
           style={{
             display:'flex',
@@ -411,6 +412,7 @@ justifyContent:'center',
           }}
         >
           <img
+            className="promo-image"
             src={p.image_url || imgFor(p.id)}
             alt={p.name_pl}
             style={{
