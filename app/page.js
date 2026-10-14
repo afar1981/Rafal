@@ -669,7 +669,7 @@ function Product({p,lang,add,cart,user,setCart}){
               <span style={{color:'red',fontSize:'1.35em',fontWeight:'700'}}>£{Number(p.promotion_price).toFixed(2)}</span>
             </>
           ) : (p.price!=null?`£${Number(p.price).toFixed(2)}`:'Cena ustalana indywidualnie')}
-          {' / '}{isEggProduct?'szt.':(weightPriced?'kg':unit)}
+          {!isEggProduct && <> {' / '}{weightPriced?'kg':unit}</>}
         </div>
         {!weightPriced && (
           <div>
