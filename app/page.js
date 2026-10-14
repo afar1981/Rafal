@@ -368,9 +368,9 @@ const activePromotions=products.filter(p=>
  <section style={{
   margin:'18px 0',
   padding:'14px',
-  border:'2px solid #15803d',
+  border:'2px solid #d71920',
   borderRadius:'16px',
-  background:'#f0fdf4',
+  background:'#fff7f7',
   position:'relative',
   overflow:'visible'
 }}>
@@ -642,12 +642,12 @@ function Product({p,lang,add,cart,user,setCart}){
         {lang==='pl'?(p.description_pl||'Tradycyjny produkt POLSKA TRADYCJA.'):(p.description_en||'Traditional POLSKA TRADYCJA product.')}
       </p>
 {p.is_promotion && (
-  <div style={{marginTop:'14px',marginBottom:'12px',padding:'12px 14px',border:'2px solid #15803d',borderRadius:'12px',background:'#f0fdf4',textAlign:'center'}}>
-    <div style={{fontSize:'20px',fontWeight:'800',color:'#166534',letterSpacing:'0.5px'}}>
+  <div style={{marginTop:'14px',marginBottom:'12px',padding:'12px 14px',border:'2px solid #e53935',borderRadius:'12px',background:'#fff1f1',textAlign:'center'}}>
+    <div style={{fontSize:'20px',fontWeight:'800',color:'#d71920',letterSpacing:'0.5px'}}>
       🔥🔥 {lang==='pl'?'PROMOCJA':'SPECIAL OFFER'} 🔥🔥
     </div>
     {p.promotion_from && p.promotion_to && (
-      <div style={{marginTop:'6px',fontSize:'14px',fontWeight:'700',color:'#166534'}}>
+      <div style={{marginTop:'6px',fontSize:'14px',fontWeight:'700',color:'#b71c1c'}}>
         📅 {lang==='pl'?'Od':'From'}{' '}{p.promotion_from.split('-').reverse().join('.')} {' '}{lang==='pl'?'do':'to'}{' '}{p.promotion_to.split('-').reverse().join('.')}
       </div>
     )}
