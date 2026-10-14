@@ -636,7 +636,7 @@ function Product({p,lang,add,cart,user,setCart}){
           <div className="namepl">{lang==='pl'?p.name_pl:p.name_en}</div>
           <div className="nameen">{lang==='pl'?p.name_en:p.name_pl}</div>
         </div>
-        <span className="badge">{weightPriced?(lang==='pl'?'szt.':'pcs'):unit}</span>
+        {!isEggProduct && <span className="badge">{weightPriced?(lang==='pl'?'szt.':'pcs'):unit}</span>}
       </div>
       <p className="desc">
         {lang==='pl'?(p.description_pl||'Tradycyjny produkt POLSKA TRADYCJA.'):(p.description_en||'Traditional POLSKA TRADYCJA product.')}
@@ -694,7 +694,7 @@ function Product({p,lang,add,cart,user,setCart}){
 
       <div className="qtyrow">
         <input type="number" min="1" step="1" value={qty} onChange={e=>setQty(e.target.value)}/>
-        <span className="unit-label">{weightPriced?(lang==='pl'?'szt.':'pcs'):unit}</span>
+        {!isEggProduct && <span className="unit-label">{weightPriced?(lang==='pl'?'szt.':'pcs'):unit}</span>}
         <button className="primary add" onClick={()=>{
           add(p,qty,weightPriced?'pcs':unit)
           setAdded(true)
