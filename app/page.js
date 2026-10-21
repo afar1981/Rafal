@@ -465,20 +465,20 @@ justifyContent:'center',
         <div style={{display:'flex',gap:'6px',width:'max-content'}}>
           {[
             ['ALL','WSZYSTKIE','ALL'],
-            ['KIEŁBASY','KIEŁBASY','SAUSAGES'],
-            ['SZYNKI','SZYNKI','HAMS'],
             ['BALERONY','BALERONY','PORK NECKS'],
-            ['SCHABY','SCHABY','PORK LOINS'],
-            ['POLĘDWICZKI','POLĘDWICZKI','TENDERLOINS'],
-            ['ŻEBERKA','ŻEBERKA','RIBS'],
-            ['WĘDZONKI','WĘDZONKI','SMOKED MEATS'],
             ['BOCZKI','BOCZKI','BACON'],
-            ['KASZANKI','KASZANKI','BLOOD SAUSAGES'],
-            ['SALCESONY','SALCESONY','HEAD CHEESE'],
-            ['PASZTETY','PASZTETY','PÂTÉS'],
+            ['DROBIOWE','DROBIOWE','POULTRY'],
             ['JAJKA','JAJKA','EGGS'],
+            ['KASZANKI','KASZANKI','BLOOD SAUSAGES'],
+            ['KIEŁBASY','KIEŁBASY','SAUSAGES'],
             ['OSCYPKI','OSCYPKI','OSCYPEK CHEESE'],
-            ['DROBIOWE','DROBIOWE','POULTRY']
+            ['PASZTETY','PASZTETY','PÂTÉS'],
+            ['POLĘDWICZKI','POLĘDWICZKI','TENDERLOINS'],
+            ['SALCESONY','SALCESONY','HEAD CHEESE'],
+            ['SCHABY','SCHABY','PORK LOINS'],
+            ['SZYNKI','SZYNKI','HAMS'],
+            ['WĘDZONKI','WĘDZONKI','SMOKED MEATS'],
+            ['ŻEBERKA','ŻEBERKA','RIBS']
           ].map(([value,pl,en])=>
             <button
               key={value}
