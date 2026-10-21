@@ -624,7 +624,7 @@ promotion_price: promotionPrice
                     <option value="KASZANKI">KASZANKI</option>
                     <option value="SALCESONY">SALCESONY</option>
                     <option value="PASZTETY">PASZTETY</option>
-                    <option value="PODROBY">PODROBY</option>
+                    <option value="PODROBY">DROBIOWE</option>
                     <option value="JAJKA">JAJKA</option>
                     <option value="OSCYPKI">OSCYPKI</option>
                   </select>
