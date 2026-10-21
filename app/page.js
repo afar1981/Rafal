@@ -386,6 +386,16 @@ const activePromotions=products.filter(p=>
   </div>
 </div>
 
+    <style>{`
+      .promo-card:hover .promo-image{
+        transform:scale(2.8);
+        z-index:50;
+        box-shadow:0 10px 25px rgba(0,0,0,.25);
+      }
+      .promo-card:hover{
+        z-index:40;
+      }
+    `}</style>
     <div style={{
       display:'grid',
      gridTemplateColumns:'repeat(auto-fit,minmax(240px,320px))',
@@ -408,7 +418,9 @@ justifyContent:'center',
             border:'1px solid #f0caca',
             cursor:'pointer',
             textAlign:'left',
-            width:'100%'
+            width:'100%',
+            position:'relative',
+            overflow:'visible'
           }}
         >
           <img
@@ -419,7 +431,10 @@ justifyContent:'center',
               width:'58px',
               height:'58px',
               objectFit:'cover',
-              borderRadius:'9px'
+              borderRadius:'9px',
+              position:'relative',
+              zIndex:1,
+              transition:'transform .2s ease, box-shadow .2s ease'
             }}
           />
 
@@ -586,7 +601,6 @@ function Product({p,lang,add,cart,user,setCart}){
   const weightPriced=p.unit==='kg'
   const [qty,setQty]=useState(1)
   const [added,setAdded]=useState(false)
-  const [hovered,setHovered]=useState(false)
   const [unit,setUnit]=useState(weightPriced?'pcs':(p.unit||'pcs'))
 
   const cartUnit=weightPriced?'pcs':unit
@@ -608,9 +622,7 @@ function Product({p,lang,add,cart,user,setCart}){
   return <article id={`product-${p.id}`} className="card">
     <div
       className="photo"
-      onMouseEnter={()=>setHovered(true)}
-      onMouseLeave={()=>setHovered(false)}
-      style={{position:'relative',overflow:'visible',zIndex:hovered?20:1}}
+      style={{position:'relative',overflow:'visible'}}
     >
       <img
         src={p.image_url||imgFor(p.id)}
@@ -621,12 +633,6 @@ function Product({p,lang,add,cart,user,setCart}){
         style={{
           userSelect:'none',
           WebkitUserDrag:'none',
-          transition:'transform .2s ease, box-shadow .2s ease',
-          transform:hovered?'scale(1.35)':'scale(1)',
-          transformOrigin:'center center',
-          position:'relative',
-          zIndex:hovered?21:1,
-          boxShadow:hovered?'0 10px 25px rgba(0,0,0,.25)':'none',
           borderRadius:'10px'
         }}
       />
