@@ -477,7 +477,8 @@ justifyContent:'center',
             ['SALCESONY','SALCESONY','HEAD CHEESE'],
             ['PASZTETY','PASZTETY','PÂTÉS'],
             ['JAJKA','JAJKA','EGGS'],
-            ['OSCYPKI','OSCYPKI','OSCYPEK CHEESE']
+            ['OSCYPKI','OSCYPKI','OSCYPEK CHEESE'],
+            ['DROBIOWE','DROBIOWE','POULTRY']
           ].map(([value,pl,en])=>
             <button
               key={value}
