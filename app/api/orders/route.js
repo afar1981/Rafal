@@ -111,71 +111,47 @@ const orderWeek=orderNumberData.order_week;
   html:body.language==='pl'
     ? `
         <h2>Dziękujemy za złożenie zamówienia!</h2>
-
+        <p>Otrzymaliśmy Twoje zamówienie <b>#${order.order_number}</b>.</p>
+        <h3>Podsumowanie zamówienia</h3>
         <p>
-          Otrzymaliśmy Twoje zamówienie
-       <b>#${order.order_number}</b>
+          <b>Klient:</b> ${body.customer_name}<br>
+          <b>E-mail:</b> ${body.email}<br>
+          <b>Telefon:</b> ${body.phone||'—'}<br>
+          <b>Adres dostawy:</b> ${body.delivery_address||'—'}
         </p>
-
-        <p>
-          <b>Wartość zamówienia:</b>
-          ${(body.total||0).toFixed(2)} ${body.currency}
-        </p>
-
-        <p>
-          Wszystkie nasze produkty są sprzedawane na wagę i
-          <b>każdy produkt jest ważony przed wysyłką</b>.
-          Ostateczna cena zamówienia może się nieznacznie różnić
-          od kwoty podanej przy składaniu zamówienia i zależy od
-          rzeczywistej wagi produktów.
-        </p>
-
-        <p>
-          Twoje zamówienie zostanie teraz przygotowane do realizacji.
-        </p>
-
-        <p>
-          W razie potrzeby skontaktujemy się z Tobą.
-        </p>
-
-        <p>
-          <b>POLSKA TRADYCJA</b><br>
-          Dziękujemy za zakupy!
-        </p>
+        <table cellpadding="8" cellspacing="0" border="1" style="border-collapse:collapse;width:100%;border-color:#ddd">
+          <thead><tr><th align="left">Produkt</th><th>Ilość</th><th align="right">Cena</th><th align="right">Wartość</th></tr></thead>
+          <tbody>
+            ${body.items.map(i=>`<tr><td>${i.name_pl}</td><td align="center">${i.quantity} ${i.unit}</td><td align="right">${Number(i.price||0).toFixed(2)} ${body.currency}</td><td align="right">${Number(i.line_total||0).toFixed(2)} ${body.currency}</td></tr>`).join('')}
+          </tbody>
+        </table>
+        <p style="font-size:18px"><b>Razem: ${(body.total||0).toFixed(2)} ${body.currency}</b></p>
+        <p><b>Uwagi do zamówienia:</b><br>${body.notes||'Brak'}</p>
+        <p>Wszystkie nasze produkty są sprzedawane na wagę i <b>każdy produkt jest ważony przed wysyłką</b>. Ostateczna cena może się nieznacznie różnić i zależy od rzeczywistej wagi produktów.</p>
+        <p>Twoje zamówienie zostanie teraz przygotowane do realizacji. W razie potrzeby skontaktujemy się z Tobą.</p>
+        <p><b>POLSKA TRADYCJA</b><br>Dziękujemy za zakupy!</p>
       `
     : `
         <h2>Thank you for placing your order!</h2>
-
+        <p>We have received your order <b>#${order.order_number}</b>.</p>
+        <h3>Order summary</h3>
         <p>
-          We have received your order
-      <b>#${order.order_number}</b>
+          <b>Customer:</b> ${body.customer_name}<br>
+          <b>Email:</b> ${body.email}<br>
+          <b>Phone:</b> ${body.phone||'—'}<br>
+          <b>Delivery address:</b> ${body.delivery_address||'—'}
         </p>
-
-        <p>
-          <b>Order total:</b>
-          ${(body.total||0).toFixed(2)} ${body.currency}
-        </p>
-
-        <p>
-          All our products are sold by weight and
-          <b>each product is weighed before dispatch</b>.
-          The final order total may vary slightly from the amount
-          shown when placing the order and will depend on the
-          actual weight of the products.
-        </p>
-
-        <p>
-          Your order will now be prepared for processing.
-        </p>
-
-        <p>
-          If necessary, we will contact you.
-        </p>
-
-        <p>
-          <b>POLSKA TRADYCJA</b><br>
-          Thank you for shopping with us!
-        </p>
+        <table cellpadding="8" cellspacing="0" border="1" style="border-collapse:collapse;width:100%;border-color:#ddd">
+          <thead><tr><th align="left">Product</th><th>Quantity</th><th align="right">Price</th><th align="right">Line total</th></tr></thead>
+          <tbody>
+            ${body.items.map(i=>`<tr><td>${i.name_en}</td><td align="center">${i.quantity} ${i.unit}</td><td align="right">${Number(i.price||0).toFixed(2)} ${body.currency}</td><td align="right">${Number(i.line_total||0).toFixed(2)} ${body.currency}</td></tr>`).join('')}
+          </tbody>
+        </table>
+        <p style="font-size:18px"><b>Total: ${(body.total||0).toFixed(2)} ${body.currency}</b></p>
+        <p><b>Order notes:</b><br>${body.notes||'None'}</p>
+        <p>All our products are sold by weight and <b>each product is weighed before dispatch</b>. The final price may vary slightly and will depend on the actual weight of the products.</p>
+        <p>Your order will now be prepared for processing. If necessary, we will contact you.</p>
+        <p><b>POLSKA TRADYCJA</b><br>Thank you for shopping with us!</p>
       `
 });
     }
