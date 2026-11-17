@@ -281,6 +281,7 @@ const activePromotions=products.filter(p=>
 
   return <>
     <Snowfall/>
+    <ChristmasLights/>
     <header>
       <div className="top">
         <a href="/" className="brand">
@@ -629,6 +630,27 @@ justifyContent:'center',
     <footer>
       © POLSKA TRADYCJA · Zamówienia online
     </footer>
+  </>
+}
+
+function ChristmasLights(){
+  const bulbs=Array.from({length:22},(_,i)=>i)
+  return <>
+    <style>{`
+      .pt-christmas-lights{position:fixed;top:0;left:0;right:0;height:25px;z-index:45;pointer-events:none;overflow:hidden}
+      .pt-christmas-lights:before{content:"";position:absolute;left:-2%;right:-2%;top:-14px;height:34px;border-bottom:2px solid rgba(35,83,54,.9);border-radius:0 0 50% 50%;box-shadow:0 2px 2px rgba(0,0,0,.08)}
+      .pt-christmas-bulb{position:absolute;top:7px;width:9px;height:12px;border-radius:50% 50% 45% 45%;background:var(--bulb);box-shadow:0 0 7px 2px var(--bulb);animation:ptTwinkle 2.4s ease-in-out infinite alternate}
+      .pt-christmas-bulb:before{content:"";position:absolute;top:-3px;left:3px;width:3px;height:4px;background:#48634b;border-radius:1px}
+      @keyframes ptTwinkle{from{opacity:.48;filter:brightness(.8)}to{opacity:1;filter:brightness(1.35)}}
+      @media(prefers-reduced-motion:reduce){.pt-christmas-bulb{animation:none}}
+    `}</style>
+    <div className="pt-christmas-lights" aria-hidden="true">
+      {bulbs.map(i=><span key={i} className="pt-christmas-bulb" style={{
+        left:`${2+i*4.55}%`,
+        '--bulb':['#e53935','#f6c453','#2e9d68','#6da8e8'][i%4],
+        animationDelay:`${(i%6)*.27}s`
+      }}/>)}
+    </div>
   </>
 }
 
