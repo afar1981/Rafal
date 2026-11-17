@@ -280,6 +280,7 @@ const activePromotions=products.filter(p=>
   const total=cart.reduce((s,x)=>s+(Number(x.price)||0)*x.qty,0)
 
   return <>
+    <Snowfall/>
     <header>
       <div className="top">
         <a href="/" className="brand">
@@ -372,18 +373,41 @@ const activePromotions=products.filter(p=>
         />
         <div style={{
           marginTop:'12px',
-          padding:'14px 18px',
-          border:'2px solid #d71920',
-          borderRadius:'12px',
-          background:'#fff7f0',
-          color:'#6b3f2a',
+          padding:'18px 20px',
+          border:'3px solid #d71920',
+          borderRadius:'14px',
+          background:'linear-gradient(135deg,#fff7f0 0%,#ffe9df 100%)',
+          color:'#62351f',
+          boxShadow:'0 5px 16px rgba(107,63,42,0.18)',
           fontWeight:'800',
-          lineHeight:'1.5',
+          fontSize:'clamp(16px,2.2vw,20px)',
+          lineHeight:'1.55',
           textAlign:'center'
         }}>
-          {lang==='pl'
-            ? <>Aby złożyć zamówienie świąteczne, prosimy wpisać w uwagach do zamówienia: <b>ZAMÓWIENIE ŚWIĄTECZNE</b>.</>
-            : <>To place a Christmas order, please enter <b>CHRISTMAS ORDER</b> in the order notes.</>}
+          <div style={{fontSize:'1.05em',marginBottom:'8px'}}>
+            {lang==='pl'
+              ? '🎄 WAŻNE – ZAMÓWIENIE ŚWIĄTECZNE 🎄'
+              : '🎄 IMPORTANT – CHRISTMAS ORDER 🎄'}
+          </div>
+          <div>
+            {lang==='pl'
+              ? <>Aby złożyć zamówienie świąteczne, wpisz w uwagach do zamówienia:</>
+              : <>To place a Christmas order, enter this in the order notes:</>}
+          </div>
+          <div style={{
+            display:'inline-block',
+            marginTop:'10px',
+            padding:'9px 16px',
+            borderRadius:'9px',
+            background:'#6b3f2a',
+            color:'#fff',
+            fontSize:'1.15em',
+            fontWeight:'900',
+            letterSpacing:'0.4px',
+            boxShadow:'0 3px 0 #d71920'
+          }}>
+            {lang==='pl'?'ZAMÓWIENIE ŚWIĄTECZNE':'CHRISTMAS ORDER'}
+          </div>
         </div>
       </section>
 
@@ -605,6 +629,27 @@ justifyContent:'center',
     <footer>
       © POLSKA TRADYCJA · Zamówienia online
     </footer>
+  </>
+}
+
+function Snowfall(){
+  const flakes=Array.from({length:28},(_,i)=>i)
+  return <>
+    <style>{`
+      .pt-snow-layer{position:fixed;inset:0;z-index:40;pointer-events:none;overflow:hidden}
+      .pt-snowflake{position:absolute;top:-24px;color:#fff;text-shadow:0 1px 3px rgba(70,80,90,.45);user-select:none;will-change:transform;animation:ptSnowFall linear infinite}
+      @keyframes ptSnowFall{0%{transform:translate3d(0,-5vh,0) rotate(0deg)}50%{transform:translate3d(28px,52vh,0) rotate(180deg)}100%{transform:translate3d(-18px,110vh,0) rotate(360deg)}}
+      @media(prefers-reduced-motion:reduce){.pt-snowflake{animation:none;display:none}}
+    `}</style>
+    <div className="pt-snow-layer" aria-hidden="true">
+      {flakes.map(i=><span key={i} className="pt-snowflake" style={{
+        left:`${(i*37)%100}%`,
+        fontSize:`${10+(i%10)}px`,
+        opacity:0.35+(i%5)*0.1,
+        animationDuration:`${9+(i%8)}s`,
+        animationDelay:`${-(i%13)}s`
+      }}>❄</span>)}
+    </div>
   </>
 }
 
