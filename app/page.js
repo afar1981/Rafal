@@ -370,6 +370,21 @@ const activePromotions=products.filter(p=>
           alt={lang==='pl'?'Zamówienia świąteczne':'Christmas orders'}
           loading="eager"
         />
+        <div style={{
+          marginTop:'12px',
+          padding:'14px 18px',
+          border:'2px solid #d71920',
+          borderRadius:'12px',
+          background:'#fff7f0',
+          color:'#6b3f2a',
+          fontWeight:'800',
+          lineHeight:'1.5',
+          textAlign:'center'
+        }}>
+          {lang==='pl'
+            ? <>Aby złożyć zamówienie świąteczne, prosimy wpisać w uwagach do zamówienia: <b>ZAMÓWIENIE ŚWIĄTECZNE</b>.</>
+            : <>To place a Christmas order, please enter <b>CHRISTMAS ORDER</b> in the order notes.</>}
+        </div>
       </section>
 
 {activePromotions.length > 0 && (
