@@ -282,6 +282,7 @@ const activePromotions=products.filter(p=>
   return <>
     <Snowfall/>
     <ChristmasLights/>
+    <RunningReindeer/>
     <header>
       <div className="top">
         <a href="/" className="brand">
@@ -651,6 +652,25 @@ function ChristmasLights(){
         animationDelay:`${(i%6)*.27}s`
       }}/>)}
     </div>
+  </>
+}
+
+function RunningReindeer(){
+  return <>
+    <style>{`
+      .pt-reindeer-track{position:fixed;left:0;bottom:9vh;z-index:44;pointer-events:none;white-space:nowrap;display:flex;align-items:center;gap:2px;will-change:transform;animation:ptReindeerRun 19s linear infinite}
+      .pt-reindeer-track span{display:inline-block;font-size:clamp(25px,3.8vw,42px);filter:drop-shadow(0 2px 2px rgba(0,0,0,.18));animation:ptReindeerBounce .42s ease-in-out infinite alternate}
+      .pt-reindeer-track span:nth-child(2){animation-delay:.1s}
+      .pt-reindeer-track span:nth-child(3){animation-delay:.2s}
+      .pt-reindeer-track span:nth-child(4){animation-delay:.3s}
+      .pt-reindeer-track.second{bottom:16vh;animation-duration:25s;animation-delay:-12s;animation-direction:reverse;opacity:.82;transform:scale(.78)}
+      @keyframes ptReindeerRun{from{translate:-30vw 0}to{translate:110vw 0}}
+      @keyframes ptReindeerBounce{from{transform:translateY(0) rotate(-5deg)}to{transform:translateY(-7px) rotate(5deg)}}
+      @media(prefers-reduced-motion:reduce){.pt-reindeer-track,.pt-reindeer-track span{animation:none}.pt-reindeer-track{display:none}}
+      @media(max-width:600px){.pt-reindeer-track{bottom:7vh}.pt-reindeer-track.second{bottom:13vh}}
+    `}</style>
+    <div className="pt-reindeer-track" aria-hidden="true"><span>🦌</span><span>🦌</span><span>🦌</span><span>🦌</span></div>
+    <div className="pt-reindeer-track second" aria-hidden="true"><span>🦌</span><span>🦌</span><span>🦌</span></div>
   </>
 }
 
