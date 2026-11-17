@@ -282,7 +282,6 @@ const activePromotions=products.filter(p=>
   return <>
     <Snowfall/>
     <ChristmasLights/>
-    <RunningReindeer/>
     <header>
       <div className="top">
         <a href="/" className="brand">
@@ -674,7 +673,7 @@ function RunningReindeer(){
 }
 
 function Snowfall(){
-  const flakes=Array.from({length:28},(_,i)=>i)
+  const flakes=Array.from({length:65},(_,i)=>i)
   return <>
     <style>{`
       .pt-snow-layer{position:fixed;inset:0;z-index:40;pointer-events:none;overflow:hidden}
