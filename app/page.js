@@ -654,24 +654,6 @@ function ChristmasLights(){
   </>
 }
 
-function RunningReindeer(){
-  return <>
-    <style>{`
-      .pt-reindeer-track{position:fixed;left:0;bottom:9vh;z-index:44;pointer-events:none;white-space:nowrap;display:flex;align-items:center;gap:3px;will-change:transform;animation:ptReindeerRun 19s linear infinite}
-      .pt-reindeer-track span{display:inline-block;font-size:clamp(25px,3.8vw,42px);filter:drop-shadow(0 2px 2px rgba(0,0,0,.18));animation:ptReindeerBounce .42s ease-in-out infinite alternate}
-      .pt-reindeer-track span:nth-child(2){animation-delay:.1s}
-      .pt-reindeer-track span:nth-child(3){animation-delay:.2s}
-      .pt-reindeer-track span:nth-child(4){animation-delay:.3s}
-      .pt-reindeer-track span:nth-child(5){animation-delay:.4s}
-      @keyframes ptReindeerRun{from{translate:-35vw 0}to{translate:110vw 0}}
-      @keyframes ptReindeerBounce{from{transform:translateY(0) rotate(-5deg)}to{transform:translateY(-7px) rotate(5deg)}}
-      @media(prefers-reduced-motion:reduce){.pt-reindeer-track,.pt-reindeer-track span{animation:none}.pt-reindeer-track{display:none}}
-      @media(max-width:600px){.pt-reindeer-track{bottom:7vh}}
-    `}</style>
-    <div className="pt-reindeer-track" aria-hidden="true"><span>🎅🛷</span><span>🦌</span><span>🦌</span><span>🦌</span><span>🦌</span></div>
-  </>
-}
-
 function Snowfall(){
   const flakes=Array.from({length:65},(_,i)=>i)
   return <>
