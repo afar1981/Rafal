@@ -363,7 +363,15 @@ const activePromotions=products.filter(p=>
           })()}
         </div>
       </section>
-    
+
+      <section className="christmas-banner" aria-label={lang==='pl'?'Zamówienia świąteczne':'Christmas orders'}>
+        <img
+          src={lang==='pl'?'/images/christmas-orders-pl.svg':'/images/christmas-orders-en.svg'}
+          alt={lang==='pl'?'Zamówienia świąteczne':'Christmas orders'}
+          loading="eager"
+        />
+      </section>
+
 {activePromotions.length > 0 && (
  <section style={{
   margin:'18px 0',
