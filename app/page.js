@@ -801,6 +801,11 @@ function Product({p,lang,add,cart,user,setCart}){
         </div>
       )}
 
+      {weightPriced && !isEggProduct && p.approximate_weight && (
+        <div style={{marginTop:'8px',marginBottom:'8px',fontSize:'14px',fontWeight:'800',color:'#6b3f2a'}}>
+          {lang==='pl'?'Przybliżona waga produktu:':'Approximate product weight:'} {p.approximate_weight}
+        </div>
+      )}
       <div className="qtyrow">
         <input type="number" min="1" step="1" value={qty} onChange={e=>setQty(e.target.value)}/>
         {!isEggProduct && <span className="unit-label">{weightPriced?(lang==='pl'?'szt.':'pcs'):unit}</span>}
