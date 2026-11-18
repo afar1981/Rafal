@@ -216,7 +216,7 @@ const activePromotions=products.filter(p=>
   p.is_promotion &&
   (!p.promotion_from || p.promotion_from<=today) &&
   (!p.promotion_to || p.promotion_to>=today)
-).slice(0,4)
+).slice(0,6)
  const goToProduct = (id) => {
     setCategory('ALL')
     setQ('')
