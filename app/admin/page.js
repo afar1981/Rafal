@@ -424,7 +424,8 @@ const orderedProducts = [...products].sort((a, b) => {
     is_promotion: !!p.is_promotion,
 promotion_from: p.promotion_from || null,
 promotion_to: p.promotion_to || null,
-promotion_price: promotionPrice
+promotion_price: promotionPrice,
+      approximate_weight: p.approximate_weight || null
     }
 
     const { data, error } = await s
