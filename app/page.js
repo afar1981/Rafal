@@ -374,6 +374,25 @@ const activePromotions=products.filter(p=>
         />
         <div style={{
           marginTop:'12px',
+          marginBottom:'12px',
+          padding:'14px 18px',
+          border:'3px solid #d71920',
+          borderRadius:'14px',
+          background:'linear-gradient(135deg,#176b3a 0%,#0e4d2a 100%)',
+          color:'#fff',
+          boxShadow:'0 5px 16px rgba(20,80,45,0.25)',
+          fontWeight:'900',
+          fontSize:'clamp(18px,2.5vw,24px)',
+          lineHeight:'1.4',
+          textAlign:'center',
+          letterSpacing:'0.2px'
+        }}>
+          {lang==='pl'
+            ? '🎄 ZAMÓWIENIA ŚWIĄTECZNE ZBIERAMY DO 30 LISTOPADA 2026! 🎄'
+            : '🎄 CHRISTMAS ORDERS ACCEPTED UNTIL 30 NOVEMBER 2026! 🎄'}
+        </div>
+        <div style={{
+          marginTop:'12px',
           padding:'18px 20px',
           border:'3px solid #d71920',
           borderRadius:'14px',
