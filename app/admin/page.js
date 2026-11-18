@@ -535,7 +535,8 @@ promotion_price: promotionPrice
         is_promotion: false,
         promotion_from: null,
         promotion_to: null,
-        promotion_price: null
+        promotion_price: null,
+        approximate_weight: null
       })
       .select('*')
       .single()
@@ -645,6 +646,22 @@ promotion_price: promotionPrice
                       )
                     }
                     placeholder="np. 7.50"
+                  />
+                </label>
+
+                <label>
+                  Przybliżona waga produktu
+                  <input
+                    type="text"
+                    value={p.approximate_weight || ''}
+                    onChange={e =>
+                      change(
+                        p.id,
+                        'approximate_weight',
+                        e.target.value
+                      )
+                    }
+                    placeholder="np. 1–1,5 kg"
                   />
                 </label>
 
