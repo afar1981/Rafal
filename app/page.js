@@ -473,8 +473,24 @@ const activePromotions=products.filter(p=>
     <button
       type="button"
       className="ma-new-banner"
-      onClick={()=>goToProduct(maProduct.id)}
-      aria-label={lang==='pl'?'Zobacz wędliny Mistrza Andrzeja':'Discover Master Andrzej’s cured meats'}
+      onClick={()=>{
+        setCategory('ALL')
+        setQ('M.A')
+        setTimeout(()=>{
+          const element=document.getElementById(`product-${maProduct.id}`)
+          if(element){
+            element.scrollIntoView({behavior:'smooth',block:'center'})
+            element.style.outline='4px solid #d71920'
+            element.style.outlineOffset='6px'
+            element.style.transition='outline 0.2s ease'
+            setTimeout(()=>{
+              element.style.outline=''
+              element.style.outlineOffset=''
+            },2200)
+          }
+        },100)
+      }}
+      aria-label={lang==='pl'?'Zobacz wszystkie wędliny Mistrza Andrzeja':'Discover all Master Andrzej’s cured meats'}
       style={{
         position:'relative',
         display:'block',
