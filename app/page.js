@@ -818,6 +818,7 @@ function LeafFall(){
 }
 
 function Product({p,lang,add,cart,user,setCart}){
+  const isMAProduct=(p.name_pl||'').trim().toUpperCase().startsWith('M.A')
   const isEggProduct=/jajk|egg/i.test(`${p.name_pl||''} ${p.name_en||''}`)
   const weightPriced=p.unit==='kg'
   const [qty,setQty]=useState(1)
@@ -866,6 +867,28 @@ function Product({p,lang,add,cart,user,setCart}){
         </div>
         {!isEggProduct && <span className="badge">{weightPriced?(lang==='pl'?'szt.':'pcs'):unit}</span>}
       </div>
+      {isMAProduct && (
+        <div style={{
+          marginTop:'10px',
+          marginBottom:'12px',
+          padding:'10px 12px',
+          border:'2px solid #e0ad25',
+          borderRadius:'10px',
+          background:'linear-gradient(135deg,#fff4bf 0%,#ffe28a 100%)',
+          color:'#684700',
+          textAlign:'center',
+          boxShadow:'0 2px 7px rgba(150,105,0,.14)'
+        }}>
+          <div style={{fontWeight:'900',fontSize:'14px',letterSpacing:'.3px'}}>
+            🕒 {lang==='pl'?'TOWAR NA SPECJALNE ZAMÓWIENIE':'SPECIAL ORDER ITEM'}
+          </div>
+          <div style={{marginTop:'4px',fontSize:'13px',fontWeight:'700',lineHeight:1.4}}>
+            {lang==='pl'
+              ? 'Zamówienia przyjmujemy do każdego czwartku do godz. 20:00.'
+              : 'Orders are accepted every Thursday until 8:00 PM.'}
+          </div>
+        </div>
+      )}
       <p className="desc">
         {lang==='pl'?(p.description_pl||'Tradycyjny produkt POLSKA TRADYCJA.'):(p.description_en||'Traditional POLSKA TRADYCJA product.')}
       </p>
