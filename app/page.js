@@ -226,6 +226,7 @@ const promotionCount=ordered.filter(p=>
   (!p.promotion_to || p.promotion_to>=today)
 ).length
 const prlProduct=products.find(p=>(p.name_pl||'').trim().toUpperCase().startsWith('PRL'))
+const maProduct=products.find(p=>(p.name_pl||'').trim().toUpperCase().startsWith('M.A'))
 const activePromotions=products.filter(p=>
   p.is_promotion &&
   (!p.promotion_from || p.promotion_from<=today) &&
@@ -449,6 +450,99 @@ const activePromotions=products.filter(p=>
         </div>
       </section>
 
+
+{maProduct && (
+  <section style={{margin:'22px 0 18px'}}>
+    <style>{`
+      @keyframes maBannerGlow {
+        0%,100% { box-shadow: 0 8px 22px rgba(90,20,12,.22), inset 0 0 0 1px rgba(255,255,255,.25); }
+        50% { box-shadow: 0 10px 30px rgba(255,190,40,.42), inset 0 0 0 1px rgba(255,255,255,.55); }
+      }
+      @keyframes maBannerShine {
+        0% { transform: translateX(-150%) skewX(-18deg); }
+        65%,100% { transform: translateX(260%) skewX(-18deg); }
+      }
+      .ma-new-banner { animation: maBannerGlow 3.2s ease-in-out infinite; }
+      .ma-new-banner:focus-visible { outline: 4px solid #173f2a; outline-offset: 4px; }
+      .ma-new-banner:hover { transform: translateY(-2px) scale(1.005); filter: saturate(1.12); }
+      @media (prefers-reduced-motion: reduce) {
+        .ma-new-banner { animation: none; }
+        .ma-new-banner .ma-shine { display:none; }
+      }
+    `}</style>
+    <button
+      type="button"
+      className="ma-new-banner"
+      onClick={()=>goToProduct(maProduct.id)}
+      aria-label={lang==='pl'?'Zobacz wędliny Mistrza Andrzeja':'Discover Master Andrzej’s cured meats'}
+      style={{
+        position:'relative',
+        display:'block',
+        width:'100%',
+        overflow:'hidden',
+        border:'3px solid #f5d36b',
+        borderRadius:'18px',
+        padding:'clamp(18px,3vw,30px) 18px',
+        cursor:'pointer',
+        color:'#fff8df',
+        textAlign:'center',
+        background:'linear-gradient(115deg,#7b1717 0%,#c52b20 38%,#e77b20 72%,#8c1d18 100%)',
+        transition:'transform .2s ease, filter .2s ease',
+        animation:'maBannerGlow 3.2s ease-in-out infinite'
+      }}
+    >
+      <span className="ma-shine" aria-hidden="true" style={{
+        position:'absolute',
+        top:'-30%',
+        left:0,
+        width:'22%',
+        height:'160%',
+        background:'linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent)',
+        animation:'maBannerShine 5s ease-in-out infinite',
+        pointerEvents:'none'
+      }}/>
+      <span style={{
+        display:'inline-block',
+        marginBottom:'9px',
+        padding:'5px 13px',
+        borderRadius:'999px',
+        background:'#f8d66d',
+        color:'#651b14',
+        fontSize:'13px',
+        fontWeight:'1000',
+        letterSpacing:'2px',
+        boxShadow:'0 2px 0 rgba(70,20,10,.25)'
+      }}>{lang==='pl'?'✦ WYJĄTKOWA SERIA ✦':'✦ SPECIAL SELECTION ✦'}</span>
+      <span style={{
+        display:'block',
+        fontSize:'clamp(25px,5vw,42px)',
+        lineHeight:1.12,
+        fontWeight:'1000',
+        letterSpacing:'1.5px',
+        textShadow:'0 3px 0 rgba(70,12,8,.35), 0 5px 14px rgba(0,0,0,.2)'
+      }}>{lang==='pl'?'WĘDLINY MISTRZA ANDRZEJA':'MASTER ANDRZEJ’S CURED MEATS'}</span>
+      <span style={{
+        display:'block',
+        marginTop:'8px',
+        fontSize:'clamp(15px,2.5vw,19px)',
+        fontWeight:'800',
+        color:'#fff1c4'
+      }}>{lang==='pl'?'Poznaj wyjątkowe produkty z serii M.A':'Discover the special M.A product range'}</span>
+      <span style={{
+        display:'inline-block',
+        marginTop:'15px',
+        padding:'10px 20px',
+        borderRadius:'10px',
+        background:'#f8d66d',
+        color:'#651b14',
+        fontSize:'15px',
+        fontWeight:'1000',
+        letterSpacing:'.5px',
+        boxShadow:'0 4px 0 #8b4b17'
+      }}>{lang==='pl'?'ZOBACZ PRODUKTY  →':'EXPLORE PRODUCTS  →'}</span>
+    </button>
+  </section>
+)}
 
 {prlProduct && (
   <section style={{margin:'22px 0 18px'}}>
