@@ -409,17 +409,26 @@ const activePromotions=products.filter(p=>
               ? <>Aby złożyć zamówienie świąteczne, wpisz w uwagach do zamówienia:</>
               : <>To place a Christmas order, enter this in the order notes:</>}
           </div>
-          <div style={{
+          <style>{`
+            @keyframes christmasNotePulse {
+              0%, 100% { opacity: 1; box-shadow: 0 3px 0 #c58b00, 0 0 0 rgba(245,190,45,0); }
+              50% { opacity: .82; box-shadow: 0 3px 0 #c58b00, 0 0 12px rgba(245,190,45,.45); }
+            }
+            .christmas-order-note { animation: christmasNotePulse 2.8s ease-in-out infinite; }
+            @media (prefers-reduced-motion: reduce) { .christmas-order-note { animation: none; } }
+          `}</style>
+          <div className="christmas-order-note" style={{
             display:'inline-block',
             marginTop:'10px',
             padding:'9px 16px',
             borderRadius:'9px',
-            background:'#6b3f2a',
-            color:'#fff',
+            border:'2px solid #d9a21b',
+            background:'#fff0b8',
+            color:'#674600',
             fontSize:'1.15em',
             fontWeight:'900',
             letterSpacing:'0.4px',
-            boxShadow:'0 3px 0 #d71920'
+            boxShadow:'0 3px 0 #c58b00'
           }}>
             {lang==='pl'?'ZAMÓWIENIE ŚWIĄTECZNE':'CHRISTMAS ORDER'}
           </div>
