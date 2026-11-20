@@ -322,6 +322,18 @@ const orderedProducts = [...products].sort((a, b) => {
     return groupA - groupB
   }
 
+  // Keep the existing special groups in their current order.
+  // Group all remaining products by their first Polish-name letter.
+  if (groupA === 99) {
+    const firstLetterA = (a.name_pl || '').trim().charAt(0)
+    const firstLetterB = (b.name_pl || '').trim().charAt(0)
+    const letterOrder = firstLetterA.localeCompare(firstLetterB, 'pl', {
+      sensitivity: 'base'
+    })
+
+    if (letterOrder !== 0) return letterOrder
+  }
+
   return Number(a.sort_order || 0) - Number(b.sort_order || 0)
 })
 
