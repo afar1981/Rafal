@@ -181,7 +181,20 @@ const getProductGroup = (p) => {
   return 99
 }
 
+// Tymczasowy priorytet dla produktów M.A – aktywny do 4 grudnia 2026 włącznie.
+const maPriorityActive = today <= '2026-12-04'
+
 const ordered=[...filtered].sort((a,b)=>{
+  const aIsMA = maPriorityActive &&
+    (a.name_pl || '').trim().toUpperCase().startsWith('M.A')
+  const bIsMA = maPriorityActive &&
+    (b.name_pl || '').trim().toUpperCase().startsWith('M.A')
+
+  // Przez dwa tygodnie produkty M.A są na samej górze oferty.
+  if (aIsMA !== bIsMA) {
+    return Number(bIsMA) - Number(aIsMA)
+  }
+
   const ap=a.is_promotion &&
     (!a.promotion_from || a.promotion_from<=today) &&
     (!a.promotion_to || a.promotion_to>=today)
@@ -190,12 +203,12 @@ const ordered=[...filtered].sort((a,b)=>{
     (!b.promotion_from || b.promotion_from<=today) &&
     (!b.promotion_to || b.promotion_to>=today)
 
-  // Promocje zawsze pierwsze
+  // Pozostałe promocje zachowują dotychczasowy priorytet.
   if (Number(bp) !== Number(ap)) {
     return Number(bp)-Number(ap)
   }
 
-  // Pozostałe produkty grupujemy po skrócie
+  // Pozostałe produkty grupujemy po skrócie.
   const groupA = getProductGroup(a)
   const groupB = getProductGroup(b)
 
@@ -203,7 +216,7 @@ const ordered=[...filtered].sort((a,b)=>{
     return groupA - groupB
   }
 
-  // W obrębie grupy zachowujemy obecne sort_order
+  // W obrębie grupy zachowujemy obecne sort_order.
   return Number(a.sort_order || 0) - Number(b.sort_order || 0)
 })
 
