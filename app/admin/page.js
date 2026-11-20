@@ -8,6 +8,7 @@ export default function Admin() {
   
   const [profile, setProfile] = useState(null)
   const [products, setProducts] = useState([])
+  const [productSearch, setProductSearch] = useState('')
  const [orders, setOrders] = useState([])
 const [orderItems, setOrderItems] = useState([])
 const [reportRows, setReportRows] = useState([])
@@ -323,6 +324,27 @@ const orderedProducts = [...products].sort((a, b) => {
 
   return Number(a.sort_order || 0) - Number(b.sort_order || 0)
 })
+
+const normalizeProductSearch = value =>
+  String(value || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLocaleLowerCase('pl')
+
+const visibleProducts = orderedProducts.filter(p => {
+  const query = normalizeProductSearch(productSearch.trim())
+  if (!query) return true
+
+  const searchable = [
+    p.name_pl,
+    p.name_en,
+    p.category,
+    p.description_pl,
+    p.description_en
+  ].join(' ')
+
+  return normalizeProductSearch(searchable).includes(query)
+})
   const change = (id, field, value) => {
     setProducts(ps =>
       ps.map(x =>
@@ -510,6 +532,36 @@ promotion_price: promotionPrice,
   opisy, jednostkę oraz aktywność produktu.
 </p>
 
+<label style={{
+  display: 'block',
+  maxWidth: '620px',
+  margin: '16px 0',
+  fontWeight: '600'
+}}>
+  🔎 Wyszukaj produkt
+  <input
+    type="search"
+    value={productSearch}
+    onChange={e => setProductSearch(e.target.value)}
+    placeholder="Wpisz nazwę, kategorię lub opis produktu..."
+    aria-label="Wyszukaj produkt"
+    style={{
+      display: 'block',
+      width: '100%',
+      boxSizing: 'border-box',
+      marginTop: '8px',
+      padding: '13px 14px',
+      fontSize: '16px',
+      border: '1px solid #aaa',
+      borderRadius: '8px'
+    }}
+  />
+  <small style={{ display: 'block', marginTop: '6px', fontWeight: '400' }}>
+    Wyświetlono {visibleProducts.length} z {products.length} produktów
+    {productSearch.trim() ? ' — wyniki wyszukiwania' : ''}
+  </small>
+</label>
+
 <button
   type="button"
   onClick={async () => {
@@ -560,7 +612,7 @@ promotion_price: promotionPrice,
 
 <div className="adminlist">
 
-    {orderedProducts.map(p => (
+    {visibleProducts.map(p => (
 
             <div
               className="adminrow"
@@ -856,6 +908,10 @@ onChange={e => {
             </div>
 
           ))}
+
+          {visibleProducts.length === 0 && (
+            <p className="notice">Nie znaleziono produktu pasującego do wyszukiwania.</p>
+          )}
 
         </div>
 
