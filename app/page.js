@@ -367,11 +367,6 @@ const activePromotions=products.filter(p=>
       </section>
 
       <section className="christmas-banner" aria-label={lang==='pl'?'Zamówienia świąteczne':'Christmas orders'}>
-        <img
-          src={lang==='pl'?'/images/christmas-orders-pl.svg':'/images/christmas-orders-en.svg'}
-          alt={lang==='pl'?'Zamówienia świąteczne':'Christmas orders'}
-          loading="eager"
-        />
         <div style={{
           marginTop:'12px',
           marginBottom:'12px',
