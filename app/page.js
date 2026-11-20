@@ -582,7 +582,23 @@ const activePromotions=products.filter(p=>
     <button
       type="button"
       className="prl-new-banner"
-      onClick={()=>goToProduct(prlProduct.id)}
+      onClick={()=>{
+        setCategory('ALL')
+        setQ('PRL')
+        setTimeout(()=>{
+          const element=document.getElementById(`product-${prlProduct.id}`)
+          if(element){
+            element.scrollIntoView({behavior:'smooth',block:'center'})
+            element.style.outline='4px solid #d71920'
+            element.style.outlineOffset='6px'
+            element.style.transition='outline 0.2s ease'
+            setTimeout(()=>{
+              element.style.outline=''
+              element.style.outlineOffset=''
+            },2200)
+          }
+        },100)
+      }}
       aria-label={lang==='pl'?'Zobacz nowości – produkty PRL':'Discover new products – PRL range'}
       style={{
         position:'relative',
