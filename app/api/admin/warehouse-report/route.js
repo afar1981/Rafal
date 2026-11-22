@@ -87,11 +87,11 @@ export async function POST(req) {
     }
 
     const columns = [...customerMap.values()]
-    const orderById = new Map(sortedOrders.map(o => [o.id, o]))
+    const orderById = new Map(sortedOrders.map(o => [String(o.id), o]))
     const totals = new Map()
 
     for (const item of orderItems || []) {
-      const order = orderById.get(item.order_id)
+      const order = orderById.get(String(item.order_id))
       if (!order) continue
 
       const name =
