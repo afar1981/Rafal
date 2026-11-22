@@ -1109,7 +1109,7 @@ onChange={e => {
                   textAlign: 'center'
                 }}
               >
-                {value}
+                {value === 0 ? '' : value}
               </td>
             ))}
 
