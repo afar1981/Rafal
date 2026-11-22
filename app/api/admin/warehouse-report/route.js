@@ -86,7 +86,11 @@ export async function POST(req) {
       }
     }
 
-    const columns = [...customerMap.values()]
+    const columns = [...customerMap.values()].sort((a, b) => {
+  const aDelicje = /delicje/i.test(a.label || '')
+  const bDelicje = /delicje/i.test(b.label || '')
+  return Number(aDelicje) - Number(bDelicje)
+})
     const orderById = new Map(sortedOrders.map(o => [String(o.id), o]))
     const totals = new Map()
 
@@ -123,18 +127,25 @@ export async function POST(req) {
       ])
     )
 
+    const groupRank = name => {
+      const value = String(name || '').trim().toUpperCase()
+      if (/^JAJ/.test(value) || /\bJAJKA\b/.test(value)) return 99
+      if (value.startsWith('PRL')) return 4
+      if (value.startsWith('KR')) return 2
+      if (value.startsWith('M')) return 0
+      if (value.startsWith('B')) return 1
+      if (value.startsWith('K')) return 3
+      if (value.startsWith('G')) return 5
+      return 6
+    }
     const rows = [...totals.keys()]
       .sort((a, b) => {
-        const ai = productOrder.has(a)
-          ? productOrder.get(a)
-          : 999999
-
-        const bi = productOrder.has(b)
-          ? productOrder.get(b)
-          : 999999
-
+        const ga = groupRank(a)
+        const gb = groupRank(b)
+        if (ga !== gb) return ga - gb
+        const ai = productOrder.has(a) ? productOrder.get(a) : 999999
+        const bi = productOrder.has(b) ? productOrder.get(b) : 999999
         if (ai !== bi) return ai - bi
-
         return a.localeCompare(b, 'pl')
       })
       .map(name => {
