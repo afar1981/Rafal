@@ -11,6 +11,13 @@ function esc(value) {
     .replace(/'/g, '&#039;')
 }
 
+function warehouseAscii(value) {
+  return String(value ?? '').replace(/[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]/g, char => ({
+    'ą':'a','ć':'c','ę':'e','ł':'l','ń':'n','ó':'o','ś':'s','ź':'z','ż':'z',
+    'Ą':'A','Ć':'C','Ę':'E','Ł':'L','Ń':'N','Ó':'O','Ś':'S','Ź':'Z','Ż':'Z'
+  })[char])
+}
+
 export async function POST(req) {
   try {
     const supabase = await createClient()
@@ -173,7 +180,7 @@ export async function POST(req) {
     }
 
     const headerCells = columns
-      .map(c => `<th class="shop-heading">${esc(c.label)}</th>`)
+      .map(c => `<th class="shop-heading">${esc(warehouseAscii(c.label))}</th>`)
       .join('')
 
     const bodyRows = rows
