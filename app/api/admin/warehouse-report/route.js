@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '../../../../lib/supabase-server'
 import { Resend } from 'resend'
+import ExcelJS from 'exceljs'
 
 function esc(value) {
   return String(value ?? '')
@@ -179,63 +180,89 @@ export async function POST(req) {
       )
     }
 
-    const headerCells = columns
-      .map(c => `<th class="shop-heading">${esc(warehouseAscii(c.label))}</th>`)
-      .join('')
+    // Prawdziwy plik XLSX — Gmail i Excel poprawnie odczytują obrót nagłówków.
+    const workbook = new ExcelJS.Workbook()
+    workbook.creator = 'POLSKA TRADYCJA'
+    workbook.created = new Date()
 
-    const bodyRows = rows
-      .map(row => {
-        const cells = row.values
-           .map(value => `<td>${value === 0 ? '' : value}</td>`)
-          .join('')
+    const worksheet = workbook.addWorksheet('Raport magazynowy', {
+      views: [{ state: 'frozen', ySplit: 2, xSplit: 1 }]
+    })
 
-        return `
-          <tr>
-            <td><b>${esc(row.name)}</b></td>
-            ${cells}
-            <td><b>${row.total}</b></td>
-          </tr>
-        `
+    worksheet.columns = [
+      { header: 'PRODUKT', key: 'product', width: 42 },
+      ...columns.map((c, index) => ({
+        header: warehouseAscii(c.label),
+        key: `shop_${index}`,
+        width: 6
+      })),
+      { header: 'TOTAL', key: 'total', width: 10 }
+    ]
+
+    worksheet.mergeCells(1, 1, 1, columns.length + 2)
+    const titleCell = worksheet.getCell(1, 1)
+    titleCell.value = 'POLSKA TRADYCJA — Raport magazynowy'
+    titleCell.font = { bold: true, size: 14 }
+    titleCell.alignment = { vertical: 'middle', horizontal: 'left' }
+    worksheet.getRow(1).height = 26
+
+    const headerRow = worksheet.getRow(2)
+    headerRow.values = ['PRODUKT', ...columns.map(c => warehouseAscii(c.label)), 'TOTAL']
+    headerRow.height = 112
+    headerRow.eachCell((cell, colNumber) => {
+      cell.font = { bold: true, size: 9 }
+      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEFEFEF' } }
+      cell.border = {
+        top: { style: 'thin', color: { argb: 'FF999999' } },
+        left: { style: 'thin', color: { argb: 'FF999999' } },
+        bottom: { style: 'thin', color: { argb: 'FF999999' } },
+        right: { style: 'thin', color: { argb: 'FF999999' } }
+      }
+      cell.alignment = colNumber > 1 && colNumber < columns.length + 2
+        ? { textRotation: 90, vertical: 'middle', horizontal: 'center', wrapText: true }
+        : { vertical: 'middle', horizontal: 'center', wrapText: true }
+    })
+
+    rows.forEach(row => {
+      const values = [
+        row.name,
+        ...row.values.map(value => value === 0 ? null : value),
+        row.total
+      ]
+      const excelRow = worksheet.addRow(values)
+      excelRow.height = 25
+      excelRow.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+        cell.border = {
+          top: { style: 'thin', color: { argb: 'FFD0D0D0' } },
+          left: { style: 'thin', color: { argb: 'FFD0D0D0' } },
+          bottom: { style: 'thin', color: { argb: 'FFD0D0D0' } },
+          right: { style: 'thin', color: { argb: 'FFD0D0D0' } }
+        }
+        cell.alignment = {
+          vertical: 'middle',
+          horizontal: colNumber === 1 ? 'left' : 'center',
+          wrapText: colNumber === 1
+        }
+        if (colNumber === columns.length + 2) {
+          cell.font = { bold: true }
+        }
       })
-      .join('')
+    })
 
-    const xls = `<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<style>
-  table { border-collapse: collapse; font-family: Arial, sans-serif; }
-  th.shop-heading {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    height: 130px;
-    padding: 6px;
-    text-align: left;
-    vertical-align: bottom;
-    white-space: nowrap;
-  }
-  th, td { border: 1px solid #999; padding: 7px; }
-  th { background: #eee; font-weight: bold; }
-  td { text-align: center; }
-  td:first-child { text-align: left; }
-</style>
-</head>
-<body>
-<h2>POLSKA TRADYCJA — Raport magazynowy</h2>
-<table>
-<thead>
-<tr>
-<th>PRODUKT</th>
-${headerCells}
-<th>TOTAL</th>
-</tr>
-</thead>
-<tbody>
-${bodyRows}
-</tbody>
-</table>
-</body>
-</html>`
+    worksheet.autoFilter = {
+      from: { row: 2, column: 1 },
+      to: { row: rows.length + 2, column: columns.length + 2 }
+    }
+    worksheet.pageSetup = {
+      orientation: 'landscape',
+      fitToPage: true,
+      fitToWidth: 1,
+      fitToHeight: 0,
+      paperSize: 9,
+      margins: { left: 0.25, right: 0.25, top: 0.5, bottom: 0.5, header: 0.2, footer: 0.2 }
+    }
+
+    const xls = Buffer.from(await workbook.xlsx.writeBuffer()).toString('base64')
 
     if (
       !process.env.RESEND_API_KEY ||
@@ -260,8 +287,8 @@ ${bodyRows}
 
     const filename =
       firstDate && lastDate
-        ? `raport-magazynowy-${firstDate}-${lastDate}.xls`
-        : 'raport-magazynowy.xls'
+        ? `raport-magazynowy-${firstDate}-${lastDate}.xlsx`
+        : 'raport-magazynowy.xlsx'
 
     const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -281,8 +308,8 @@ ${bodyRows}
       attachments: [
         {
           filename,
-          content: Buffer.from(xls, 'utf-8').toString('base64'),
-          content_type: 'application/vnd.ms-excel'
+          content: xls,
+          content_type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         }
       ]
     })
