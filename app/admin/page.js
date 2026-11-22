@@ -192,7 +192,7 @@ const sendWarehouseReport = async () => {
   }
 }
 
-const generateReportPreview = () => {
+const generateReportPreview = async () => {
   const sortedOrders = [...orders].sort(
     (a, b) => new Date(b.created_at) - new Date(a.created_at)
   )
@@ -220,6 +220,17 @@ const generateReportPreview = () => {
     selectedOrders = sortedOrders.slice(start, end + 1)
   }
 
+  const selectedOrderIds = selectedOrders.map(o => o.id)
+  const { data: selectedItems, error: selectedItemsError } = await s
+    .from('order_items')
+    .select('*')
+    .in('order_id', selectedOrderIds)
+
+  if (selectedItemsError) {
+    setReportMsg(`Błąd pobierania pozycji wybranych zamówień: ${selectedItemsError.message}`)
+    return
+  }
+
   const orderById = new Map(
     selectedOrders.map(o => [String(o.id), o])
   )
@@ -243,7 +254,7 @@ const columns = [...customerMap.values()]
   let matchedItemCount = 0
   let unmatchedItemCount = 0
 
-  for (const item of orderItems) {
+  for (const item of (selectedItems || [])) {
     const order = orderById.get(String(item.order_id))
 
     if (!order) {
@@ -317,7 +328,7 @@ byOrder.set(
   setReportRows(rows)
 
   setReportMsg(
-    `Diagnostyka raportu: ${rows.length} produktów, ${columns.length} zamówień; pozycji pobranych z order_items: ${orderItems.length}; dopasowanych do zakresu: ${matchedItemCount}; poza zakresem / bez zgodnego ID: ${unmatchedItemCount}.`
+    `Raport testowy przygotowany: ${rows.length} produktów, ${columns.length} zamówień; pobrano ${(selectedItems || []).length} pozycji dla wybranego zakresu.`
   )
 }
 const orderedProducts = [...products].sort((a, b) => {
