@@ -2,13 +2,19 @@
   "name": "polska-tradycja-zamowienia",
   "version": "1.0.0",
   "private": true,
-  "scripts": {"dev":"next dev","build":"next build","start":"next start","lint":"next lint"},
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
   "dependencies": {
-    "@supabase/ssr":"latest",
-    "@supabase/supabase-js":"latest",
-    "next":"latest",
-    "react":"latest",
-    "react-dom":"latest",
-    "resend":"latest"
+    "@supabase/ssr": "latest",
+    "@supabase/supabase-js": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "resend": "latest",
+    "exceljs": "^4.4.0"
   }
 }
