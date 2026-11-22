@@ -173,7 +173,7 @@ export async function POST(req) {
     }
 
     const headerCells = columns
-      .map(c => `<th>${esc(c.label)}</th>`)
+      .map(c => `<th class="shop-heading">${esc(c.label)}</th>`)
       .join('')
 
     const bodyRows = rows
@@ -198,6 +198,15 @@ export async function POST(req) {
 <meta charset="UTF-8">
 <style>
   table { border-collapse: collapse; font-family: Arial, sans-serif; }
+  th.shop-heading {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    height: 130px;
+    padding: 6px;
+    text-align: left;
+    vertical-align: bottom;
+    white-space: nowrap;
+  }
   th, td { border: 1px solid #999; padding: 7px; }
   th { background: #eee; font-weight: bold; }
   td { text-align: center; }
