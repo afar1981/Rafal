@@ -1073,7 +1073,13 @@ onChange={e => {
               key={c.key}
               style={{
                 border: '1px solid #ccc',
-                padding: '8px'
+                padding: '6px',
+                height: '130px',
+                writingMode: 'vertical-rl',
+                transform: 'rotate(180deg)',
+                textAlign: 'left',
+                verticalAlign: 'bottom',
+                whiteSpace: 'nowrap'
               }}
             >
               {c.label}
