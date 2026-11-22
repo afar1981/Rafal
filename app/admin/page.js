@@ -221,7 +221,7 @@ const generateReportPreview = () => {
   }
 
   const orderById = new Map(
-    selectedOrders.map(o => [o.id, o])
+    selectedOrders.map(o => [String(o.id), o])
   )
 
   const customerMap = new Map()
@@ -242,7 +242,7 @@ const columns = [...customerMap.values()]
   const totals = new Map()
 
   for (const item of orderItems) {
-    const order = orderById.get(item.order_id)
+    const order = orderById.get(String(item.order_id))
 
     if (!order) continue
 
