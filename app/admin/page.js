@@ -481,6 +481,7 @@ const visibleProducts = orderedProducts.filter(p => {
     }
     const payload = {
       price,
+      cost_price: p.cost_price === '' || p.cost_price == null ? null : Number(p.cost_price),
       currency: 'GBP',
       unit: p.unit || 'kg',
       active: !!p.active,
@@ -627,6 +628,7 @@ promotion_price: promotionPrice,
         description_pl: '',
         description_en: '',
         price: null,
+        cost_price: null,
         currency: 'GBP',
         unit: 'kg',
         image_url: null,
@@ -729,6 +731,20 @@ promotion_price: promotionPrice,
                     <option value="JAJKA">JAJKA</option>
                     <option value="OSCYPKI">OSCYPKI</option>
                   </select>
+                </label>
+
+                <label>
+                  Cena zakupu £ / {p.unit || 'kg'} (tylko admin)
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={p.cost_price ?? ''}
+                    onChange={e =>
+                      change(p.id, 'cost_price', e.target.value)
+                    }
+                    placeholder="np. 5.20"
+                  />
                 </label>
 
                 <label>
