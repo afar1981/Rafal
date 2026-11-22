@@ -179,7 +179,7 @@ export async function POST(req) {
     const bodyRows = rows
       .map(row => {
         const cells = row.values
-          .map(value => `<td>${value}</td>`)
+           .map(value => `<td>${value === 0 ? '' : value}</td>`)
           .join('')
 
         return `
