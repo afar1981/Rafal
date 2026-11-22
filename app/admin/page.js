@@ -240,11 +240,17 @@ for (const o of selectedOrders) {
 const columns = [...customerMap.values()]
 
   const totals = new Map()
+  let matchedItemCount = 0
+  let unmatchedItemCount = 0
 
   for (const item of orderItems) {
     const order = orderById.get(String(item.order_id))
 
-    if (!order) continue
+    if (!order) {
+      unmatchedItemCount += 1
+      continue
+    }
+    matchedItemCount += 1
 
     const name =
       item.product_name_pl ||
@@ -311,7 +317,7 @@ byOrder.set(
   setReportRows(rows)
 
   setReportMsg(
-    `Raport testowy przygotowany: ${rows.length} produktów, ${columns.length} zamówień.`
+    `Diagnostyka raportu: ${rows.length} produktów, ${columns.length} zamówień; pozycji pobranych z order_items: ${orderItems.length}; dopasowanych do zakresu: ${matchedItemCount}; poza zakresem / bez zgodnego ID: ${unmatchedItemCount}.`
   )
 }
 const orderedProducts = [...products].sort((a, b) => {
