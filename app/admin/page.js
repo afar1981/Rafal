@@ -27,6 +27,7 @@ const [reportMsg, setReportMsg] = useState('')
 const reportNoticeRef = useRef(null)
   const [saving, setSaving] = useState(null)
 const [translating, setTranslating] = useState(null)
+const [deleting, setDeleting] = useState(null)
 
 const translateProduct = async (p) => {
   setTranslating(p.id)
@@ -350,6 +351,11 @@ byOrder.set(
   )
 }
 const orderedProducts = [...products].sort((a, b) => {
+  // Keep freshly created placeholder products at the very bottom.
+  const aNew = String(a.name_pl || '').trim().toLocaleLowerCase('pl') === 'nowy produkt'
+  const bNew = String(b.name_pl || '').trim().toLocaleLowerCase('pl') === 'nowy produkt'
+  if (aNew !== bNew) return aNew ? 1 : -1
+
   const groupA = getProductGroup(a)
   const groupB = getProductGroup(b)
 
@@ -905,6 +911,39 @@ change(p.id, 'is_promotion', true)
                   {saving === p.id
                     ? 'Zapisywanie...'
                     : 'Zapisz produkt'}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={async () => {
+                    const productName = p.name_pl || 'ten produkt'
+                    if (!window.confirm(`Czy na pewno chcesz usunąć produkt: ${productName}?`)) return
+
+                    setDeleting(p.id)
+                    setMsg('')
+                    const { error } = await s
+                      .from('products')
+                      .delete()
+                      .eq('id', p.id)
+
+                    if (error) {
+                      setMsg(`NIE MOŻNA USUNĄĆ PRODUKTU „${productName}”: ${error.message}`)
+                      setDeleting(null)
+                      return
+                    }
+
+                    setProducts(ps => ps.filter(x => x.id !== p.id))
+                    setMsg(`Usunięto produkt: ${productName}`)
+                    setDeleting(null)
+                  }}
+                  disabled={deleting === p.id || saving === p.id}
+                  style={{
+                    marginTop: '8px',
+                    background: '#8b1e1e',
+                    color: '#fff'
+                  }}
+                >
+                  {deleting === p.id ? 'Usuwanie...' : '🗑 Usuń produkt'}
                 </button>
 
               </div>
