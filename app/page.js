@@ -1023,6 +1023,18 @@ function Product({p,lang,add,cart,user,setCart}){
       <p className="desc">
         {lang==='pl'?(p.description_pl||'Tradycyjny produkt POLSKA TRADYCJA.'):(p.description_en||'Traditional POLSKA TRADYCJA product.')}
       </p>
+{p.is_promotion && (
+  <div className="promo-mobile-banner" style={{marginTop:'14px',marginBottom:'12px',padding:'12px 14px',border:'2px solid #e53935',borderRadius:'12px',background:'#fff1f1',textAlign:'center'}}>
+    <div style={{fontSize:'20px',fontWeight:'800',color:'#d71920',letterSpacing:'0.5px'}}>
+      🔥🔥 {lang==='pl'?'PROMOCJA':'SPECIAL OFFER'} 🔥🔥
+    </div>
+    {p.promotion_from && p.promotion_to && (
+      <div style={{marginTop:'6px',fontSize:'14px',fontWeight:'700',color:'#b71c1c'}}>
+        📅 {lang==='pl'?'Od':'From'}{' '}{p.promotion_from.split('-').reverse().join('.')} {' '}{lang==='pl'?'do':'to'}{' '}{p.promotion_to.split('-').reverse().join('.')}
+      </div>
+    )}
+  </div>
+)}
 {p.is_promotion && p.promotion_from && p.promotion_to && (
   <div className="promotion-date">
     📅 {lang==='pl'?'Promocja do':'Offer until'} {p.promotion_to.split('-').reverse().join('.')}
