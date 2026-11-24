@@ -60,12 +60,12 @@
 }
 @keyframes promoMove{
   from{transform:translateX(0)}
-  to{transform:translateX(-50%)}
+  to{transform:translateX(-16.666667%)}
 }
 .promo-title-wrap:hover .promo-title-track{animation-play-state:paused}
 @media(prefers-reduced-motion:reduce){
   .promo-title-track{animation:none;justify-content:center;width:100%}
-  .promo-title-track span:nth-child(2){display:none}
+  .promo-title-track span:nth-child(n+2){display:none}
 }
 
 
