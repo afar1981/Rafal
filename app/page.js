@@ -352,6 +352,64 @@ const activePromotions=products.filter(p=>
     </header>
 
     <main>
+      <style>{`
+        .desktop-christmas-tree{
+          display:none;
+          position:fixed;
+          top:250px;
+          width:clamp(125px,12vw,185px);
+          height:245px;
+          z-index:0;
+          pointer-events:none;
+          user-select:none;
+          filter:drop-shadow(0 7px 8px rgba(30,45,25,.18));
+        }
+        .desktop-christmas-tree.left{left:clamp(10px,calc((100vw - 1260px)/2 + 12px),230px)}
+        .desktop-christmas-tree.right{right:clamp(10px,calc((100vw - 1260px)/2 + 12px),230px)}
+        .desktop-christmas-tree .tree-emoji{
+          position:absolute;inset:0;
+          display:flex;align-items:center;justify-content:center;
+          font-size:clamp(125px,12vw,185px);
+          line-height:1;
+        }
+        .tree-bulbs{position:absolute;inset:26px 18px 24px}
+        .tree-bulbs i{
+          position:absolute;width:9px;height:9px;border-radius:50%;
+          background:#ffd84a;box-shadow:0 0 7px 2px currentColor;
+          animation:treeTwinkle 1.35s ease-in-out infinite alternate;
+        }
+        .tree-bulbs i:nth-child(1){left:47%;top:8%;color:#ffdc4d;background:#ffdc4d}
+        .tree-bulbs i:nth-child(2){left:34%;top:23%;color:#ff5a5a;background:#ff5a5a;animation-delay:.3s}
+        .tree-bulbs i:nth-child(3){left:62%;top:25%;color:#68d9ff;background:#68d9ff;animation-delay:.7s}
+        .tree-bulbs i:nth-child(4){left:24%;top:39%;color:#ffe36b;background:#ffe36b;animation-delay:.5s}
+        .tree-bulbs i:nth-child(5){left:48%;top:38%;color:#ff6cbd;background:#ff6cbd;animation-delay:1s}
+        .tree-bulbs i:nth-child(6){left:73%;top:42%;color:#72e68b;background:#72e68b;animation-delay:.2s}
+        .tree-bulbs i:nth-child(7){left:17%;top:56%;color:#6bdcff;background:#6bdcff;animation-delay:.9s}
+        .tree-bulbs i:nth-child(8){left:39%;top:55%;color:#ffdc4d;background:#ffdc4d;animation-delay:.4s}
+        .tree-bulbs i:nth-child(9){left:64%;top:59%;color:#ff6c6c;background:#ff6c6c;animation-delay:1.1s}
+        .tree-bulbs i:nth-child(10){left:82%;top:62%;color:#c78cff;background:#c78cff;animation-delay:.6s}
+        .tree-bulbs i:nth-child(11){left:30%;top:74%;color:#ff6cbd;background:#ff6cbd;animation-delay:.8s}
+        .tree-bulbs i:nth-child(12){left:55%;top:77%;color:#ffe36b;background:#ffe36b;animation-delay:.1s}
+        @keyframes treeTwinkle{
+          from{opacity:.38;transform:scale(.72);filter:brightness(.85)}
+          to{opacity:1;transform:scale(1.28);filter:brightness(1.5)}
+        }
+        @media(min-width:1250px){
+          .desktop-christmas-tree{display:block}
+          main{position:relative;z-index:1}
+        }
+        @media(prefers-reduced-motion:reduce){
+          .tree-bulbs i{animation:none;opacity:1}
+        }
+      `}</style>
+      <div className="desktop-christmas-tree left" aria-hidden="true">
+        <div className="tree-emoji">🎄</div>
+        <div className="tree-bulbs">{Array.from({length:12},(_,i)=><i key={i}/>)}</div>
+      </div>
+      <div className="desktop-christmas-tree right" aria-hidden="true">
+        <div className="tree-emoji">🎄</div>
+        <div className="tree-bulbs">{Array.from({length:12},(_,i)=><i key={i}/>)}</div>
+      </div>
       <section className="hero">
         <div>
           <span className="eyebrow">POLSKA TRADYCJA</span>
