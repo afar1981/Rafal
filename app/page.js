@@ -200,9 +200,10 @@ const ordered=[...filtered].sort((a,b)=>{
     return Number(bIsMA) - Number(aIsMA)
   }
 
-  // Eggs and oscypek cheese stay at the very end, even when on promotion.
   const groupA = getProductGroup(a)
   const groupB = getProductGroup(b)
+
+  // Eggs and oscypek cheese stay at the very end, even when on promotion.
   if ((groupA >= 100 || groupB >= 100) && groupA !== groupB) {
     return groupA - groupB
   }
@@ -221,9 +222,6 @@ const ordered=[...filtered].sort((a,b)=>{
   }
 
   // Pozostałe produkty grupujemy po skrócie.
-  const groupA = getProductGroup(a)
-  const groupB = getProductGroup(b)
-
   if (groupA !== groupB) {
     return groupA - groupB
   }
