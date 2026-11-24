@@ -98,3 +98,11 @@
 
 /* Desktop catalogue: use the full available width; tablet and phone layouts stay unchanged. */
 @media(min-width:851px){.products{max-width:none;width:100%;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}}
+
+
+/* Desktop promotion treatment: compact badge on the product photo. */
+.sale-ribbon{display:none}
+@media(min-width:851px){
+  .sale-ribbon{display:block;position:absolute;top:12px;left:0;z-index:3;padding:8px 12px;border-radius:0 9px 9px 0;background:#d71920;color:#fff;font-size:13px;font-weight:900;letter-spacing:.3px;box-shadow:0 3px 9px rgba(0,0,0,.22)}
+  .promotion-date{margin-top:6px;color:#a52820;font-size:12px;font-weight:700}
+}
