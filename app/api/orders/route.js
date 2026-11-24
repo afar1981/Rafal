@@ -110,12 +110,12 @@ const orderWeek=orderNumberData.order_week;
               Number(i.price).toFixed(2)===Number(promotion.promoPrice).toFixed(2);
             if(orderedAtPromo){
               return `
-                <li style="list-style:none;margin:0 0 12px 0;padding:12px;border:2px solid #d71920;border-radius:8px;background:#fff1f1">
-                  <div style="font-size:16px;font-weight:900;color:#d71920;margin-bottom:6px">🔥 PRODUKT W PROMOCJI 🔥</div>
-                  <div style="font-weight:800;color:#222">${i.name_pl}</div>
-                  <div style="margin-top:5px;color:#666;text-decoration:line-through">Cena regularna: £${Number(promotion.regularPrice).toFixed(2)} / ${i.unit}</div>
-                  <div style="font-size:16px;font-weight:900;color:#d71920">CENA PROMOCYJNA: £${Number(i.price).toFixed(2)} / ${i.unit}</div>
-                  <div style="margin-top:5px;color:#222">Ilość: ${i.quantity} ${i.unit} — wartość: ${Number(i.line_total||0).toFixed(2)} ${body.currency}</div>
+                <li style="list-style:none;margin:0 0 6px 0;padding:6px 9px;border-left:3px solid #d71920;border-radius:3px;background:#fff7f7;font-size:13px;line-height:1.5">
+                  <span style="display:inline-block;margin-right:7px;padding:1px 5px;border-radius:3px;background:#d71920;color:#fff;font-size:10px;font-weight:800;letter-spacing:.3px">PROMOCJA</span>
+                  <strong style="color:#222">${i.name_pl}</strong>
+                  <span style="color:#777;text-decoration:line-through;margin-left:7px">£${Number(promotion.regularPrice).toFixed(2)}</span>
+                  <strong style="color:#d71920;margin-left:5px">£${Number(i.price).toFixed(2)} / ${i.unit}</strong>
+                  <span style="color:#444"> — ${i.quantity} ${i.unit} — ${Number(i.line_total||0).toFixed(2)} ${body.currency}</span>
                 </li>
               `;
             }
