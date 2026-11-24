@@ -699,6 +699,10 @@ const activePromotions=products.filter(p=>
   <div className="promo-title-track">
     <span>{lang==='pl'?'✦ PROMOCJE  •  WYJĄTKOWE CENY  •  SPRAWDŹ OKAZJE  •  ':'✦ SPECIAL OFFERS  •  GREAT PRICES  •  SHOP THE DEALS  •  '}</span>
     <span aria-hidden="true">{lang==='pl'?'✦ PROMOCJE  •  WYJĄTKOWE CENY  •  SPRAWDŹ OKAZJE  •  ':'✦ SPECIAL OFFERS  •  GREAT PRICES  •  SHOP THE DEALS  •  '}</span>
+    <span aria-hidden="true">{lang==='pl'?'✦ PROMOCJE  •  WYJĄTKOWE CENY  •  SPRAWDŹ OKAZJE  •  ':'✦ SPECIAL OFFERS  •  GREAT PRICES  •  SHOP THE DEALS  •  '}</span>
+    <span aria-hidden="true">{lang==='pl'?'✦ PROMOCJE  •  WYJĄTKOWE CENY  •  SPRAWDŹ OKAZJE  •  ':'✦ SPECIAL OFFERS  •  GREAT PRICES  •  SHOP THE DEALS  •  '}</span>
+    <span aria-hidden="true">{lang==='pl'?'✦ PROMOCJE  •  WYJĄTKOWE CENY  •  SPRAWDŹ OKAZJE  •  ':'✦ SPECIAL OFFERS  •  GREAT PRICES  •  SHOP THE DEALS  •  '}</span>
+    <span aria-hidden="true">{lang==='pl'?'✦ PROMOCJE  •  WYJĄTKOWE CENY  •  SPRAWDŹ OKAZJE  •  ':'✦ SPECIAL OFFERS  •  GREAT PRICES  •  SHOP THE DEALS  •  '}</span>
   </div>
 </div>
 
