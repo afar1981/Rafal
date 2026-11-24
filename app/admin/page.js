@@ -690,8 +690,17 @@ promotion_price: promotionPrice,
                   </select>
                 </label>
 
-                <label>
-                  Cena zakupu £ / {p.unit || 'kg'} (tylko admin)
+                <label style={{
+                  display: 'grid',
+                  gap: '7px',
+                  padding: '10px',
+                  border: '1px solid #e0b400',
+                  borderRadius: '10px',
+                  background: '#fff4bf',
+                  color: '#654b00',
+                  fontWeight: '800'
+                }}>
+                  🟡 Cena zakupu £ / {p.unit || 'kg'} (tylko admin)
                   <input
                     type="number"
                     min="0"
@@ -701,6 +710,12 @@ promotion_price: promotionPrice,
                       change(p.id, 'cost_price', e.target.value)
                     }
                     placeholder="np. 5.20"
+                    style={{
+                      background: '#fffbe5',
+                      border: '2px solid #d6a900',
+                      color: '#493700',
+                      fontWeight: '800'
+                    }}
                   />
                 </label>
 
