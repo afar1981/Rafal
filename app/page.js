@@ -695,9 +695,10 @@ const activePromotions=products.filter(p=>
 %　　　%　　　%　　　%　　　%　　　%　　　%　　　%　　　%
 　　%　　　%　　　%　　　%　　　%　　　%　　　%　　　%
 </div>
-    <div className="promo-title-wrap">
-  <div className="promo-title">
-   🔥 🔥 🔥 {lang==='pl'?'PROMOCJE 🔥 🔥 PROMOCJE 🔥 🔥 PROMOCJE🔥 🔥PROMOCJE🔥 🔥 PROMOCJE🔥 🔥  PROMOCJE 🔥 🔥 PROMOCJE🔥  🔥 PROMOCJE🔥 🔥  PROMOCJE 🔥 🔥 PROMOCJE🔥  ':'SPECIAL OFFERS🔥 🔥 SPECIAL OFFERS🔥 🔥 SPECIAL OFFERS 🔥 🔥 SPECIAL OFFERS 🔥 🔥  SPECIAL OFFERS 🔥 🔥 SPECIAL OFFERS '} 🔥🔥
+    <div className="promo-title-wrap" aria-label={lang==='pl'?'Promocje':'Special offers'}>
+  <div className="promo-title-track">
+    <span>{lang==='pl'?'✦ PROMOCJE  •  WYJĄTKOWE CENY  •  SPRAWDŹ OKAZJE  •  ':'✦ SPECIAL OFFERS  •  GREAT PRICES  •  SHOP THE DEALS  •  '}</span>
+    <span aria-hidden="true">{lang==='pl'?'✦ PROMOCJE  •  WYJĄTKOWE CENY  •  SPRAWDŹ OKAZJE  •  ':'✦ SPECIAL OFFERS  •  GREAT PRICES  •  SHOP THE DEALS  •  '}</span>
   </div>
 </div>
 
