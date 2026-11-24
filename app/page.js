@@ -171,6 +171,11 @@ const filtered=products.filter(p=>
 
 const getProductGroup = (p) => {
   const name = (p.name_pl || '').trim().toUpperCase()
+  const categoryName = (p.category || '').trim().toUpperCase()
+
+  // Eggs and oscypek cheese always appear after the meat products.
+  if (categoryName.includes('JAJ') || categoryName.includes('EGG') || /JAJ|EGG/.test(name)) return 100
+  if (categoryName.includes('OSCYP') || categoryName.includes('OSCYPEK') || /OSCYP|OSCYPEK/.test(name)) return 101
 
   if (name.startsWith('KR ')) return 3
   if (name.startsWith('M ')) return 1
@@ -193,6 +198,13 @@ const ordered=[...filtered].sort((a,b)=>{
   // Przez dwa tygodnie produkty M.A są na samej górze oferty.
   if (aIsMA !== bIsMA) {
     return Number(bIsMA) - Number(aIsMA)
+  }
+
+  // Eggs and oscypek cheese stay at the very end, even when on promotion.
+  const groupA = getProductGroup(a)
+  const groupB = getProductGroup(b)
+  if ((groupA >= 100 || groupB >= 100) && groupA !== groupB) {
+    return groupA - groupB
   }
 
   const ap=a.is_promotion &&
@@ -788,17 +800,17 @@ justifyContent:'center',
             ['BALERONY','BALERONY','PORK NECKS'],
             ['BOCZKI','BOCZKI','BACON'],
             ['DROBIOWE','DROBIOWE','POULTRY'],
-            ['JAJKA','JAJKA','EGGS'],
             ['KASZANKI','KASZANKI','BLOOD SAUSAGES'],
             ['KIEŁBASY','KIEŁBASY','SAUSAGES'],
-            ['OSCYPKI','OSCYPKI','OSCYPEK CHEESE'],
             ['PASZTETY','PASZTETY','PÂTÉS'],
             ['POLĘDWICZKI','POLĘDWICZKI','TENDERLOINS'],
             ['SALCESONY','SALCESONY','HEAD CHEESE'],
             ['SCHABY','SCHABY','PORK LOINS'],
             ['SZYNKI','SZYNKI','HAMS'],
             ['WĘDZONKI','WĘDZONKI','SMOKED MEATS'],
-            ['ŻEBERKA','ŻEBERKA','RIBS']
+            ['ŻEBERKA','ŻEBERKA','RIBS'],
+            ['JAJKA','JAJKA','EGGS'],
+            ['OSCYPKI','OSCYPKI','OSCYPEK CHEESE']
           ].map(([value,pl,en])=>
             <button
               key={value}
