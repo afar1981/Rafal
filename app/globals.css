@@ -94,3 +94,7 @@
 /* Christmas ordering banner */
 .christmas-banner{max-width:1180px;margin:12px auto 18px;padding:0 16px}
 .christmas-banner img{display:block;width:100%;height:auto;border-radius:16px;box-shadow:0 5px 18px rgba(60,45,30,.10)}
+
+
+/* Desktop catalogue: use the full available width; tablet and phone layouts stay unchanged. */
+@media(min-width:851px){.products{max-width:none;width:100%;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}}
