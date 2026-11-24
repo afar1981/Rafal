@@ -700,7 +700,7 @@ promotion_price: promotionPrice,
                   color: '#654b00',
                   fontWeight: '800'
                 }}>
-                  🟡 Cena zakupu £ / {p.unit || 'kg'} (tylko admin)
+                  🟡 Cena na miejscu £ / {p.unit || 'kg'} (tylko admin)
                   <input
                     type="number"
                     min="0"
