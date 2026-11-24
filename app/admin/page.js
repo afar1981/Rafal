@@ -636,6 +636,9 @@ promotion_price: promotionPrice,
 
                 <b>{p.name_pl}</b>
 
+                <div className="adminfields">
+                  <section className="adminfield-group">
+                    <h3>📝 Nazwy i kategoria</h3>
                 <label>
                   Nazwa PL
                   <input
@@ -690,6 +693,9 @@ promotion_price: promotionPrice,
                   </select>
                 </label>
 
+                  </section>
+                  <section className="adminfield-group">
+                    <h3>💷 Ceny i jednostka</h3>
                 <label style={{
                   display: 'grid',
                   gap: '7px',
@@ -770,6 +776,9 @@ promotion_price: promotionPrice,
                   </select>
                 </label>
 
+                  </section>
+                  <section className="adminfield-group">
+                    <h3>🌍 Opisy i tłumaczenie</h3>
                 <label>
                   Krótki opis PL
                   <textarea
@@ -785,24 +794,7 @@ promotion_price: promotionPrice,
                     placeholder="Krótki opis produktu..."
                   />
                 </label>
-<label>
-  Cena promocyjna £ / kg
-  <input
-    type="number"
-    min="0"
-    step="0.01"
-    value={p.promotion_price ?? ''}
-    onChange={e =>
-  change(
-    p.id,
-    'promotion_price',
-    e.target.value === '' ? null : Number(e.target.value)
-  )
-}
-    placeholder="np. 6.99"
-  />
-</label>
-      <button
+<button
   type="button"
   onClick={() => translateProduct(p)}
   disabled={translating === p.id}
@@ -830,33 +822,27 @@ promotion_price: promotionPrice,
                   />
                 </label>
 
-                <label>
-                  Zdjęcie produktu — adres pliku
-                  <input
-                    value={p.image_url || ''}
-                    onChange={e =>
-                      change(
-                        p.id,
-                        'image_url',
-                        e.target.value
-                      )
-                    }
-                    placeholder="/images/01.jpg"
-                  />
-                </label>
-
-
+                  </section>
+                  <section className="adminfield-group admin-promotion-group">
+                    <h3>🔴 Promocja</h3>
 <label>
-  Zmień zdjęcie produktu
+  Cena promocyjna £ / kg
   <input
-    type="file"
-    accept="image/*"
-    onChange={e => uploadImage(p, e.target.files?.[0])}
-    disabled={saving === p.id}
+    type="number"
+    min="0"
+    step="0.01"
+    value={p.promotion_price ?? ''}
+    onChange={e =>
+  change(
+    p.id,
+    'promotion_price',
+    e.target.value === '' ? null : Number(e.target.value)
+  )
+}
+    placeholder="np. 6.99"
   />
 </label>
-
-<label>
+      <label>
   <input
     type="checkbox"
     checked={!!p.is_promotion}
@@ -904,6 +890,38 @@ change(p.id, 'is_promotion', true)
     }
   />
 </label>
+                  </section>
+                  <section className="adminfield-group">
+                    <h3>🖼️ Zdjęcie produktu</h3>
+                <label>
+                  Zdjęcie produktu — adres pliku
+                  <input
+                    value={p.image_url || ''}
+                    onChange={e =>
+                      change(
+                        p.id,
+                        'image_url',
+                        e.target.value
+                      )
+                    }
+                    placeholder="/images/01.jpg"
+                  />
+                </label>
+
+
+<label>
+  Zmień zdjęcie produktu
+  <input
+    type="file"
+    accept="image/*"
+    onChange={e => uploadImage(p, e.target.files?.[0])}
+    disabled={saving === p.id}
+  />
+</label>
+
+                  </section>
+                  <section className="adminfield-group admin-status-group">
+                    <h3>⚙️ Dostępność</h3>
                 <label>
                   <input
                     type="checkbox"
@@ -918,6 +936,9 @@ change(p.id, 'is_promotion', true)
                   />
                   {' '}aktywny
                 </label>
+
+                  </section>
+                </div>
 
                 <button
                   onClick={() => save(p)}
