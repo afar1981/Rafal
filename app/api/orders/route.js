@@ -59,6 +59,30 @@ const orderWeek=orderNumberData.order_week;
 
     if(itemError) throw itemError;
 
+    // Read current promotion settings so the internal order email can
+    // clearly flag only products actually ordered at their active promo price.
+    const productIds=[...new Set(body.items.map(i=>i.product_id).filter(Boolean))];
+    let promotionById=new Map();
+    if(productIds.length){
+      const {data:promotionProducts}=await supabase
+        .from('products')
+        .select('id, price, promotion_price, is_promotion, promotion_from, promotion_to')
+        .in('id',productIds);
+
+      const today=new Date().toISOString().slice(0,10);
+      promotionById=new Map((promotionProducts||[]).map(p=>{
+        const active=!!p.is_promotion &&
+          (!p.promotion_from || p.promotion_from<=today) &&
+          (!p.promotion_to || p.promotion_to>=today) &&
+          p.promotion_price!=null;
+        return [String(p.id),{
+          active,
+          regularPrice:Number(p.price),
+          promoPrice:Number(p.promotion_price)
+        }];
+      }));
+    }
+
     if(
       process.env.RESEND_API_KEY &&
       process.env.ORDER_EMAIL_TO &&
@@ -80,12 +104,23 @@ const orderWeek=orderNumberData.order_week;
         <h3>Produkty</h3>
 
         <ul>
-          ${body.items.map(i=>`
-            <li>
-              ${i.name_pl} — ${i.quantity} ${i.unit} —
-              ${(i.line_total||0).toFixed(2)} ${body.currency}
-            </li>
-          `).join('')}
+          ${body.items.map(i=>{
+            const promotion=promotionById.get(String(i.product_id));
+            const orderedAtPromo=promotion?.active &&
+              Number(i.price).toFixed(2)===Number(promotion.promoPrice).toFixed(2);
+            if(orderedAtPromo){
+              return `
+                <li style="list-style:none;margin:0 0 12px 0;padding:12px;border:2px solid #d71920;border-radius:8px;background:#fff1f1">
+                  <div style="font-size:16px;font-weight:900;color:#d71920;margin-bottom:6px">🔥 PRODUKT W PROMOCJI 🔥</div>
+                  <div style="font-weight:800;color:#222">${i.name_pl}</div>
+                  <div style="margin-top:5px;color:#666;text-decoration:line-through">Cena regularna: £${Number(promotion.regularPrice).toFixed(2)} / ${i.unit}</div>
+                  <div style="font-size:16px;font-weight:900;color:#d71920">CENA PROMOCYJNA: £${Number(i.price).toFixed(2)} / ${i.unit}</div>
+                  <div style="margin-top:5px;color:#222">Ilość: ${i.quantity} ${i.unit} — wartość: ${Number(i.line_total||0).toFixed(2)} ${body.currency}</div>
+                </li>
+              `;
+            }
+            return `<li style="margin-bottom:6px">${i.name_pl} — ${i.quantity} ${i.unit} — ${Number(i.line_total||0).toFixed(2)} ${body.currency}</li>`;
+          }).join('')}
         </ul>
 
         <p>
