@@ -861,7 +861,7 @@ justifyContent:'center',
             <button
               key={value}
               type="button"
-              onClick={()=>setCategory(value)}
+              onClick={()=>{setCategory(value);if(value==='ALL')setQ('')}}
               style={{
                 border:'1px solid rgba(255,255,255,0.7)',
                 borderRadius:'9px',
