@@ -112,6 +112,7 @@ export default function Home(){
   const [cart,setCart]=useState([])
   const [user,setUser]=useState(null)
   const [loading,setLoading]=useState(true)
+  const [promoPopupOpen,setPromoPopupOpen]=useState(false)
 useEffect(()=>{
   if('serviceWorker' in navigator){
     navigator.serviceWorker.register('/sw.js')
@@ -148,6 +149,34 @@ useEffect(()=>{
       setLoading(false)
     })()
   },[supabase])
+
+  const popupProduct = products.find(p =>
+    /schab.*boczku|boczku.*schab/i.test(p.name_pl || '') && p.image_url
+  )
+
+  useEffect(() => {
+    if (!user?.id || !popupProduct?.image_url) return
+    const key = `pt-schab-popup-${user.id}`
+    if (!sessionStorage.getItem(key)) setPromoPopupOpen(true)
+  }, [user?.id, popupProduct?.image_url])
+
+  const closePromoPopup = () => {
+    if (user?.id) sessionStorage.setItem(`pt-schab-popup-${user.id}`, '1')
+    setPromoPopupOpen(false)
+  }
+
+  const openPopupProduct = () => {
+    const name = popupProduct?.name_pl || 'Schab na boczku'
+    closePromoPopup()
+    setCategory('ALL')
+    setQ(name)
+    setTimeout(() => {
+      const product = products.find(p => p.id === popupProduct?.id)
+      const element = product ? document.getElementById(`product-${product.id}`) : null
+      element?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, 250)
+  }
+
 
   useEffect(()=>{
     const raw=localStorage.getItem('pt-cart')
@@ -899,6 +928,66 @@ justifyContent:'center',
       </div>
     </section>
 
+
+    {promoPopupOpen && popupProduct?.image_url && (
+      <div
+        role="presentation"
+        onClick={closePromoPopup}
+        style={{
+          position:'fixed', inset:0, zIndex:10000,
+          display:'flex', alignItems:'center', justifyContent:'center',
+          padding:'16px', background:'rgba(20,12,8,.72)',
+          backdropFilter:'blur(3px)'
+        }}
+      >
+        <section
+          role="dialog"
+          aria-modal="true"
+          aria-label={lang==='pl'?'Nowość – schab na boczku':'New – pork loin with bacon'}
+          onClick={e=>e.stopPropagation()}
+          style={{
+            position:'relative', width:'min(420px, calc(100vw - 32px))',
+            maxHeight:'92vh', overflowY:'auto', padding:'12px',
+            borderRadius:'18px', background:'#fffdf9',
+            boxShadow:'0 18px 60px rgba(0,0,0,.38)',
+            border:'1px solid rgba(255,255,255,.8)'
+          }}
+        >
+          <button
+            type="button"
+            onClick={closePromoPopup}
+            aria-label={lang==='pl'?'Zamknij reklamę':'Close advertisement'}
+            style={{
+              position:'absolute', top:'18px', right:'18px', zIndex:2,
+              width:'38px', height:'38px', padding:0, borderRadius:'50%',
+              border:'2px solid #fff', background:'rgba(30,20,15,.82)',
+              color:'#fff', fontSize:'24px', lineHeight:1,
+              display:'flex', alignItems:'center', justifyContent:'center',
+              boxShadow:'0 2px 8px rgba(0,0,0,.25)'
+            }}
+          >×</button>
+          <img
+            src={popupProduct.image_url}
+            alt="Nowość – schab na boczku posypany czosnkiem i naturalnymi przyprawami"
+            style={{
+              display:'block', width:'100%', height:'auto',
+              maxHeight:'72vh', objectFit:'contain', borderRadius:'10px'
+            }}
+          />
+          <button
+            type="button"
+            onClick={openPopupProduct}
+            className="primary"
+            style={{
+              display:'block', width:'100%', marginTop:'10px',
+              minHeight:'46px', fontSize:'15px', fontWeight:900
+            }}
+          >
+            {lang==='pl'?'ZOBACZ PRODUKT':'VIEW PRODUCT'}
+          </button>
+        </section>
+      </div>
+    )}
     <footer>
       © POLSKA TRADYCJA · Zamówienia online
     </footer>
