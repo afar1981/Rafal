@@ -164,8 +164,10 @@ useEffect(()=>{
           setPromoPopupOpen(true)
         }
       } else if (event === 'SIGNED_OUT') {
-        const previousUserId = session?.user?.id
-        if (previousUserId) sessionStorage.removeItem(`pt-schab-popup-shown-${previousUserId}`)
+        for (let i = sessionStorage.length - 1; i >= 0; i--) {
+          const key = sessionStorage.key(i)
+          if (key?.startsWith('pt-schab-popup-shown-')) sessionStorage.removeItem(key)
+        }
         setUser(null)
         setPromoPopupOpen(false)
       }
