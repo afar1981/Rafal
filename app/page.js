@@ -156,10 +156,16 @@ useEffect(()=>{
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' && session?.user) {
+      if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && session?.user) {
         setUser(session.user)
-        setPromoPopupOpen(true)
+        const shownKey = `pt-schab-popup-shown-${session.user.id}`
+        if (event === 'SIGNED_IN' || !sessionStorage.getItem(shownKey)) {
+          sessionStorage.setItem(shownKey, '1')
+          setPromoPopupOpen(true)
+        }
       } else if (event === 'SIGNED_OUT') {
+        const previousUserId = session?.user?.id
+        if (previousUserId) sessionStorage.removeItem(`pt-schab-popup-shown-${previousUserId}`)
         setUser(null)
         setPromoPopupOpen(false)
       }
