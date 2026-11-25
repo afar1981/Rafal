@@ -155,10 +155,10 @@ useEffect(()=>{
   )
 
   useEffect(() => {
-    if (!user?.id || !popupProduct?.image_url) return
+    if (!user?.id) return
     const key = `pt-schab-popup-${user.id}`
     if (!sessionStorage.getItem(key)) setPromoPopupOpen(true)
-  }, [user?.id, popupProduct?.image_url])
+  }, [user?.id])
 
   const closePromoPopup = () => {
     if (user?.id) sessionStorage.setItem(`pt-schab-popup-${user.id}`, '1')
@@ -929,7 +929,7 @@ justifyContent:'center',
     </section>
 
 
-    {promoPopupOpen && popupProduct?.image_url && (
+    {promoPopupOpen && (
       <div
         role="presentation"
         onClick={closePromoPopup}
@@ -967,7 +967,7 @@ justifyContent:'center',
             }}
           >×</button>
           <img
-            src={popupProduct.image_url}
+            src="/promotions/schab-na-boczku.webp"
             alt="Nowość – schab na boczku posypany czosnkiem i naturalnymi przyprawami"
             style={{
               display:'block', width:'100%', height:'auto',
