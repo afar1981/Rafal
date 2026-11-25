@@ -155,13 +155,19 @@ useEffect(()=>{
   )
 
   useEffect(() => {
-    if (!user?.id) return
-    const key = `pt-schab-popup-${user.id}`
-    if (!sessionStorage.getItem(key)) setPromoPopupOpen(true)
-  }, [user?.id])
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        setUser(session.user)
+        setPromoPopupOpen(true)
+      } else if (event === 'SIGNED_OUT') {
+        setUser(null)
+        setPromoPopupOpen(false)
+      }
+    })
+    return () => subscription.unsubscribe()
+  }, [supabase])
 
   const closePromoPopup = () => {
-    if (user?.id) sessionStorage.setItem(`pt-schab-popup-${user.id}`, '1')
     setPromoPopupOpen(false)
   }
 
